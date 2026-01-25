@@ -1,0 +1,16 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@theme {
+  /* 重新定义默认字体栈 */
+  --font-sans: "Inter", "Helvatica Neue", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+/* 稍微调整一下排版插件的默认颜色，让它更柔和 */
+@layer base {
+  body {
+    /* 让字体看起来更细更清晰 */
+    -webkit-font-smoothing: antialiased; 
+    -moz-osx-font-smoothing: grayscale;
+  }
+}

@@ -1,17 +1,63 @@
 ---
+import Layout from "../layouts/Layout.astro";
+import "../styles/global.css";
 
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog")).sort(
+  (a: any, b: any) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+// console.log("找到的文章数量:", posts.length);
+// console.log("文章数据:", JSON.stringify(posts, null, 2));
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="首页 - 我的技术博客">
+  <section class="space-y-8">
+    <div class="border-b border-gray-200 pb-8 pt-6">
+      <h1 class="text-3xl font-bold tracking-tight text-gray-900">最新文章</h1>
+      <p class="mt-4 text-lg text-gray-500">记录学习，分享技术。</p>
+    </div>
+
+    <div class="grid gap-8 mt-8">
+      {
+        posts.map((post) => (
+          /* group: 为了让鼠标悬停在卡片上时，标题也能变色 */
+          <article class="group relative flex flex-col space-y-3 bg-white p-6 rounded-2xl border border-zinc-100 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+            <div class="flex items-center gap-3 text-xs text-zinc-400 mb-1">
+              <time datetime={post.data.pubDate.toISOString()}>
+                {post.data.pubDate.toLocaleDateString("zh-CN", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </time>
+              <span>•</span>
+              <div class="flex gap-1">
+                {post.data.tags.map((tag) => (
+                  <span class="bg-zinc-100 text-zinc-600 px-2 py-0.5 rounded-full font-medium">
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <h2 class="text-xl font-bold tracking-tight text-zinc-900 group-hover:text-blue-600 transition-colors">
+              <a href={`/blog/${post.slug}`}>
+                <span class="absolute inset-0" /> {post.data.title}
+              </a>
+            </h2>
+
+            <p class="text-zinc-500 leading-relaxed line-clamp-2">
+              {post.data.description}
+            </p>
+
+            <div class="pt-2 text-sm font-medium text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity -translate-x-2 group-hover:translate-x-0">
+              阅读更多 &rarr;
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+</Layout>

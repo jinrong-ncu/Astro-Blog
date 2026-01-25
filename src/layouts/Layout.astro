@@ -1,0 +1,75 @@
+---
+// 1. 定义 Props 类型 (TypeScript)
+// 这样你在使用 Layout 时，编辑器会提示你必须传 title
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "一个热爱技术的前端工程师" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+  </head>
+  <!-- <body class="bg-white text-gray-900 min-h-screen flex flex-col"> -->
+  <body class="bg-zinc-50 text-zinc-900 min-h-screen flex flex-col antialiased">
+    {/* --- Header 区域 --- */}
+    <header
+      class="sticky top-0 z-50 w-full border-b border-zinc-200/50 bg-white/80 backdrop-blur-xl"
+    >
+      <nav
+        class="max-w-4xl mx-auto px-6 h-16 flex justify-between items-center"
+      >
+        {/* Logo */}
+        <a
+          href="/"
+          class="text-lg font-bold tracking-tight flex items-center gap-2"
+        >
+          <span
+            class="w-8 h-8 bg-zinc-900 text-white rounded-lg flex items-center justify-center font-mono text-sm"
+            >Me</span
+          >
+          <span>My Blog</span>
+        </a>
+
+        {/* Links */}
+        <div class="flex gap-8 text-sm font-medium text-zinc-600">
+          <a href="/" class="hover:text-zinc-900 transition-colors">首页</a>
+          <a href="/blog" class="hover:text-zinc-900 transition-colors">文章</a>
+          <a href="#" class="hover:text-zinc-900 transition-colors">关于</a>
+        </div>
+      </nav>
+    </header>
+
+    {/* --- Main 内容区域 --- */}
+    {/* flex-grow 确保如果内容很少，Footer 也会被挤到底部 */}
+    <main class="flex-grow max-w-4xl mx-auto w-full px-4 py-10">
+      <slot />
+    </main>
+
+    {/* --- Footer 区域 --- */}
+    <footer class="border-t border-gray-100 bg-gray-50">
+      <div
+        class="max-w-3xl mx-auto px-4 py-8 text-center text-sm text-gray-400"
+      >
+        <p>
+          &copy; {new Date().getFullYear()} My Tech Blog. All rights reserved.
+        </p>
+        <p class="mt-2">Built with Astro & Tailwind</p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  /* 你可以在这里放全局 CSS，比如自定义字体 */
+  /* 或者直接用 Tailwind 的 base layer，这里暂时留空 */
+</style>
