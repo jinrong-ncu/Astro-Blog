@@ -1,0 +1,246 @@
+---
+import "@pagefind/default-ui/css/ui.css";
+import { Search as SearchIcon } from "lucide-react";
+---
+
+<button
+    id="search-trigger"
+    aria-label="Search"
+    class="relative inline-flex items-center justify-center rounded-md p-2 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 transition-colors focus:outline-none focus:ring-2 focus:ring-zinc-400"
+>
+    <SearchIcon className="h-5 w-5" />
+    <span class="sr-only">Search</span>
+    <kbd
+        class="hidden md:inline-flex items-center ml-2 h-5 rounded border border-zinc-200 bg-zinc-100 px-1 font-mono text-[10px] font-medium text-zinc-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-400"
+    >
+        <span class="text-xs">⌘</span>K
+    </kbd>
+</button>
+
+<dialog
+    id="search-dialog"
+    class="backdrop:bg-zinc-900/50 dark:backdrop:bg-black/80 backdrop:backdrop-blur-sm bg-transparent p-0 m-auto w-full max-w-2xl text-left shadow-xl rounded-xl open:animate-in open:fade-in open:zoom-in-95 closed:animate-out closed:fade-out closed:zoom-out-95"
+>
+    <div
+        class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden flex flex-col max-h-[80vh]"
+    >
+        <div class="p-4 border-b border-zinc-200 dark:border-zinc-800">
+            <div id="pagefind-search" class="search-container"></div>
+        </div>
+        <div
+            class="p-4 bg-zinc-50 dark:bg-zinc-900/50 text-xs text-zinc-500 dark:text-zinc-400 flex justify-between items-center"
+        >
+            <span>Search by Pagefind</span>
+            <kbd
+                class="font-sans border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 px-1 rounded"
+                >Esc</kbd
+            > to close
+        </div>
+    </div>
+</dialog>
+
+<script>
+    class SearchModal {
+        dialog: HTMLDialogElement;
+        trigger: HTMLButtonElement;
+        isInitialized: boolean = false;
+
+        constructor() {
+            this.dialog = document.getElementById(
+                "search-dialog",
+            ) as HTMLDialogElement;
+            this.trigger = document.getElementById(
+                "search-trigger",
+            ) as HTMLButtonElement;
+
+            this.init();
+        }
+
+        init() {
+            if (!this.dialog || !this.trigger) return;
+
+            this.trigger.addEventListener("click", () => this.open());
+
+            // Close on backdrop click
+            this.dialog.addEventListener("click", (e) => {
+                const rect = this.dialog.getBoundingClientRect();
+                const isInDialog =
+                    rect.top <= e.clientY &&
+                    e.clientY <= rect.top + rect.height &&
+                    rect.left <= e.clientX &&
+                    e.clientX <= rect.left + rect.width;
+                if (!isInDialog) {
+                    this.close();
+                }
+            });
+
+            // Keyboard shortcuts
+            document.addEventListener("keydown", (e) => {
+                if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+                    e.preventDefault();
+                    this.toggle();
+                }
+                if (e.key === "Escape" && this.dialog.open) {
+                    this.close();
+                }
+            });
+        }
+
+        async initPagefind() {
+            if (this.isInitialized) return;
+
+            const { PagefindUI } = await import("@pagefind/default-ui");
+
+            const container = document.querySelector("#pagefind-search");
+            if (container) {
+                container.innerHTML = "";
+            }
+
+            new PagefindUI({
+                element: "#pagefind-search",
+                showSubResults: true,
+                showImages: false,
+                translations: {
+                    placeholder: "Search blog posts...",
+                },
+            });
+            this.isInitialized = true;
+
+            // Focus input after render
+            setTimeout(() => {
+                const input = this.dialog.querySelector("input");
+                if (input) input.focus();
+            }, 100);
+        }
+
+        async open() {
+            this.dialog.showModal();
+            await this.initPagefind();
+        }
+
+        close() {
+            this.dialog.close();
+        }
+
+        toggle() {
+            if (this.dialog.open) {
+                this.close();
+            } else {
+                this.open();
+            }
+        }
+    }
+
+    // Initialize on page load and after Astro swaps
+    document.addEventListener("astro:page-load", () => {
+        new SearchModal();
+    });
+
+    // Fallback for first load if view transitions not fully active yet
+    if (document.readyState === "complete") {
+        new SearchModal();
+    } else {
+        document.addEventListener("DOMContentLoaded", () => new SearchModal());
+    }
+</script>
+
+<style is:global>
+    /* Customizing Pagefind UI */
+    :root {
+        --pagefind-ui-scale: 0.9;
+        --pagefind-ui-primary: #18181b; /* zinc-900 */
+        --pagefind-ui-text: #3f3f46; /* zinc-700 */
+        --pagefind-ui-background: transparent;
+        --pagefind-ui-border: transparent;
+        --pagefind-ui-tag: #f4f4f5; /* zinc-100 */
+        --pagefind-ui-border-width: 0px;
+        --pagefind-ui-border-radius: 0.5rem;
+        --pagefind-ui-image-border-radius: 0.5rem;
+        --pagefind-ui-image-box-ratio: 3 / 2;
+        --pagefind-ui-font: "Inter", sans-serif;
+    }
+
+    .dark {
+        --pagefind-ui-primary: #e4e4e7; /* zinc-200 */
+        --pagefind-ui-text: #a1a1aa; /* zinc-400 */
+        --pagefind-ui-tag: #27272a; /* zinc-800 */
+        --pagefind-ui-background: transparent;
+    }
+
+    /* Hide default Pagefind branding if desired, or style it */
+    .pagefind-ui__result-thumb {
+        display: none; /* Hide thumbnails for cleaner look */
+    }
+
+    /* Input Styling */
+    /* Input Styling */
+    .pagefind-ui__search-input {
+        background-color: transparent !important;
+        border: none !important;
+        width: 100% !important;
+        font-size: 1.125rem !important; /* text-lg */
+        font-weight: normal !important;
+        outline: none !important;
+        box-shadow: none !important;
+    }
+    .pagefind-ui__search-input:focus {
+        outline: none !important;
+        box-shadow: none !important;
+    }
+    .pagefind-ui__search-input::placeholder {
+        color: #a1a1aa !important; /* zinc-400 */
+    }
+    .dark .pagefind-ui__search-input::placeholder {
+        color: #71717a !important; /* zinc-500 */
+    }
+
+    .pagefind-ui__search-clear {
+        background-color: transparent !important;
+        color: #a1a1aa !important; /* zinc-400 */
+    }
+    .pagefind-ui__search-clear:hover {
+        color: #52525b !important; /* zinc-600 */
+    }
+    .dark .pagefind-ui__search-clear:hover {
+        color: #d4d4d8 !important; /* zinc-300 */
+    }
+
+    .pagefind-ui__drawer {
+        gap: 1rem !important;
+    }
+
+    .pagefind-ui__result {
+        border-bottom: 1px solid #f4f4f5 !important; /* zinc-100 */
+        padding-top: 0.75rem !important;
+        padding-bottom: 0.75rem !important;
+    }
+    .dark .pagefind-ui__result {
+        border-bottom: 1px solid rgba(39, 39, 42, 0.5) !important; /* zinc-800/50 */
+    }
+
+    .pagefind-ui__result-title {
+        font-weight: 600 !important;
+        font-size: 1rem !important;
+        color: #18181b !important; /* zinc-900 */
+    }
+    .dark .pagefind-ui__result-title {
+        color: #f4f4f5 !important; /* zinc-100 */
+    }
+
+    .pagefind-ui__result-excerpt {
+        font-size: 0.875rem !important;
+        color: #71717a !important; /* zinc-500 */
+        margin-top: 0.25rem !important;
+    }
+    .dark .pagefind-ui__result-excerpt {
+        color: #a1a1aa !important; /* zinc-400 */
+    }
+
+    .pagefind-ui__message {
+        color: #71717a !important; /* zinc-500 */
+        padding: 1rem !important;
+    }
+    .dark .pagefind-ui__message {
+        color: #a1a1aa !important; /* zinc-400 */
+    }
+</style>

@@ -1,6 +1,7 @@
 ---
 import { ClientRouter } from "astro:transitions";
 import ThemeToggle from "../components/ThemeToggle";
+import Search from "../components/Search.astro";
 
 interface Props {
   title: string;
@@ -19,6 +20,18 @@ const { title, description = "A minimalist personal tech blog." } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url} />
+    <meta
+      property="og:image"
+      content={new URL(
+        `/og/${Astro.url.pathname === "/" ? "hello-antigravity" : Astro.url.pathname.replace(/^\/blog\//, "").replace(/\/$/, "")}.png`,
+        Astro.site || "http://localhost:4321",
+      ).href}
+    />
+    <meta name="twitter:card" content="summary_large_image" />
     <ClientRouter />
 
     <script is:inline>
@@ -102,6 +115,7 @@ const { title, description = "A minimalist personal tech blog." } = Astro.props;
             class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
             >About</a
           >
+          <Search />
           <ThemeToggle client:load />
           <!-- <ThemeToggle client:only="react" /> -->
         </div>

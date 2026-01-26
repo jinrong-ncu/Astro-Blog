@@ -1,0 +1,66 @@
+<div
+    class="giscus-wrapper mx-auto max-w-4xl px-6 py-10 border-t border-zinc-200 dark:border-zinc-800 mt-10"
+>
+    <div class="giscus"></div>
+</div>
+
+<script is:inline>
+    function loadGiscus() {
+        const giscusContainer = document.querySelector(".giscus");
+        if (!giscusContainer) return;
+
+        // Remove existing script if any to prevent duplicates on re-runs
+        giscusContainer.innerHTML = "";
+
+        const script = document.createElement("script");
+        const isDark = document.documentElement.classList.contains("dark");
+        const theme = isDark ? "dark" : "light";
+
+        script.src = "https://giscus.app/client.js";
+        script.setAttribute("data-repo", "jinrong-ncu/Astro-Blog");
+        script.setAttribute("data-repo-id", "R_kgDORA8JvQ");
+        script.setAttribute("data-category", "General");
+        script.setAttribute("data-category-id", "DIC_kwDORA8Jvc4C1dNo");
+        script.setAttribute("data-mapping", "pathname");
+        script.setAttribute("data-strict", "0");
+        script.setAttribute("data-reactions-enabled", "1");
+        script.setAttribute("data-emit-metadata", "0");
+        script.setAttribute("data-input-position", "bottom");
+        script.setAttribute("data-theme", theme);
+        script.setAttribute("data-lang", "zh-CN");
+        script.setAttribute("crossorigin", "anonymous");
+        script.async = true;
+
+        giscusContainer.appendChild(script);
+    }
+
+    // Initial load
+    loadGiscus();
+
+    // Handle Astro View Transitions
+    document.addEventListener("astro:after-swap", loadGiscus);
+
+    // Theme Sync Logic
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (
+                mutation.type === "attributes" &&
+                mutation.attributeName === "class"
+            ) {
+                const iframe = document.querySelector("iframe.giscus-frame");
+                if (!iframe) return;
+
+                const isDark =
+                    document.documentElement.classList.contains("dark");
+                const theme = isDark ? "dark" : "light";
+
+                iframe.contentWindow.postMessage(
+                    { giscus: { setConfig: { theme } } },
+                    "https://giscus.app",
+                );
+            }
+        });
+    });
+
+    observer.observe(document.documentElement, { attributes: true });
+</script>
