@@ -1,16 +1,17 @@
 ---
-// 1. 定义 Props 类型 (TypeScript)
-// 这样你在使用 Layout 时，编辑器会提示你必须传 title
+import { ClientRouter } from "astro:transitions";
+import ThemeToggle from "../components/ThemeToggle";
+
 interface Props {
   title: string;
   description?: string;
 }
 
-const { title, description = "一个热爱技术的前端工程师" } = Astro.props;
+const { title, description = "A minimalist personal tech blog." } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="zh-cn">
+<html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
@@ -18,58 +19,125 @@ const { title, description = "一个热爱技术的前端工程师" } = Astro.pr
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <ClientRouter />
+
+    <script is:inline>
+      const getTheme = () => {
+        if (
+          typeof localStorage !== "undefined" &&
+          localStorage.getItem("theme")
+        ) {
+          return localStorage.getItem("theme");
+        }
+        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+          return "dark";
+        }
+        return "light";
+      };
+
+      const theme = getTheme();
+      if (theme === "dark") {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+
+      document.addEventListener("astro:after-swap", () => {
+        const theme = getTheme();
+        if (theme === "dark") {
+          document.documentElement.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+        }
+      });
+    </script>
   </head>
-  <!-- <body class="bg-white text-gray-900 min-h-screen flex flex-col"> -->
-  <body class="bg-zinc-50 text-zinc-900 min-h-screen flex flex-col antialiased">
-    {/* --- Header 区域 --- */}
+  <body
+    class="flex flex-col min-h-screen selection:bg-purple-100 selection:text-purple-900 dark:selection:bg-purple-900/30 dark:selection:text-purple-200"
+  >
     <header
-      class="sticky top-0 z-50 w-full border-b border-zinc-200/50 bg-white/80 backdrop-blur-xl"
+      class="sticky top-0 z-50 w-full border-b border-zinc-200/40 dark:border-zinc-800/40 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-zinc-950/60 transition-colors"
     >
       <nav
-        class="max-w-4xl mx-auto px-6 h-16 flex justify-between items-center"
+        class="flex h-16 items-center justify-between px-6 max-w-5xl mx-auto"
       >
-        {/* Logo */}
-        <a
-          href="/"
-          class="text-lg font-bold tracking-tight flex items-center gap-2"
-        >
-          <span
-            class="w-8 h-8 bg-zinc-900 text-white rounded-lg flex items-center justify-center font-mono text-sm"
-            >Me</span
+        <a href="/" class="flex items-center gap-2 group">
+          <div
+            class="p-1.5 bg-zinc-900 dark:bg-white rounded-lg group-hover:bg-zinc-800 dark:group-hover:bg-zinc-200 transition-colors"
           >
-          <span>My Blog</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="text-white dark:text-zinc-900"
+              ><path d="m18 16 4-4-4-4"></path><path d="m6 8-4 4 4 4"
+              ></path><path d="m14.5 4-5 16"></path></svg
+            >
+          </div>
+          <span class="font-bold text-zinc-900 dark:text-white tracking-tight"
+            >Antigravity</span
+          >
         </a>
-
-        {/* Links */}
-        <div class="flex gap-8 text-sm font-medium text-zinc-600">
-          <a href="/" class="hover:text-zinc-900 transition-colors">首页</a>
-          <a href="/blog" class="hover:text-zinc-900 transition-colors">文章</a>
-          <a href="#" class="hover:text-zinc-900 transition-colors">关于</a>
+        <div
+          class="flex items-center gap-6 text-sm font-medium text-zinc-500 dark:text-zinc-400"
+        >
+          <a
+            href="/"
+            class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+            >Blog</a
+          >
+          <a
+            href="#"
+            class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+            >Projects</a
+          >
+          <a
+            href="#"
+            class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+            >About</a
+          >
+          <ThemeToggle client:load />
+          <!-- <ThemeToggle client:only="react" /> -->
         </div>
       </nav>
     </header>
 
-    {/* --- Main 内容区域 --- */}
-    {/* flex-grow 确保如果内容很少，Footer 也会被挤到底部 */}
-    <main class="flex-grow max-w-4xl mx-auto w-full px-4 py-10">
+    <main class="flex-grow w-full max-w-5xl mx-auto px-6 py-12">
       <slot />
     </main>
 
-    {/* --- Footer 区域 --- */}
-    <footer class="border-t border-gray-100 bg-gray-50">
+    <footer
+      class="border-t border-zinc-100 dark:border-zinc-800 bg-white dark:bg-zinc-950 py-8 mt-12 transition-colors"
+    >
       <div
-        class="max-w-3xl mx-auto px-4 py-8 text-center text-sm text-gray-400"
+        class="max-w-5xl mx-auto px-6 flex justify-between items-center text-sm text-zinc-400 dark:text-zinc-500"
       >
         <p>
-          &copy; {new Date().getFullYear()} My Tech Blog. All rights reserved.
+          &copy; {new Date().getFullYear()} Antigravity. All rights reserved.
         </p>
-        <p class="mt-2">Built with Astro & Tailwind</p>
+        <div class="flex gap-4">
+          <a
+            href="https://github.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+            >GitHub</a
+          >
+          <a
+            href="https://twitter.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+            >Twitter</a
+          >
+        </div>
       </div>
     </footer>
   </body>
 </html>
-
-<style is:global>
-  /* 你可以在这里放全局 CSS，比如自定义字体 */
-  /* 或者直接用 Tailwind 的 base layer，这里暂时留空 */
-</style>

@@ -1,58 +1,64 @@
 ---
-import { getCollection } from 'astro:content';
-import Layout from '../../layouts/Layout.astro';
-import '../../styles/global.css';
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import "../../styles/global.css";
 
-
-// 1. getStaticPaths: 告诉 Astro 到底要生成哪些页面
-// 这是 SSG (静态站点生成) 的核心。Astro 会在构建时执行这个函数。
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
-  
-  // 返回一个数组，每个对象代表一个页面
-  return posts.map(entry => ({
-    // params.slug 对应文件名中的 [...slug]
+  const posts = await getCollection("blog");
+  return posts.map((entry) => ({
     params: { slug: entry.slug },
-    // props 将数据传递给下面的页面组件
     props: { entry },
   }));
 }
 
-// 2. 获取当前页面的数据
 const { entry } = Astro.props;
-
-// 3. 把 Markdown 渲染成 HTML 组件
 const { Content } = await entry.render();
 ---
 
 <Layout title={entry.data.title}>
-  <article class="max-w-none">
-    {/* 顶部元信息 */}
-    <header class="mb-10 text-center">
-      <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 mb-4">
+  <article class="max-w-3xl mx-auto pt-10 pb-20">
+    <header class="mb-10 text-center space-y-4">
+      <div class="flex justify-center gap-2 mb-6">
+        {
+          entry.data.tags.map((tag) => (
+            <a
+              href={`/tags/${tag}`}
+              class="inline-flex items-center rounded-full bg-zinc-100 dark:bg-zinc-800 px-3 py-1 text-xs font-medium text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
+            >
+              {tag}
+            </a>
+          ))
+        }
+      </div>
+
+      <h1
+        class="text-4xl md:text-5xl font-bold tracking-tight text-zinc-900 dark:text-white text-balance"
+        transition:name={`title-${entry.slug}`}
+      >
         {entry.data.title}
       </h1>
-      <div class="text-gray-500 flex justify-center gap-4 text-sm">
-        <time>{entry.data.pubDate.toLocaleDateString()}</time>
+
+      <div
+        class="text-zinc-500 dark:text-zinc-400 flex items-center justify-center gap-2 text-sm"
+      >
+        <time
+          >{
+            entry.data.pubDate.toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })
+          }</time
+        >
         <span>·</span>
         <span>{entry.data.author}</span>
       </div>
-      
-      {/* 标签 */}
-      <div class="mt-4 flex justify-center gap-2">
-        {entry.data.tags.map(tag => (
-          <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs">#{tag}</span>
-        ))}
-      </div>
     </header>
 
-    {/* 核心渲染区 
-      class="prose" 是 @tailwindcss/typography 提供的魔法类名
-      它会自动给 h1, p, ul, code 等元素加上漂亮的样式
-    */}
-    <div class="prose prose-lg prose-slate mx-auto">
+    <div
+      class="prose prose-zinc prose-lg dark:prose-invert mx-auto prose-headings:font-bold prose-a:text-blue-600 dark:prose-a:text-blue-400 hover:prose-a:text-blue-500"
+    >
       <Content />
     </div>
-
   </article>
 </Layout>

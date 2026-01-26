@@ -1,0 +1,91 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import "../../styles/global.css";
+
+export async function getStaticPaths() {
+    const posts = await getCollection("blog");
+    const uniqueTags = [...new Set(posts.map((post) => post.data.tags).flat())];
+
+    return uniqueTags.map((tag) => {
+        const filteredPosts = posts.filter((post) =>
+            post.data.tags.includes(tag),
+        );
+        return {
+            params: { tag },
+            props: { posts: filteredPosts },
+        };
+    });
+}
+
+const { tag } = Astro.params;
+const { posts } = Astro.props;
+---
+
+<Layout
+    title={`Posts tagged " #${tag}"`}
+    description={`Blog posts tagged with #${tag}`}
+>
+    <section class="space-y-12">
+        <div class="space-y-4 max-w-2xl">
+            <div class="flex items-center gap-2">
+                <a
+                    href="/"
+                    class="text-sm font-medium text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+                    >&larr; Back home</a
+                >
+            </div>
+            <h1
+                class="text-4xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-5xl capitalize"
+            >
+                #{tag}
+            </h1>
+            <p class="text-lg text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                {posts.length}
+                {posts.length === 1 ? "post" : "posts"} tagged with "{tag}"
+            </p>
+        </div>
+
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {
+                posts.map((post) => (
+                    <a
+                        href={`/blog/${post.slug}`}
+                        class="group relative flex flex-col space-y-3 bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-zinc-200/50 dark:border-zinc-800 shadow-sm hover:shadow-lg hover:border-zinc-300/50 dark:hover:border-zinc-700 transition-all duration-300 hover:-translate-y-1"
+                    >
+                        <div class="flex items-center gap-3 text-xs font-medium text-zinc-400 mb-2">
+                            <time datetime={post.data.pubDate.toISOString()}>
+                                {post.data.pubDate.toLocaleDateString("en-US", {
+                                    year: "numeric",
+                                    month: "long",
+                                    day: "numeric",
+                                })}
+                            </time>
+                        </div>
+
+                        <h2
+                            class="text-xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-100 group-hover:text-black dark:group-hover:text-white transition-colors"
+                            transition:name={`title-${post.slug}`}
+                        >
+                            {post.data.title}
+                        </h2>
+
+                        <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed line-clamp-2">
+                            {post.data.description}
+                        </p>
+
+                        <div class="mt-auto pt-4 flex gap-2">
+                            {post.data.tags.map((t) => (
+                                <span
+                                    class={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${t === tag ? "bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 ring-zinc-500/20" : "bg-zinc-50 dark:bg-zinc-800/50 text-zinc-600 dark:text-zinc-400 ring-zinc-500/10 dark:ring-zinc-700/50"}`}
+                                >
+                                    {t}
+                                </span>
+                            ))}
+                        </div>
+                    </a>
+                ))
+            }
+        </div>
+    </section>
+</Layout>

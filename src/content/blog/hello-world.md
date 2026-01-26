@@ -1,7 +1,7 @@
 ---
 title: "我的第一篇 Astro 博客"
 description: "从零开始搭建博客是一次非常有趣的体验，虽然现在看起来有点简陋..."
-pubDate: 2026-01-26
+pubDate: 2020-01-26
 author: "我"
 tags: ["Astro", "前端", "折腾"]
 ---
