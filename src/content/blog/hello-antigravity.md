@@ -4,6 +4,7 @@ description: "A first look at the Vibe Coding aesthetic."
 pubDate: 2025-01-27
 tags: ["design", "astro", "tailwind"]
 author: "刘金荣"
+draft: true
 ---
 
 # Hello 刘金荣

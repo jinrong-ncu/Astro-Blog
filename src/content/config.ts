@@ -9,6 +9,7 @@ const blogCollection = defineCollection({
     pubDate: z.date(),
     author: z.string().default('Anonymous'),
     tags: z.array(z.string()).default([]),
+    draft: z.boolean().default(false).optional(),
     // image: z.string().optional() // 以后可以加封面图
   }),
 });

@@ -4,6 +4,7 @@ description: "How I built a modern, high-performance blog in one night using Ast
 pubDate: 2026-01-27
 tags: ["Astro", "AI", "Life"]
 author: "刘金荣"
+draft: true
 ---
 
 # Welcome to my new corner of the internet.

@@ -64,6 +64,58 @@ const { title, description = "A minimalist personal tech blog." } = Astro.props;
         }
       });
     </script>
+    <!-- <script
+      async
+      src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <script>
+      // Reload Busuanzi on page swap for View Transitions
+      document.addEventListener("astro:page-load", () => {
+        // @ts-ignore
+        if (window.bszCaller && window.bszTag) {
+          // @ts-ignore
+          window.bszTag.hides();
+          // @ts-ignore
+          window.bszTag.shows();
+          // @ts-ignore
+          window.bszCaller.fetch(
+            "//busuanzi.ibruce.info/busuanzi?jsonpCallback=BusuanziCallback",
+            function (a) {
+              // @ts-ignore
+              window.bszTag.hides();
+              // @ts-ignore
+              window.bszTag.shows();
+            },
+          );
+        }
+      });
+    </script> -->
+    <script>
+      document.addEventListener("astro:page-load", () => {
+        const bszSrc =
+          "//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js";
+
+        // 1. 如果页面上已经有这个脚本了，先删掉它
+        const oldScript = document.querySelector(`script[src="${bszSrc}"]`);
+        if (oldScript) {
+          oldScript.remove();
+        }
+
+        // 2. 【关键步骤】暴力清除不蒜子的全局缓存变量
+        // 如果不加这两行，不蒜子会以为自己已经加载过了，就不会再次执行
+        // @ts-ignore
+        window.bszCaller = undefined;
+        // @ts-ignore
+        window.bszTag = undefined;
+
+        // 3. 创建一个新的脚本标签并插入
+        const newScript = document.createElement("script");
+        newScript.src = bszSrc;
+        newScript.async = true;
+        newScript.referrerPolicy = "no-referrer-when-downgrade";
+
+        document.body.appendChild(newScript);
+      });
+    </script>
   </head>
   <body
     class="flex flex-col min-h-screen selection:bg-purple-100 selection:text-purple-900 dark:selection:bg-purple-900/30 dark:selection:text-purple-200"
@@ -130,11 +182,24 @@ const { title, description = "A minimalist personal tech blog." } = Astro.props;
       class="border-t border-zinc-100 dark:border-zinc-800 bg-white dark:bg-zinc-950 py-8 mt-12 transition-colors"
     >
       <div
-        class="max-w-5xl mx-auto px-6 flex justify-between items-center text-sm text-zinc-400 dark:text-zinc-500"
+        class="max-w-5xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-sm text-zinc-400 dark:text-zinc-500 gap-4"
       >
-        <p>
-          &copy; {new Date().getFullYear()} 刘金荣. All rights reserved.
-        </p>
+        <div class="flex flex-col md:flex-row gap-4 items-center">
+          <p>
+            &copy; {new Date().getFullYear()} 刘金荣. All rights reserved.
+          </p>
+          <span class="hidden md:inline">·</span>
+          <div
+            class="flex items-center gap-2"
+            id="busuanzi_container_site_pv"
+            style="display: none;"
+          >
+            本站总访问量 <span
+              id="busuanzi_value_site_pv"
+              class="text-zinc-600 dark:text-zinc-300"></span> 次
+          </div>
+        </div>
+
         <div class="flex gap-4">
           <a
             href="https://github.com"

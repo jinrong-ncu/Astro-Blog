@@ -3,9 +3,15 @@ import Layout from "../layouts/Layout.astro";
 import "../styles/global.css";
 import { getCollection } from "astro:content";
 
-const posts = (await getCollection("blog")).sort(
-  (a: any, b: any) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
+// const posts = (await getCollection("blog")).sort(
+//   (a: any, b: any) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+// );
+
+const posts = (await getCollection("blog"))
+  .filter((post) => !post.data.draft)
+  .sort(
+    (a: any, b: any) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+  );
 ---
 
 <Layout title="刘金荣 Blog">
@@ -50,7 +56,7 @@ const posts = (await getCollection("blog")).sort(
               {post.data.description}
             </p>
 
-            <div class="mt-auto pt-4 flex gap-2">
+            <div class="mt-auto pt-4 flex flex-wrap gap-2">
               {post.data.tags.map((tag) => (
                 <span class="inline-flex items-center rounded-md bg-zinc-50 dark:bg-zinc-800 px-2 py-1 text-xs font-medium text-zinc-600 dark:text-zinc-300 ring-1 ring-inset ring-zinc-500/10 dark:ring-zinc-700/50">
                   {tag}

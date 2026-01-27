@@ -73,7 +73,7 @@ const { posts } = Astro.props;
                             {post.data.description}
                         </p>
 
-                        <div class="mt-auto pt-4 flex gap-2">
+                        <div class="mt-auto pt-4 flex flex-wrap gap-2">
                             {post.data.tags.map((t) => (
                                 <span
                                     class={`inline-flex items-center rounded-md px-2 py-1 text-xs font-medium ring-1 ring-inset ${t === tag ? "bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 ring-zinc-500/20" : "bg-zinc-50 dark:bg-zinc-800/50 text-zinc-600 dark:text-zinc-400 ring-zinc-500/10 dark:ring-zinc-700/50"}`}

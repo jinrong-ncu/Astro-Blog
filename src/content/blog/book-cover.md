@@ -32,11 +32,32 @@ def download_weread_cover(keyword):
         # 使用 .get() 增加容错性
         results = data.get("results", [])
         if results and "books" in results[0]:
-            first_book = results[0]["books"][0]["bookInfo"]
-            cover_url = first_book.get("cover")
+            books = results[0]["books"]
             
+            # 3. 遍历书籍，找到阅读人数最多的书籍
+            max_reading_count = 0
+            best_book = None
+            
+            for book in books:
+                book_info = book.get("bookInfo", {})
+                title = book_info.get("title", "")
+                
+                if keyword in title:
+                    reading_count = book.get("readingCount", 0)
+                    if reading_count > max_reading_count:
+                        max_reading_count = reading_count
+                        best_book = book_info
+            
+            if best_book is None:
+                # 如果没有找到包含关键词的书籍，使用第一本
+                best_book = books[0]["bookInfo"]
+                max_reading_count = books[0].get("readingCount", 0)
+            
+            print(f"[Python] 选择了阅读人数最多的书籍，阅读人数: {max_reading_count}")
+            
+            cover_url = best_book.get("cover")
             if cover_url:
-                # 将 /s_ 替换为 /t9_ 以获取高清原图, 微信是使用的/t6 可以自己调整看看，最大是t9
+                # 将 s_yuewen 替换为 t9_yuewen 以获取高清原图
                 hd_url = cover_url.replace("/s_", "/t9_")
                 img_data = requests.get(hd_url).content
                 with open(f"{keyword}.jpg", "wb") as f:
@@ -54,7 +75,7 @@ if __name__ == "__main__":
         book_name = sys.argv[1]
         download_weread_cover(book_name)
     else:
-        print("请提供书名作为参数，如：python3 main.py 书名")
+        print("请提供书名作为参数，如：python main.py 书名")
 ```
 
 ## 🟢 2. Node.js 实现（异步 I/O）
@@ -65,22 +86,51 @@ Node.js 使用可选链（Optional Chaining）处理深层 JSON 非常优雅。
 ```javascript
 const axios = require('axios');
 const fs = require('fs');
-const path = require('path');
 
 async function download(keyword) {
     const url = `https://weread.qq.com/api/store/search?keyword=${encodeURIComponent(keyword)}`;
     
     try {
         const { data } = await axios.get(url);
-        const firstBook = data.results?.[0]?.books?.[0]?.bookInfo;
+        const books = data.results?.[0]?.books;
 
-        if (!firstBook || !firstBook.cover) {
-            console.log("未找到相关书籍或封面");
+        if (!books || books.length === 0) {
+            console.log("未找到相关书籍");
+            return;
+        }
+
+        // 3. 遍历书籍，找到阅读人数最多的书籍
+        let maxReadingCount = 0;
+        let bestBook = null;
+
+        for (const book of books) {
+            const bookInfo = book.bookInfo;
+            const title = bookInfo?.title || "";
+            
+            if (title.includes(keyword)) {
+                const readingCount = book.readingCount || 0;
+                if (readingCount > maxReadingCount) {
+                    maxReadingCount = readingCount;
+                    bestBook = bookInfo;
+                }
+            }
+        }
+
+        // 如果没有找到包含关键词的书籍，使用第一本
+        if (!bestBook) {
+            bestBook = books[0].bookInfo;
+            maxReadingCount = books[0].readingCount || 0;
+        }
+
+        console.log(`[Node.js] 选择了阅读人数最多的书籍，阅读人数: ${maxReadingCount}`);
+
+        if (!bestBook || !bestBook.cover) {
+            console.log("未找到封面");
             return;
         }
 
         // 核心逻辑：替换为高清地址 t9_
-        const hdCoverUrl = firstBook.cover.replace("/s_", "/t9_");
+        const hdCoverUrl = bestBook.cover.replace("/s_", "/t9_");
 
         const response = await axios({
             url: hdCoverUrl,
@@ -105,7 +155,6 @@ if (args.length > 0) {
 } else {
     console.log("用法: node index.js <书名>");
 }
-
 ```
 
 ## 🦀 3. Rust 实现（高性能与安全）
@@ -130,7 +179,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     // 1. 获取命令行参数
     let args: Vec<String> = env::args().collect();
     if args.len() < 2 {
-        println!("用法: cargo run -- <书名>");
+        println!("用法: cargo run <书名>");
         return Ok(());
     }
     let keyword = &args[1];
@@ -139,13 +188,33 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // 2. 请求 API
     let resp = reqwest::blocking::get(api_url)?.json::<serde_json::Value>()?;
+   
+    // 3. 遍历书籍，找到阅读人数最多的书籍
 
-    // 3. 提取并替换 URL
-    if let Some(cover_url) = resp["results"][0]["books"][0]["bookInfo"]["cover"].as_str() {
+    let mut max_reading_count = 0;
+    let mut best_book_index = 0;
+
+    for (i, book) in resp["results"][0]["books"].as_array().unwrap().iter().enumerate() {
+        let book_info = &book["bookInfo"];
+        if let Some(title) = book_info["title"].as_str() {
+            if title.contains(keyword) {
+                if let Some(reading_count) = book["readingCount"].as_u64() {
+                    if reading_count > max_reading_count {
+                        max_reading_count = reading_count;
+                        best_book_index = i;
+                    }
+                }
+            }
+        }
+    }
+    
+    println!("[Rust] 选择了阅读人数最多的书籍，阅读人数: {}", max_reading_count);
+    // 4. 提取并替换 URL
+    if let Some(cover_url) = resp["results"][0]["books"][best_book_index]["bookInfo"]["cover"].as_str() {
         // 核心逻辑：字符串替换
         let hd_url = cover_url.replace("/s_", "/t9_");
         
-        // 4. 下载高清图
+        // 5. 下载高清图
         let mut img_resp = reqwest::blocking::get(hd_url)?;
         let file_name = format!("{}.jpg", keyword);
         let mut dest = File::create(&file_name)?;
