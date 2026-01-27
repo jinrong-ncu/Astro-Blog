@@ -1,0 +1,64 @@
+---
+import Layout from "../layouts/Layout.astro";
+import "../styles/global.css";
+---
+
+<Layout title="关于我 - 刘金荣">
+    <div
+        class="prose prose-zinc prose-lg dark:prose-invert mx-auto pt-10 pb-20"
+    >
+        <div class="flex flex-col items-center mb-12 text-center">
+            <img
+                src="https://github.com/jinrong-ncu.png"
+                alt="Avatar"
+                class="w-32 h-32 rounded-full border-4 border-zinc-100 dark:border-zinc-800 shadow-lg mb-6"
+            />
+            <h1 class="mb-4">关于我</h1>
+            <p
+                class="text-zinc-500 dark:text-zinc-400 text-xl leading-relaxed max-w-2xl"
+            >
+                你好！我是 刘金荣。一名热衷于构建高性能、极简主义 web
+                应用的前端工程师。
+            </p>
+        </div>
+
+        <div class="space-y-6">
+            <p>
+                我喜欢探索新的技术，特别是那些能提升开发体验和用户交互的工具。
+                这个博客是我记录学习过程、分享技术见解以及探讨软件设计哲学的地方。
+            </p>
+
+            <p>
+                当我不在写代码的时候，你可能会发现我在阅读关于设计、未来主义的书籍，或者在通过摄影捕捉生活中的瞬间。
+            </p>
+
+            <hr class="my-8 border-zinc-200 dark:border-zinc-800" />
+
+            <h3>联系方式</h3>
+            <p>
+                如果你对我的项目感兴趣，或者只是想聊聊天，可以通过以下方式找到我：
+            </p>
+
+            <ul class="not-prose flex gap-4 mt-6">
+                <li>
+                    <a
+                        href="https://github.com/jinrong-ncu"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors text-zinc-900 dark:text-zinc-100 font-medium"
+                    >
+                        GitHub
+                    </a>
+                </li>
+                <li>
+                    <a
+                        href="mailto:jinrong.liu@email.ncu.edu.cn"
+                        class="flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors text-zinc-900 dark:text-zinc-100 font-medium"
+                    >
+                        Email
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</Layout>

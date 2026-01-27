@@ -1,12 +1,12 @@
 ---
-title: "Hello Antigravity"
+title: "Hello 刘金荣"
 description: "A first look at the Vibe Coding aesthetic."
 pubDate: 2025-01-27
 tags: ["design", "astro", "tailwind"]
-author: "Antigravity"
+author: "刘金荣"
 ---
 
-# Hello Antigravity
+# Hello 刘金荣
 
 This is a test post to verify the **Vibe Coding** aesthetic. We are looking for:
 

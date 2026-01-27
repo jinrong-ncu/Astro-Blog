@@ -32,7 +32,7 @@ const { posts } = Astro.props;
                 <a
                     href="/"
                     class="text-sm font-medium text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
-                    >&larr; Back home</a
+                    >&larr; 返回首页</a
                 >
             </div>
             <h1
@@ -41,8 +41,7 @@ const { posts } = Astro.props;
                 #{tag}
             </h1>
             <p class="text-lg text-zinc-500 dark:text-zinc-400 leading-relaxed">
-                {posts.length}
-                {posts.length === 1 ? "post" : "posts"} tagged with "{tag}"
+                {posts.length} 篇关于 “{tag}” 的文章
             </p>
         </div>
 
@@ -55,7 +54,7 @@ const { posts } = Astro.props;
                     >
                         <div class="flex items-center gap-3 text-xs font-medium text-zinc-400 mb-2">
                             <time datetime={post.data.pubDate.toISOString()}>
-                                {post.data.pubDate.toLocaleDateString("en-US", {
+                                {post.data.pubDate.toLocaleDateString("zh-CN", {
                                     year: "numeric",
                                     month: "long",
                                     day: "numeric",

@@ -3,7 +3,7 @@ title: "How I Built a Modern Blog with Astro, Tailwind v4 and AI Agent"
 description: "A deep dive into building a minimalist, high-performance blog using the latest web technologies and an AI coding partner."
 pubDate: 2026-01-27
 tags: ["astro", "tailwind", "ai", "coding"]
-author: "Antigravity"
+author: "刘金荣"
 ---
 
 # How I Built a Modern Blog with Astro, Tailwind v4 and AI Agent
@@ -24,7 +24,7 @@ For this project, I chose a stack that prioritizes performance and developer exp
 
 ## The AI Workflow
 
-The most unique part of this project wasn't the tech stack, but *how* I built it. I didn't write every line of CSS manually. Instead, I partnered with an AI Agent (Antigravity/Cursor) to "Vibe Code" the design.
+The most unique part of this project wasn't the tech stack, but *how* I built it. I didn't write every line of CSS manually. Instead, I partnered with an AI Agent (刘金荣/Cursor) to "Vibe Code" the design.
 
 My workflow looked like this:
 

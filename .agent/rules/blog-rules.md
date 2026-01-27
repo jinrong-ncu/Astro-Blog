@@ -9,7 +9,7 @@ trigger: always_on
 - **Design:** Minimalist, "Vercel-style" aesthetics. Use `lucide-react` for icons.
 - **Data:** Use Astro Content Collections (`src/content`) with Zod schema verification.
 
-# Behavior Guidelines (Antigravity Specific)
+# Behavior Guidelines (刘金荣 Specific)
 
 1.  **Verification is Mandatory:** After writing code, YOU MUST use the **Browser Agent** to open the local server and visually verify the changes.
 2.  **Artifacts:** Create detailed "Implementation Plans" before coding.

@@ -12,7 +12,7 @@ const { title, description = "A minimalist personal tech blog." } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang="zh-CN" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
@@ -27,7 +27,7 @@ const { title, description = "A minimalist personal tech blog." } = Astro.props;
     <meta
       property="og:image"
       content={new URL(
-        `/og/${Astro.url.pathname === "/" ? "hello-antigravity" : Astro.url.pathname.replace(/^\/blog\//, "").replace(/\/$/, "")}.png`,
+        `/og/${Astro.url.pathname === "/" ? "hello-刘金荣" : Astro.url.pathname.replace(/^\/blog\//, "").replace(/\/$/, "")}.png`,
         Astro.site || "http://localhost:4321",
       ).href}
     />
@@ -94,7 +94,7 @@ const { title, description = "A minimalist personal tech blog." } = Astro.props;
             >
           </div>
           <span class="font-bold text-zinc-900 dark:text-white tracking-tight"
-            >Antigravity</span
+            >刘金荣</span
           >
         </a>
         <div
@@ -103,17 +103,17 @@ const { title, description = "A minimalist personal tech blog." } = Astro.props;
           <a
             href="/"
             class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
-            >Blog</a
+            >博客</a
           >
           <a
             href="#"
             class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
-            >Projects</a
+            >项目</a
           >
           <a
-            href="#"
+            href="/about"
             class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
-            >About</a
+            >关于</a
           >
           <Search />
           <ThemeToggle client:load />
@@ -133,7 +133,7 @@ const { title, description = "A minimalist personal tech blog." } = Astro.props;
         class="max-w-5xl mx-auto px-6 flex justify-between items-center text-sm text-zinc-400 dark:text-zinc-500"
       >
         <p>
-          &copy; {new Date().getFullYear()} Antigravity. All rights reserved.
+          &copy; {new Date().getFullYear()} 刘金荣. All rights reserved.
         </p>
         <div class="flex gap-4">
           <a
