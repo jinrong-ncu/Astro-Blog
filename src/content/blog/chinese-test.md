@@ -4,6 +4,7 @@ description: "这是一个测试中文OG图片生成的文章。Here is some Eng
 pubDate: 2024-02-06
 author: "刘金荣"
 tags: ["测试", "Chinese"]
+draft: true
 ---
 
 # 中文测试

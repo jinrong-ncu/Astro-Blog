@@ -2,7 +2,7 @@
 title: "从微信读书 API 抓取高清书籍封面"
 description: "最近在做一些书籍的整理，发现封面很难找到高清的，发现微信阅读的封面还不错，还能自己改参数，之前学过一点Python 和 Rust, 想试试这几种语言，于是用它们做了一个自动化脚本。"
 pubDate: 2026-01-26
-author: "我"
+author: "刘金荣"
 tags: [ "Python","NodeJs","Rust","折腾"]
 ---
 

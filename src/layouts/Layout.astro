@@ -2,13 +2,14 @@
 import { ClientRouter } from "astro:transitions";
 import ThemeToggle from "../components/ThemeToggle";
 import Search from "../components/Search.astro";
+import { SITE_TITLE, SITE_DESCRIPTION, AUTHOR } from "../consts";
 
 interface Props {
   title: string;
   description?: string;
 }
 
-const { title, description = "A minimalist personal tech blog." } = Astro.props;
+const { title, description = SITE_DESCRIPTION } = Astro.props;
 ---
 
 <!doctype html>
@@ -146,7 +147,7 @@ const { title, description = "A minimalist personal tech blog." } = Astro.props;
             >
           </div>
           <span class="font-bold text-zinc-900 dark:text-white tracking-tight"
-            >刘金荣</span
+            >{SITE_TITLE}</span
           >
         </a>
         <div
@@ -186,7 +187,8 @@ const { title, description = "A minimalist personal tech blog." } = Astro.props;
       >
         <div class="flex flex-col md:flex-row gap-4 items-center">
           <p>
-            &copy; {new Date().getFullYear()} 刘金荣. All rights reserved.
+            &copy; {new Date().getFullYear()}
+            {AUTHOR}. All rights reserved.
           </p>
           <span class="hidden md:inline">·</span>
           <div

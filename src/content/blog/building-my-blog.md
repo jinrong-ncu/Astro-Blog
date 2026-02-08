@@ -4,6 +4,7 @@ description: "A deep dive into building a minimalist, high-performance blog usin
 pubDate: 2026-01-27
 tags: ["astro", "tailwind", "ai", "coding"]
 author: "刘金荣"
+draft: true
 ---
 
 # How I Built a Modern Blog with Astro, Tailwind v4 and AI Agent
