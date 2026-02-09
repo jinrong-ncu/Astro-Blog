@@ -1,64 +1,265 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import {
+    Github,
+    Mail,
+    Monitor,
+    Coffee,
+    Zap,
+    Camera,
+    Smartphone,
+    Code2,
+    Server,
+} from "lucide-react";
 import "../styles/global.css";
 ---
 
 <Layout title="关于我 - 刘金荣">
-    <div
-        class="prose prose-zinc prose-lg dark:prose-invert mx-auto pt-10 pb-20"
-    >
-        <div class="flex flex-col items-center mb-12 text-center">
-            <img
-                src="https://github.com/jinrong-ncu.png"
-                alt="Avatar"
-                class="w-32 h-32 rounded-full border-4 border-zinc-100 dark:border-zinc-800 shadow-lg mb-6"
-            />
-            <h1 class="mb-4">关于我</h1>
-            <p
-                class="text-zinc-500 dark:text-zinc-400 text-xl leading-relaxed max-w-2xl"
-            >
-                你好！我是 刘金荣。一名热衷于构建高性能、极简主义 web
-                应用的前端工程师。
-            </p>
+    <div class="max-w-4xl mx-auto px-4 py-12 md:py-20 animate-fade-in">
+        <!-- Hero Section -->
+        <div class="flex flex-col items-center text-center space-y-6 mb-20">
+            <div class="relative group">
+                <img
+                    src="https://github.com/jinrong-ncu.png"
+                    alt="刘金荣 (Liu Jinrong)"
+                    class="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-zinc-100 dark:border-zinc-800 shadow-xl transition-transform duration-500 group-hover:scale-105 group-hover:rotate-3"
+                />
+                <div
+                    class="absolute -bottom-2 -right-2 bg-white dark:bg-zinc-900 p-2 rounded-full border border-zinc-200 dark:border-zinc-700 shadow-sm"
+                >
+                    <div class="animate-bounce">👋</div>
+                </div>
+            </div>
+
+            <div class="space-y-2">
+                <h1
+                    class="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 to-zinc-500 dark:from-white dark:to-zinc-400"
+                >
+                    刘金荣 (Liu Jinrong)
+                </h1>
+                <p
+                    class="text-lg md:text-xl text-zinc-500 dark:text-zinc-400 font-medium"
+                >
+                    一枚热衷于通过代码“偷懒”的开发者。
+                </p>
+            </div>
+
+            <!-- Social Links -->
+            <div class="flex gap-4">
+                <a
+                    href="https://github.com/jinrong-ncu"
+                    target="_blank"
+                    class="p-3 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-900 hover:text-white dark:hover:bg-white dark:hover:text-zinc-900 transition-all duration-300 hover:scale-110"
+                >
+                    <Github className="w-5 h-5" />
+                    <span class="sr-only">GitHub</span>
+                </a>
+                <a
+                    href="mailto:jinrong.liu@email.ncu.edu.cn"
+                    class="p-3 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-indigo-600 hover:text-white transition-all duration-300 hover:scale-110"
+                >
+                    <Mail className="w-5 h-5" />
+                    <span class="sr-only">Email</span>
+                </a>
+                <a
+                    href="https://www.zhihu.com/people/rongmo"
+                    target="_blank"
+                    class="p-3 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-blue-500 hover:text-white transition-all duration-300 hover:scale-110"
+                >
+                    <span
+                        class="font-bold text-sm w-5 h-5 flex items-center justify-center"
+                        >知</span
+                    >
+                    <span class="sr-only">Zhihu</span>
+                </a>
+            </div>
         </div>
 
-        <div class="space-y-6">
-            <p>
-                我喜欢探索新的技术，特别是那些能提升开发体验和用户交互的工具。
-                这个博客是我记录学习过程、分享技术见解以及探讨软件设计哲学的地方。
-            </p>
+        <!-- Three Keywords Section -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+            <!-- Card 1 -->
+            <div
+                class="p-6 rounded-2xl bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-100 dark:border-zinc-800/50 hover:border-zinc-300 dark:hover:border-zinc-700 transition-colors group"
+            >
+                <div
+                    class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center text-blue-600 dark:text-blue-400 mb-4 group-hover:scale-110 transition-transform"
+                >
+                    <Code2 className="w-6 h-6" />
+                </div>
+                <h3
+                    class="text-xl font-bold mb-3 text-zinc-900 dark:text-zinc-100"
+                >
+                    技术控
+                </h3>
+                <p
+                    class="text-zinc-600 dark:text-zinc-400 leading-relaxed text-sm"
+                >
+                    热衷于折腾各种新技术（比如React、Vue、Astro、Node、Python、Rust等）
+                </p>
+            </div>
 
-            <p>
-                当我不在写代码的时候，你可能会发现我在阅读关于设计、未来主义的书籍，或者在通过摄影捕捉生活中的瞬间。
-            </p>
+            <!-- Card 2 -->
+            <div
+                class="p-6 rounded-2xl bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-100 dark:border-zinc-800/50 hover:border-purple-200 dark:hover:border-purple-800/50 transition-colors group"
+            >
+                <div
+                    class="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-xl flex items-center justify-center text-purple-600 dark:text-purple-400 mb-4 group-hover:scale-110 transition-transform"
+                >
+                    <Zap className="w-6 h-6" />
+                </div>
+                <h3
+                    class="text-xl font-bold mb-3 text-zinc-900 dark:text-zinc-100"
+                >
+                    效率癖
+                </h3>
+                <p
+                    class="text-zinc-600 dark:text-zinc-400 leading-relaxed text-sm"
+                >
+                    难以忍受重复劳动。如果一件事情需要做三次，我一定会写个程序自动化它。（那个微信多开脚本就是这么来的）。
+                </p>
+            </div>
 
-            <hr class="my-8 border-zinc-200 dark:border-zinc-800" />
+            <!-- Card 3 -->
+            <div
+                class="p-6 rounded-2xl bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-100 dark:border-zinc-800/50 hover:border-orange-200 dark:hover:border-orange-800/50 transition-colors group"
+            >
+                <div
+                    class="w-12 h-12 bg-orange-100 dark:bg-orange-900/30 rounded-xl flex items-center justify-center text-orange-600 dark:text-orange-400 mb-4 group-hover:scale-110 transition-transform"
+                >
+                    <Coffee className="w-6 h-6" />
+                </div>
+                <h3
+                    class="text-xl font-bold mb-3 text-zinc-900 dark:text-zinc-100"
+                >
+                    生活家
+                </h3>
+                <p
+                    class="text-zinc-600 dark:text-zinc-400 leading-relaxed text-sm"
+                >
+                    代码不是全部。工作之余，我喜欢摄影，正在努力寻找技术与生活的平衡点。
+                </p>
+            </div>
+        </div>
 
-            <h3>联系方式</h3>
-            <p>
-                如果你对我的项目感兴趣，或者只是想聊聊天，可以通过以下方式找到我：
-            </p>
+        <!-- My Gear/Stack -->
+        <div class="mb-20">
+            <h2
+                class="text-2xl font-bold mb-8 text-center md:text-left flex items-center gap-3"
+            >
+                <Monitor className="w-6 h-6" />
+                <span
+                    class="bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 to-zinc-600 dark:from-white dark:to-zinc-400"
+                    >装备 & 工具</span
+                >
+            </h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {
+                    [
+                        {
+                            name: "MacBook M2 Max",
+                            icon: Monitor,
+                            desc: "主力生产力",
+                        },
+                        { name: "VS Code", icon: Code2, desc: "代码编辑器" },
+                        { name: "PyCharm", icon: Code2, desc: "代码编辑器" },
+                        { name: "Antigravity", icon: Code2, desc: "AI助手" },
+                        // { name: "Raycast", icon: Zap, desc: "效率启动器" },
+                        // { name: "CleanShot X", icon: Camera, desc: "截图神器" },
+                    ].map((item) => (
+                        <div class="p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors group">
+                            <div class="flex items-center gap-3 mb-2">
+                                <item.icon className="w-5 h-5 text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-zinc-100" />
+                                <span class="font-medium text-zinc-900 dark:text-zinc-100">
+                                    {item.name}
+                                </span>
+                            </div>
+                            <p class="text-xs text-zinc-500">{item.desc}</p>
+                        </div>
+                    ))
+                }
+            </div>
+        </div>
 
-            <ul class="not-prose flex gap-4 mt-6">
-                <li>
-                    <a
-                        href="https://github.com/jinrong-ncu"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors text-zinc-900 dark:text-zinc-100 font-medium"
+        <div
+            class="rounded-3xl p-8 md:p-12 text-center relative overflow-hidden
+    /* 背景色：亮模式浅灰，暗模式深灰 */
+    bg-zinc-100 dark:bg-zinc-800/50
+    /* 文字颜色：亮模式深黑，暗模式白 */
+    text-zinc-900 dark:text-white"
+        >
+            <div class="absolute inset-0 opacity-5 dark:opacity-10">
+                <svg width="100%" height="100%">
+                    <pattern
+                        id="grid"
+                        width="40"
+                        height="40"
+                        patternUnits="userSpaceOnUse"
                     >
-                        GitHub
-                    </a>
-                </li>
-                <li>
-                    <a
-                        href="mailto:jinrong.liu@email.ncu.edu.cn"
-                        class="flex items-center gap-2 px-4 py-2 rounded-lg bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors text-zinc-900 dark:text-zinc-100 font-medium"
+                        <path
+                            d="M 40 0 L 0 0 0 40"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1"></path>
+                    </pattern>
+                    <rect width="100%" height="100%" fill="url(#grid)"></rect>
+                </svg>
+            </div>
+
+            <div class="relative z-10">
+                <h2 class="text-2xl md:text-3xl font-bold mb-4">
+                    随时欢迎交流
+                </h2>
+                <p
+                    class="mb-8 max-w-lg mx-auto
+            /* 副标题颜色：稍微淡一点的灰 */
+            text-zinc-600 dark:text-zinc-400"
+                >
+                    如果你想聊聊 Mac 工具，欢迎通过邮件联系我。
+                </p>
+
+                <a
+                    href="mailto:jinrong.liu@email.ncu.edu.cn"
+                    class="inline-flex items-center gap-2 px-6 py-3 rounded-full font-medium hover:scale-105 transition-transform shadow-lg
+            /* 按钮背景：亮模式黑底，暗模式白底 */
+            bg-zinc-900 dark:bg-white
+            /* 按钮文字：亮模式白字，暗模式黑字 */
+            text-white dark:text-zinc-900"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        class="lucide lucide-mail"
+                        ><rect width="20" height="16" x="2" y="4" rx="2"
+                        ></rect><path
+                            d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"
+                        ></path></svg
                     >
-                        Email
-                    </a>
-                </li>
-            </ul>
+                    发送邮件
+                </a>
+            </div>
         </div>
     </div>
 </Layout>
+
+<style>
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    .animate-fade-in {
+        animation: fadeIn 0.8s ease-out forwards;
+    }
+</style>
