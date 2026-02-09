@@ -117,6 +117,19 @@ const { title, description = SITE_DESCRIPTION } = Astro.props;
         document.body.appendChild(newScript);
       });
     </script>
+    <script is:inline>
+      (function () {
+        var bp = document.createElement("script");
+        var curProtocol = window.location.protocol.split(":")[0];
+        if (curProtocol === "https") {
+          bp.src = "https://zz.bdstatic.com/linksubmit/push.js";
+        } else {
+          bp.src = "http://push.zhanzhang.baidu.com/push.js";
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+      })();
+    </script>
   </head>
   <body
     class="flex flex-col min-h-screen selection:bg-purple-100 selection:text-purple-900 dark:selection:bg-purple-900/30 dark:selection:text-purple-200"
