@@ -2,6 +2,7 @@
 import { ClientRouter } from "astro:transitions";
 import ThemeToggle from "../components/ThemeToggle";
 import Search from "../components/Search.astro";
+import Footer from "../components/Footer.astro";
 import { SITE_TITLE, SITE_DESCRIPTION, AUTHOR } from "../consts";
 
 interface Props {
@@ -193,47 +194,7 @@ const { title, description = SITE_DESCRIPTION } = Astro.props;
       <slot />
     </main>
 
-    <footer
-      class="border-t border-zinc-100 dark:border-zinc-800 bg-white dark:bg-zinc-950 py-8 mt-12 transition-colors"
-    >
-      <div
-        class="max-w-5xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-sm text-zinc-400 dark:text-zinc-500 gap-4"
-      >
-        <div class="flex flex-col md:flex-row gap-4 items-center">
-          <p>
-            &copy; {new Date().getFullYear()}
-            {AUTHOR}. All rights reserved.
-          </p>
-          <span class="hidden md:inline">·</span>
-          <div
-            class="flex items-center gap-2"
-            id="busuanzi_container_site_pv"
-            style="display: none;"
-          >
-            本站总访问量 <span
-              id="busuanzi_value_site_pv"
-              class="text-zinc-600 dark:text-zinc-300"></span> 次
-          </div>
-        </div>
-
-        <div class="flex gap-4">
-          <a
-            href="https://github.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
-            >GitHub</a
-          >
-          <a
-            href="https://twitter.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
-            >Twitter</a
-          >
-        </div>
-      </div>
-    </footer>
+    <Footer />
     <script>
       document.addEventListener("astro:page-load", () => {
         const codeBlocks = document.querySelectorAll("pre");

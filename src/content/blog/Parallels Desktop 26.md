@@ -1,5 +1,5 @@
 ---
-title: "M4 Mac 必装？Parallels Desktop 26 踩坑实录 & 完美激活教程"
+title: "M系列 Mac 必装？Parallels Desktop 26 踩坑实录 & 完美激活教程"
 description: "别再去折腾免费的虚拟机了，PD26 目前依然是 Apple Silicon 芯片上跑 Windows 的最优解。本文记录了安装、激活以及性能优化的全过程。"
 pubDate: 2026-02-08
 tags: ["Mac", "虚拟机", "Windows", "Parallels Desktop", "效率工具", "激活教程"]
@@ -9,7 +9,7 @@ tags: ["Mac", "虚拟机", "Windows", "Parallels Desktop", "效率工具", "激�
 
 但没办法，生活所迫。
 
-最近换了 M4 芯片的 Mac，之前的虚拟机版本直接罢工。折腾了一下午，终于把 **Parallels Desktop 26 (PD26)** 搞定了。
+最近换了 M2 芯片的 Mac，之前的虚拟机版本直接罢工。折腾了一下午，终于把 **Parallels Desktop 26 (PD26)** 搞定了。
 
 相比之前的版本，PD26 在 M 系列芯片上的流畅度确实又提升了一个档次，哪怕是分给它 8G 内存，跑起来也丝滑得像原生系统一样。
 
