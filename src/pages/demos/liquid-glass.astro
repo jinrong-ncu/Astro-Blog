@@ -1,0 +1,243 @@
+---
+// liquid-glass.astro - 液态玻璃导航栏预览页面
+import LiquidGlassTabBar from '../../components/demos/LiquidGlassTabBar.astro';
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>液态玻璃底部导航栏</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #0a0a0f;
+      padding: 20px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* 动态光球背景 */
+    .orb-container {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.6;
+      animation: float 20s ease-in-out infinite;
+    }
+
+    .orb-1 {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, #ff006e, #8338ec);
+      top: -100px;
+      left: -100px;
+      animation-delay: 0s;
+    }
+
+    .orb-2 {
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(circle, #3a86ff, #06ffa5);
+      bottom: -80px;
+      right: -80px;
+      animation-delay: -7s;
+    }
+
+    .orb-3 {
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, #ffbe0b, #fb5607);
+      top: 50%;
+      left: 50%;
+      animation-delay: -14s;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translate(0, 0) scale(1);
+      }
+      33% {
+        transform: translate(100px, -100px) scale(1.1);
+      }
+      66% {
+        transform: translate(-80px, 80px) scale(0.9);
+      }
+    }
+
+    /* 手机屏幕容器 */
+    .phone-container {
+      position: relative;
+      width: 100%;
+      max-width: 390px;
+      height: 844px;
+      max-height: 90vh;
+      background: rgba(10, 10, 15, 0.8);
+      backdrop-filter: blur(20px);
+      border-radius: 48px;
+      box-shadow: 
+        0 0 0 8px rgba(255, 255, 255, 0.1),
+        0 20px 60px rgba(0, 0, 0, 0.6);
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    /* 刘海 */
+    .phone-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 150px;
+      height: 30px;
+      background: #000;
+      border-radius: 0 0 20px 20px;
+      z-index: 2000;
+    }
+
+    /* 屏幕内容 */
+    .phone-screen {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* 内容区 */
+    .content-area {
+      padding: 60px 20px 120px;
+      min-height: 100%;
+    }
+
+    .hero-title {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+      font-size: 48px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff 0%, #a78bfa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
+      letter-spacing: -2px;
+    }
+
+    .hero-subtitle {
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 18px;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 40px;
+      line-height: 1.5;
+    }
+
+    /* 彩色卡片 */
+    .card-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .liquid-card {
+      height: 200px;
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 700;
+      color: white;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .liquid-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: inherit;
+      filter: blur(20px);
+      opacity: 0.8;
+    }
+
+    .liquid-card span {
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-1 { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    .card-2 { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+    .card-3 { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+    .card-4 { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+    .card-5 { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+    .card-6 { background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); }
+
+    /* 响应式 */
+    @media (max-width: 430px) {
+      body {
+        padding: 0;
+      }
+
+      .phone-container {
+        max-width: 100%;
+        height: 100vh;
+        max-height: 100vh;
+        border-radius: 0;
+        box-shadow: none;
+      }
+
+      .phone-container::before {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 动态光球背景 -->
+  <div class="orb-container">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- 手机屏幕 -->
+  <div class="phone-container">
+    <div class="phone-screen">
+      <div class="content-area">
+        <h1 class="hero-title">Liquid Glass</h1>
+        <p class="hero-subtitle">流体水滴 · 液态黏连 · 极光折射<br>向下滚动查看毛玻璃透视效果</p>
+        
+        <div class="card-grid">
+          <div class="liquid-card card-1"><span>🌊 流动的玻璃</span></div>
+          <div class="liquid-card card-2"><span>💧 液体张力</span></div>
+          <div class="liquid-card card-3"><span>✨ Gooey 滤镜</span></div>
+          <div class="liquid-card card-4"><span>🎨 极光色彩</span></div>
+          <div class="liquid-card card-5"><span>🔮 呼吸动画</span></div>
+          <div class="liquid-card card-6"><span>🚀 弹簧阻尼</span></div>
+        </div>
+      </div>
+
+      <!-- 液态玻璃导航栏 -->
+      <LiquidGlassTabBar activeTab={0} />
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,362 @@
+---
+// LiquidGlassTabBar.astro - 液态玻璃底部导航栏
+interface Props {
+  activeTab?: number;
+}
+
+const { activeTab = 0 } = Astro.props;
+
+const tabs = [
+  { id: 'home', label: 'Home', icon: 'home' },
+  { id: 'explore', label: 'Explore', icon: 'compass' },
+  { id: 'create', label: 'Create', icon: 'plus' },
+  { id: 'likes', label: 'Likes', icon: 'heart' },
+  { id: 'profile', label: 'Profile', icon: 'user' }
+];
+---
+
+<!-- SVG Gooey 滤镜定义 -->
+<svg style="position: absolute; width: 0; height: 0;">
+  <defs>
+    <filter id="gooey-effect">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur" />
+      <feColorMatrix in="blur" mode="matrix" values="
+        1 0 0 0 0
+        0 1 0 0 0
+        0 0 1 0 0
+        0 0 0 20 -10" result="gooey" />
+      <feComposite in="SourceGraphic" in2="gooey" operator="atop"/>
+    </filter>
+  </defs>
+</svg>
+
+<div class="liquid-glass-tab-bar">
+  <!-- 液态指示器容器（应用 Gooey 滤镜） -->
+  <div class="gooey-container">
+    <div class="liquid-blob" data-active-index={activeTab}></div>
+  </div>
+
+  <!-- Tab 按钮 -->
+  {tabs.map((tab, index) => (
+    <button 
+      class={`tab-item ${index === activeTab ? 'active' : ''}`}
+      data-tab={tab.id}
+      data-index={index}
+    >
+      <div class="tab-icon">
+        {/* Home */}
+        {tab.icon === 'home' && (
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+        )}
+        {/* Compass */}
+        {tab.icon === 'compass' && (
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+          </svg>
+        )}
+        {/* Plus */}
+        {tab.icon === 'plus' && (
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="16"/>
+            <line x1="8" y1="12" x2="16" y2="12"/>
+          </svg>
+        )}
+        {/* Heart */}
+        {tab.icon === 'heart' && (
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        )}
+        {/* User */}
+        {tab.icon === 'user' && (
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        )}
+      </div>
+      <span class="tab-label">{tab.label}</span>
+    </button>
+  ))}
+</div>
+
+<style>
+  .liquid-glass-tab-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 12px 16px calc(24px + env(safe-area-inset-bottom));
+    
+    /* 液态玻璃基底 - 极致折射 */
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.05) 50%,
+      rgba(255, 255, 255, 0.15) 100%
+    );
+    background-size: 200% 200%;
+    animation: liquidFlow 8s ease-in-out infinite;
+    
+    backdrop-filter: blur(30px) saturate(200%);
+    -webkit-backdrop-filter: blur(30px) saturate(200%);
+    
+    /* 液态高光 - 多层内发光模拟水滴张力 */
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 
+      inset 0 1px 1px 0 rgba(255, 255, 255, 0.5),
+      inset 0 -1px 2px 0 rgba(255, 255, 255, 0.2),
+      0 -4px 24px rgba(0, 0, 0, 0.1),
+      0 -1px 4px rgba(0, 0, 0, 0.05);
+    
+    z-index: 1000;
+  }
+
+  /* 流光动画 */
+  @keyframes liquidFlow {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  /* Gooey 容器 - 应用液体黏连滤镜 */
+  .gooey-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    filter: url(#gooey-effect);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* 液态 Blob 指示器 */
+  .liquid-blob {
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    transform: translate(-50%, -50%);
+    width: 64px;
+    height: 64px;
+    
+    /* 极光色液态背景 */
+    background: radial-gradient(
+      circle at 30% 30%,
+      rgba(99, 102, 241, 0.8) 0%,
+      rgba(168, 85, 247, 0.6) 50%,
+      rgba(236, 72, 153, 0.4) 100%
+    );
+    
+    /* 动态变形的 border-radius - 模拟液体形态 */
+    border-radius: 42% 58% 70% 30% / 45% 50% 50% 55%;
+    
+    /* 液体发光 */
+    box-shadow: 
+      0 0 20px rgba(168, 85, 247, 0.6),
+      0 0 40px rgba(168, 85, 247, 0.3),
+      inset 0 0 20px rgba(255, 255, 255, 0.3);
+    
+    /* 平滑过渡 + 弹簧阻尼 */
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    
+    /* 呼吸动画 */
+    animation: blobBreathing 4s ease-in-out infinite;
+  }
+
+  /* 液体呼吸动画 */
+  @keyframes blobBreathing {
+    0%, 100% {
+      border-radius: 42% 58% 70% 30% / 45% 50% 50% 55%;
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+    25% {
+      border-radius: 58% 42% 45% 55% / 60% 40% 60% 40%;
+    }
+    50% {
+      border-radius: 45% 55% 60% 40% / 50% 60% 40% 60%;
+      transform: translate(-50%, -50%) rotate(5deg);
+    }
+    75% {
+      border-radius: 55% 45% 30% 70% / 40% 55% 45% 60%;
+    }
+  }
+
+  /* Tab 按钮 */
+  .tab-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 8px 12px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.5);
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    -webkit-user-select: none;
+    flex: 1;
+    max-width: 80px;
+    z-index: 1;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  /* 图标容器 */
+  .tab-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .tab-icon svg {
+    width: 100%;
+    height: 100%;
+    stroke: currentColor;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  }
+
+  /* 文字标签 */
+  .tab-label {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    color: inherit;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  /* 选中态 - 浮出水面效果 */
+  .tab-item.active {
+    color: rgba(255, 255, 255, 0.95);
+  }
+
+  .tab-item.active .tab-icon {
+    transform: scale(1.15) translateY(-2px);
+    filter: drop-shadow(0 4px 12px rgba(168, 85, 247, 0.5));
+  }
+
+  .tab-item.active .tab-label {
+    transform: scale(1.05);
+  }
+
+  /* 按压效果 */
+  .tab-item:active {
+    transform: scale(0.92);
+  }
+
+  /* Hover 效果 */
+  @media (hover: hover) {
+    .tab-item:hover:not(.active) {
+      color: rgba(255, 255, 255, 0.7);
+      transform: translateY(-2px);
+    }
+  }
+
+  /* 深色模式 */
+  @media (prefers-color-scheme: dark) {
+    .liquid-glass-tab-bar {
+      background: linear-gradient(
+        135deg,
+        rgba(20, 20, 25, 0.6) 0%,
+        rgba(15, 15, 20, 0.4) 50%,
+        rgba(25, 25, 30, 0.7) 100%
+      );
+      border-top: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 
+        inset 0 1px 1px 0 rgba(255, 255, 255, 0.2),
+        inset 0 -1px 2px 0 rgba(255, 255, 255, 0.1),
+        0 -4px 24px rgba(0, 0, 0, 0.3);
+    }
+  }
+</style>
+
+<script>
+  function initLiquidGlassTabBar() {
+    const tabBar = document.querySelector('.liquid-glass-tab-bar');
+    if (!tabBar) return;
+
+    const tabs = tabBar.querySelectorAll('.tab-item');
+    const blob = tabBar.querySelector('.liquid-blob') as HTMLElement;
+    
+    if (!blob) return;
+
+    // 计算并移动液态 Blob
+    function moveBlobToTab(targetTab: HTMLElement) {
+      const tabRect = targetTab.getBoundingClientRect();
+      const barRect = tabBar.getBoundingClientRect();
+      
+      // 计算相对位置（百分比）
+      const tabCenter = tabRect.left + tabRect.width / 2 - barRect.left;
+      const percentage = (tabCenter / barRect.width) * 100;
+      
+      blob.style.left = `${percentage}%`;
+    }
+
+    // 初始化位置
+    const activeTab = tabBar.querySelector('.tab-item.active') as HTMLElement;
+    if (activeTab) {
+      moveBlobToTab(activeTab);
+    }
+
+    // iOS Safari 兼容性
+    tabs.forEach((tab) => {
+      tab.addEventListener('touchstart', () => {}, { passive: true });
+
+      tab.addEventListener('click', () => {
+        // 移除所有激活状态
+        tabs.forEach(t => t.classList.remove('active'));
+        
+        // 激活当前 Tab
+        tab.classList.add('active');
+        
+        // 移动液态 Blob
+        moveBlobToTab(tab as HTMLElement);
+
+        // 触觉反馈
+        if ('vibrate' in navigator) {
+          navigator.vibrate(15);
+        }
+      });
+    });
+
+    // 响应式调整
+    let resizeTimer: number;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(() => {
+        const currentActive = tabBar.querySelector('.tab-item.active') as HTMLElement;
+        if (currentActive) {
+          moveBlobToTab(currentActive);
+        }
+      }, 150);
+    });
+  }
+
+  // 初始化
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initLiquidGlassTabBar);
+  } else {
+    initLiquidGlassTabBar();
+  }
+
+  // 支持 Astro View Transitions
+  document.addEventListener('astro:page-load', initLiquidGlassTabBar);
+</script>
