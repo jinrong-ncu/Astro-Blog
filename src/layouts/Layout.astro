@@ -134,13 +134,36 @@ const { title, description = SITE_DESCRIPTION } = Astro.props;
     </script>
   </head>
   <body
-    class="flex flex-col min-h-screen selection:bg-purple-100 selection:text-purple-900 dark:selection:bg-purple-900/30 dark:selection:text-purple-200"
+    class="flex flex-col min-h-screen selection:bg-purple-100 selection:text-purple-900 dark:selection:bg-purple-900/30 dark:selection:text-purple-200 relative"
   >
+    <!-- Liquid Glass Animated Background -->
+    <div
+      class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none bg-zinc-50 dark:bg-zinc-950 transition-colors duration-500"
+    >
+      <div
+        class="absolute -top-[20%] -left-[10%] w-[70vw] h-[70vw] rounded-full bg-purple-300/40 dark:bg-purple-900/30 blur-[120px] animate-orb-1"
+      >
+      </div>
+      <div
+        class="absolute top-[10%] -right-[10%] w-[60vw] h-[60vw] rounded-full bg-blue-300/40 dark:bg-blue-900/30 blur-[120px] animate-orb-2"
+      >
+      </div>
+      <div
+        class="absolute -bottom-[20%] left-[20%] w-[80vw] h-[80vw] rounded-full bg-cyan-300/30 dark:bg-cyan-900/20 blur-[120px] animate-orb-3"
+      >
+      </div>
+      <div
+        class="absolute inset-0 bg-white/30 dark:bg-black/30 backdrop-blur-[60px]"
+      >
+      </div>
+    </div>
+
+    <!-- Floating Glass Pill Header -->
     <header
-      class="sticky top-0 z-50 w-full border-b border-zinc-200/40 dark:border-zinc-800/40 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-zinc-950/60 transition-colors"
+      class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-3rem)] max-w-2xl transition-all duration-500"
     >
       <nav
-        class="flex h-16 items-center justify-between px-6 max-w-5xl mx-auto"
+        class="flex h-14 items-center justify-between px-6 rounded-full bg-white/20 dark:bg-zinc-900/20 backdrop-blur-3xl saturate-200 shadow-[0_8px_32px_rgba(0,0,0,0.08),inset_0_0_0_1px_rgba(255,255,255,0.4)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_0_0_1px_rgba(255,255,255,0.1)] transition-colors"
       >
         <a href="/" class="flex items-center gap-2 group">
           <div
@@ -190,7 +213,9 @@ const { title, description = SITE_DESCRIPTION } = Astro.props;
       </nav>
     </header>
 
-    <main class="flex-grow w-full max-w-5xl mx-auto px-6 py-12">
+    <main
+      class="flex-grow w-full max-w-5xl mx-auto px-6 pt-32 pb-12 relative z-10"
+    >
       <slot />
     </main>
 
