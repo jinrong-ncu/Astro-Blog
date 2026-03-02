@@ -1,13 +1,13 @@
 ---
-title: "Hello 刘金荣"
+title: "Hello 荣咕咕"
 description: "A first look at the Vibe Coding aesthetic."
 pubDate: 2025-01-27
 tags: ["design", "astro", "tailwind"]
-author: "刘金荣"
+author: "荣咕咕"
 draft: true
 ---
 
-# Hello 刘金荣
+# Hello 荣咕咕
 
 This is a test post to verify the **Vibe Coding** aesthetic. We are looking for:
 
