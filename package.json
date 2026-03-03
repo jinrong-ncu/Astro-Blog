@@ -12,6 +12,8 @@
     "@astrojs/mdx": "^4.3.13",
     "@astrojs/react": "^4.4.2",
     "@astrojs/sitemap": "^3.7.0",
+    "@aws-sdk/client-s3": "^3.1000.0",
+    "@aws-sdk/lib-storage": "^3.1000.0",
     "@pagefind/default-ui": "^1.4.0",
     "@tailwindcss/vite": "^4.1.18",
     "@types/react": "^19.2.9",
