@@ -65,10 +65,32 @@ const { Content } = await entry.render();
     </header>
 
     <div
-      class="prose prose-zinc prose-lg dark:prose-invert mx-auto prose-headings:font-bold prose-a:text-blue-600 dark:prose-a:text-blue-400 hover:prose-a:text-blue-500"
+      class="prose prose-zinc prose-lg dark:prose-invert mx-auto prose-headings:font-bold prose-a:text-blue-600 dark:prose-a:text-blue-400 hover:prose-a:text-blue-500 max-w-none"
     >
       <Content />
     </div>
   </article>
   <Comments />
+
+  <script>
+    import mediumZoom from "medium-zoom";
+
+    document.addEventListener("astro:page-load", () => {
+      const images = document.querySelectorAll(".prose img");
+
+      images.forEach((img) => {
+        if (!img.getAttribute("loading")) {
+          img.setAttribute("loading", "lazy");
+        }
+        if (!img.getAttribute("decoding")) {
+          img.setAttribute("decoding", "async");
+        }
+      });
+
+      mediumZoom(".prose img", {
+        background: "rgba(10, 10, 10, 0.85)",
+        margin: 24,
+      });
+    });
+  </script>
 </Layout>

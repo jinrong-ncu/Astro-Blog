@@ -47,6 +47,29 @@
   .prose pre code {
     @apply !text-zinc-100 !bg-transparent p-0;
   }
+
+  /* Images */
+  .prose img {
+    @apply rounded-xl transition-all duration-300 cursor-zoom-in shadow-sm w-full object-cover;
+  }
+  
+  .prose img:hover {
+    @apply shadow-md;
+  }
+
+  /* Medium Zoom Liquid Glass Styling */
+  .medium-zoom-overlay {
+    background: rgba(10, 10, 10, 0.85) !important;
+    backdrop-filter: blur(12px) !important;
+    z-index: 100 !important;
+  }
+
+  .medium-zoom-image--opened {
+    object-fit: contain;
+    border-radius: 0.75rem !important; /* rounded-xl equivalent */
+    z-index: 101 !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+  }
 }
 
 @layer utilities {
