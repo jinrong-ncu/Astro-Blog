@@ -3,6 +3,7 @@ title: "Mac 专属：Charles v5.0.2 最新版安装教程 + HTTPS 抓包配置 (
 description: "专为 macOS 用户打造。详解 Charles 5.0.2 ISO 镜像的正确安装姿势（ISO -> DMG -> 拖拽），并附带 HTTPS 证书信任全流程。"
 pubDate: 2026-02-08
 tags: ["Mac", "Charles", "抓包", "前端开发", "效率工具"]
+draft: true
 ---
 
 Charles (青花瓷) 更新到了 **v5.0.2**。对于 Mac 开发者来说，它是调试网络请求的神器。

@@ -3,6 +3,7 @@ title: "M系列 Mac 必装？Parallels Desktop 26 踩坑实录 & 完美激活教
 description: "别再去折腾免费的虚拟机了，PD26 目前依然是 Apple Silicon 芯片上跑 Windows 的最优解。本文记录了安装、激活以及性能优化的全过程。"
 pubDate: 2026-02-08
 tags: ["Mac", "虚拟机", "Windows", "Parallels Desktop", "效率工具", "激活教程"]
+draft: true
 ---
 
 说实话，如果不是为了那几个“万年不更新”的 Windows 独占软件（某行网银、单位的报税系统，或者是为了在摸鱼时打两把老游戏），我真不想在我的 Mac 上装虚拟机。

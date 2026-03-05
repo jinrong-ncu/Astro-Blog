@@ -3,6 +3,7 @@ title: "Spotlight 的完美替代者：Raycast，让你的 Mac 听话十倍"
 description: "别再用 Alfred 了（虽然它也很好）。Raycast 免费、好看、插件多到离谱。剪贴板历史、窗口管理、ChatGPT...一个入口全部搞定。"
 pubDate: 2026-02-09
 tags: ["Mac", "Raycast", "效率", "启动器", "黑科技"]
+draft: true
 ---
 
 很多 Mac 用户可能从来没用过 Spotlight（就是按 `Command + 空格` 弹出的那个搜索框），或者只是拿它来搜搜文件。
