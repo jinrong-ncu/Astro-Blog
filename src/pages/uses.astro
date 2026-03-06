@@ -12,6 +12,7 @@ import {
     Download,
     Camera,
 } from "lucide-react";
+import { AUTHOR_NAME } from "../consts";
 import "../styles/global.css";
 
 const items = [
@@ -62,7 +63,7 @@ const items = [
 ];
 ---
 
-<Layout title="Uses - 荣十一">
+<Layout title={`Uses - ${AUTHOR_NAME}`}>
     <div class="max-w-5xl mx-auto px-6 py-12 md:py-20 animate-fade-in">
         <div class="mb-16">
             <h1 class="text-4xl font-bold mb-6 text-zinc-900 dark:text-white">

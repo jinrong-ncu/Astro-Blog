@@ -4,7 +4,7 @@ import ThemeToggle from "../components/ThemeToggle";
 import Search from "../components/Search.astro";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
-import { SITE_TITLE, SITE_DESCRIPTION, AUTHOR } from "../consts";
+import { SITE_TITLE, SITE_DESCRIPTION, AUTHOR_NAME } from "../consts";
 
 interface Props {
   title: string;
@@ -31,7 +31,7 @@ const { title, description = SITE_DESCRIPTION } = Astro.props;
     <meta
       property="og:image"
       content={new URL(
-        `/og/${Astro.url.pathname === "/" ? "hello-荣十一" : Astro.url.pathname.replace(/^\/blog\//, "").replace(/\/$/, "")}.png`,
+        `/og/${Astro.url.pathname === "/" ? `hello-${AUTHOR_NAME}` : Astro.url.pathname.replace(/^\/blog\//, "").replace(/\/$/, "")}.png`,
         Astro.site || "http://localhost:4321",
       ).href}
     />

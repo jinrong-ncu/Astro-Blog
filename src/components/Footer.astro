@@ -1,5 +1,11 @@
 ---
-import { SITE_TITLE, AUTHOR } from "../consts";
+import {
+    SITE_TITLE,
+    AUTHOR_NAME,
+    AUTHOR_GITHUB,
+    AUTHOR_TWITTER,
+    AUTHOR_EMAIL,
+} from "../consts";
 import { Github, Twitter, Rss, Mail } from "lucide-react";
 
 const today = new Date();
@@ -35,7 +41,7 @@ const today = new Date();
                 class="text-[13px] text-zinc-500 dark:text-zinc-400 font-medium tracking-tight"
             >
                 &copy; {today.getFullYear()}
-                {AUTHOR}. All rights reserved.
+                {AUTHOR_NAME}. All rights reserved.
             </p>
 
             <div
@@ -75,7 +81,7 @@ const today = new Date();
                     >/</span
                 >
                 <a
-                    href="mailto:jinrong.liu@email.ncu.edu.cn"
+                    href={`mailto:${AUTHOR_EMAIL}`}
                     class="micro-droplet-text text-[13px] font-semibold text-zinc-600 dark:text-zinc-400 px-2.5 py-1 tracking-tight"
                     >联系</a
                 >
@@ -86,7 +92,7 @@ const today = new Date();
                 class="flex items-center gap-1 bg-white/30 dark:bg-black/20 p-1 rounded-full shadow-[inset_0_1px_0_0_rgba(255,255,255,0.3)] dark:shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)] backdrop-blur-sm"
             >
                 <a
-                    href="https://github.com/jinrong-ncu"
+                    href={`https://github.com/${AUTHOR_GITHUB}`}
                     target="_blank"
                     aria-label="GitHub"
                     class="micro-droplet text-zinc-500 dark:text-zinc-400"
@@ -94,7 +100,7 @@ const today = new Date();
                     <Github size={16} strokeWidth={2.5} />
                 </a>
                 <a
-                    href="https://x.com/liujinrong"
+                    href={`https://x.com/${AUTHOR_TWITTER}`}
                     target="_blank"
                     aria-label="Twitter"
                     class="micro-droplet text-zinc-500 dark:text-zinc-400"
@@ -110,7 +116,7 @@ const today = new Date();
                     <Rss size={16} strokeWidth={2.5} />
                 </a>
                 <a
-                    href="mailto:jinrong.liu@email.ncu.edu.cn"
+                    href={`mailto:${AUTHOR_EMAIL}`}
                     aria-label="Email"
                     class="micro-droplet text-zinc-500 dark:text-zinc-400"
                 >

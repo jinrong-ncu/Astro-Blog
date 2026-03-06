@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import "../styles/global.css";
 import { getCollection } from "astro:content";
 import { Typewriter } from "../components/Typewriter";
+import { AUTHOR_NAME } from "../consts";
 
 // const posts = (await getCollection("blog")).sort(
 //   (a: any, b: any) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
@@ -15,7 +16,7 @@ const posts = (await getCollection("blog"))
   );
 ---
 
-<Layout title="荣十一 Blog">
+<Layout title={`${AUTHOR_NAME} Blog`}>
   <section class="max-w-5xl mx-auto px-6 pt-10 pb-12 relative z-10">
     <div class="space-y-2 relative max-w-3xl">
       <div class="h-8 sm:h-10 flex items-center">
