@@ -31,7 +31,7 @@ const { title, description = SITE_DESCRIPTION } = Astro.props;
     <meta
       property="og:image"
       content={new URL(
-        `/og/${Astro.url.pathname === "/" ? "hello-荣咕咕" : Astro.url.pathname.replace(/^\/blog\//, "").replace(/\/$/, "")}.png`,
+        `/og/${Astro.url.pathname === "/" ? "hello-荣十一" : Astro.url.pathname.replace(/^\/blog\//, "").replace(/\/$/, "")}.png`,
         Astro.site || "http://localhost:4321",
       ).href}
     />

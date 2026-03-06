@@ -3,7 +3,7 @@ title: "Hello World: I Built This Blog with AI"
 description: "How I built a modern, high-performance blog in one night using Astro and AI agents."
 pubDate: 2026-01-27
 tags: ["Astro", "AI", "Life"]
-author: "荣咕咕"
+author: "荣十一"
 draft: true
 ---
 
@@ -21,7 +21,7 @@ This entire blog—design, code, and content—was built by chatting with an AI 
 
 ## The Experience
 
-Building this was unlike any traditional coding experience. Instead of writing every line of boilerplate, I acted as the architect while **荣咕咕** (the AI Agent) handled the implementation.
+Building this was unlike any traditional coding experience. Instead of writing every line of boilerplate, I acted as the architect while **荣十一** (the AI Agent) handled the implementation.
 
 We hit some interesting challenges along the way, particularly with **Open Graph images**. We started with a manual `satori` setup but eventually switched to `astro-og-canvas` for better stability and easier configuration. We even added support for custom fonts to ensure Chinese characters render perfectly!
 
