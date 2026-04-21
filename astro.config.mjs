@@ -1,7 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 
-import tailwindcss from '@tailwindcss/vite';
+import UnoCSS from '@unocss/astro';
 import react from '@astrojs/react';
 import mdx from '@astrojs/mdx';
 
@@ -12,7 +12,7 @@ import rehypePrettyCode from 'rehype-pretty-code';
 export default defineConfig({
   site: 'https://liujinrong.cn',
   vite: {
-    plugins: [tailwindcss()]
+    plugins: []
   },
   markdown: {
     rehypePlugins: [
@@ -20,5 +20,5 @@ export default defineConfig({
     ]
   },
 
-  integrations: [react(), mdx(), sitemap()]
+  integrations: [react(), mdx(), sitemap(), UnoCSS({ injectReset: true })]
 });
