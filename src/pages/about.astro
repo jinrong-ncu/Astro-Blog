@@ -22,235 +22,86 @@ import "../styles/global.css";
 ---
 
 <Layout title={`关于我 - ${AUTHOR_NAME}`}>
-    <div class="max-w-4xl mx-auto px-4 py-12 md:py-20 animate-fade-in">
-        <!-- Hero Section -->
-        <div class="flex flex-col items-center text-center space-y-6 mb-20">
-            <div class="relative group">
-                <img
-                    src={`https://github.com/${AUTHOR_GITHUB}.png`}
-                    alt={`${AUTHOR_NAME} (${AUTHOR_EN})`}
-                    class="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-zinc-100 dark:border-zinc-800 shadow-xl transition-transform duration-500 group-hover:scale-105 group-hover:rotate-3"
-                />
-                <div
-                    class="absolute -bottom-2 -right-2 bg-white dark:bg-zinc-900 p-2 rounded-full border border-zinc-200 dark:border-zinc-700 shadow-sm"
-                >
-                    <div class="animate-bounce">👋</div>
+    <div class="max-w-5xl mx-auto px-4 md:px-6 py-12 md:py-20 animate-fade-in">
+        
+        <!-- Bento Grid Container -->
+        <div grid="~ cols-1 md:cols-3 lg:cols-4 flow-dense" class="gap-4 md:gap-6">
+            
+            <!-- Module A: Profile (2x2) -->
+            <div class="glass-card md:col-span-2 lg:col-span-2 row-span-2 rounded-3xl p-8 md:p-10 flex flex-col justify-between">
+                <div class="space-y-4">
+                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden border-2 border-white/20 dark:border-white/10 shadow-lg">
+                        <img src={`https://github.com/${AUTHOR_GITHUB}.png`} alt={AUTHOR_NAME} class="w-full h-full object-cover" />
+                    </div>
+                    <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-zinc-900 dark:text-white">
+                        Hi, 我是{AUTHOR_NAME} <span class="animate-bounce inline-block origin-bottom-right">👋</span>
+                    </h1>
+                    <h2 class="text-lg md:text-xl font-medium text-zinc-600 dark:text-zinc-300">
+                        前端开发工程师 / Vibe Coder
+                    </h2>
+                </div>
+                <div class="mt-8">
+                    <p class="text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-md">
+                        坐标上海。热爱代码、设计与未来。比起单纯地实现功能，我更在意像素级的极致体验与微交互的物理阻尼感。
+                    </p>
                 </div>
             </div>
 
-            <div class="space-y-2">
-                <h1
-                    class="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 to-zinc-500 dark:from-white dark:to-zinc-400"
-                >
-                    {AUTHOR_NAME} ({AUTHOR_EN})
-                </h1>
-                <p
-                    class="text-lg md:text-xl text-zinc-500 dark:text-zinc-400 font-medium"
-                >
-                    一枚热衷于通过代码“偷懒”的开发者。
-                </p>
-            </div>
-
-            <!-- Social Links -->
-            <div class="flex gap-4">
-                <a
-                    href={`https://github.com/${AUTHOR_GITHUB}`}
-                    target="_blank"
-                    class="p-3 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-900 hover:text-white dark:hover:bg-white dark:hover:text-zinc-900 transition-all duration-300 hover:scale-110"
-                >
-                    <Github className="w-5 h-5" />
-                    <span class="sr-only">GitHub</span>
-                </a>
-                <a
-                    href={`mailto:${AUTHOR_EMAIL}`}
-                    class="p-3 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-indigo-600 hover:text-white transition-all duration-300 hover:scale-110"
-                >
-                    <Mail className="w-5 h-5" />
-                    <span class="sr-only">Email</span>
-                </a>
-                <a
-                    href={`https://www.zhihu.com/people/${AUTHOR_ZHIHU}`}
-                    target="_blank"
-                    class="p-3 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-blue-500 hover:text-white transition-all duration-300 hover:scale-110"
-                >
-                    <span
-                        class="font-bold text-sm w-5 h-5 flex items-center justify-center"
-                        >知</span
-                    >
-                    <span class="sr-only">Zhihu</span>
-                </a>
-            </div>
-        </div>
-
-        <!-- Three Keywords Section -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
-            <!-- Card 1 -->
-            <div
-                class="p-6 rounded-2xl bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-100 dark:border-zinc-800/50 hover:border-zinc-300 dark:hover:border-zinc-700 transition-colors group"
-            >
-                <div
-                    class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center text-blue-600 dark:text-blue-400 mb-4 group-hover:scale-110 transition-transform"
-                >
-                    <Code2 className="w-6 h-6" />
-                </div>
-                <h3
-                    class="text-xl font-bold mb-3 text-zinc-900 dark:text-zinc-100"
-                >
-                    技术控
+            <!-- Module B: Tech Stack (2x1) -->
+            <div class="glass-card md:col-span-2 lg:col-span-2 row-span-1 rounded-3xl p-8 flex flex-col justify-center overflow-hidden">
+                <h3 class="text-sm font-semibold text-zinc-400 tracking-widest uppercase mb-6 flex items-center gap-2">
+                    <Code2 className="w-4 h-4" /> Tech Stack
                 </h3>
-                <p
-                    class="text-zinc-600 dark:text-zinc-400 leading-relaxed text-sm"
-                >
-                    热衷于折腾各种新技术（比如React、Vue、Astro、Node、Python、Rust等）
-                </p>
-            </div>
-
-            <!-- Card 2 -->
-            <div
-                class="p-6 rounded-2xl bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-100 dark:border-zinc-800/50 hover:border-purple-200 dark:hover:border-purple-800/50 transition-colors group"
-            >
-                <div
-                    class="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-xl flex items-center justify-center text-purple-600 dark:text-purple-400 mb-4 group-hover:scale-110 transition-transform"
-                >
-                    <Zap className="w-6 h-6" />
+                <!-- 水平滚动容器 -->
+                <div class="flex items-center gap-4 md:gap-6 overflow-x-auto pb-2 scrollbar-hide">
+                    {/* 使用 UnoCSS preset-icons 图标，或者随便画个带首字母的色块兜底 */}
+                    <div class="w-14 h-14 shrink-0 rounded-2xl bg-white/50 dark:bg-white/5 flex items-center justify-center border border-zinc-200/50 dark:border-white/5 shadow-sm hover:scale-110 transition-transform duration-300 ease-[cubic-bezier(0.25,0.8,0.25,1)]">
+                        <div class="text-2xl font-bold text-sky-500">Re</div>
+                    </div>
+                    <div class="w-14 h-14 shrink-0 rounded-2xl bg-white/50 dark:bg-white/5 flex items-center justify-center border border-zinc-200/50 dark:border-white/5 shadow-sm hover:scale-110 transition-transform duration-300 ease-[cubic-bezier(0.25,0.8,0.25,1)]">
+                        <div class="text-2xl font-bold text-emerald-500">Vue</div>
+                    </div>
+                    <div class="w-14 h-14 shrink-0 rounded-2xl bg-white/50 dark:bg-white/5 flex items-center justify-center border border-zinc-200/50 dark:border-white/5 shadow-sm hover:scale-110 transition-transform duration-300 ease-[cubic-bezier(0.25,0.8,0.25,1)]">
+                        <div class="text-2xl font-bold text-blue-600">TS</div>
+                    </div>
+                    <div class="w-14 h-14 shrink-0 rounded-2xl bg-white/50 dark:bg-white/5 flex items-center justify-center border border-zinc-200/50 dark:border-white/5 shadow-sm hover:scale-110 transition-transform duration-300 ease-[cubic-bezier(0.25,0.8,0.25,1)]">
+                        <div class="text-2xl font-bold text-green-600">Node</div>
+                    </div>
+                    <div class="w-14 h-14 shrink-0 rounded-2xl bg-white/50 dark:bg-white/5 flex items-center justify-center border border-zinc-200/50 dark:border-white/5 shadow-sm hover:scale-110 transition-transform duration-300 ease-[cubic-bezier(0.25,0.8,0.25,1)]">
+                        <div class="text-2xl font-bold text-orange-600">Ast</div>
+                    </div>
+                    <div class="w-14 h-14 shrink-0 rounded-2xl bg-white/50 dark:bg-white/5 flex items-center justify-center border border-zinc-200/50 dark:border-white/5 shadow-sm hover:scale-110 transition-transform duration-300 ease-[cubic-bezier(0.25,0.8,0.25,1)]">
+                        <Monitor className="w-6 h-6 text-zinc-700 dark:text-zinc-300" />
+                    </div>
                 </div>
-                <h3
-                    class="text-xl font-bold mb-3 text-zinc-900 dark:text-zinc-100"
-                >
-                    效率癖
-                </h3>
-                <p
-                    class="text-zinc-600 dark:text-zinc-400 leading-relaxed text-sm"
-                >
-                    难以忍受重复劳动。如果一件事情需要做三次，我一定会写个程序自动化它。
-                </p>
             </div>
 
-            <!-- Card 3 -->
-            <div
-                class="p-6 rounded-2xl bg-zinc-50 dark:bg-zinc-900/50 border border-zinc-100 dark:border-zinc-800/50 hover:border-orange-200 dark:hover:border-orange-800/50 transition-colors group"
-            >
-                <div
-                    class="w-12 h-12 bg-orange-100 dark:bg-orange-900/30 rounded-xl flex items-center justify-center text-orange-600 dark:text-orange-400 mb-4 group-hover:scale-110 transition-transform"
-                >
-                    <Coffee className="w-6 h-6" />
+            <!-- Module C: Gear & Life (1x1) -->
+            <div class="glass-card md:col-span-1 lg:col-span-1 row-span-1 rounded-3xl relative overflow-hidden group min-h-[220px]">
+                <!-- 预留背景图：这里先用渐变代替 -->
+                <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 group-hover:scale-110 group-hover:saturate-150 transition-all duration-700 ease-[cubic-bezier(0.25,0.8,0.25,1)]"></div>
+                
+                <div class="absolute inset-x-0 bottom-0 p-4 bg-white/30 dark:bg-black/30 backdrop-blur-xl border-t border-white/20 dark:border-white/10">
+                    <p class="text-sm font-medium text-zinc-900 dark:text-white flex items-center gap-2">
+                        <Camera className="w-4 h-4" />
+                        Photography & Vlog
+                    </p>
                 </div>
-                <h3
-                    class="text-xl font-bold mb-3 text-zinc-900 dark:text-zinc-100"
-                >
-                    生活家
-                </h3>
-                <p
-                    class="text-zinc-600 dark:text-zinc-400 leading-relaxed text-sm"
-                >
-                    代码不是全部。工作之余，我喜欢摄影，正在努力寻找技术与生活的平衡点。
-                </p>
-            </div>
-        </div>
-
-        <!-- My Gear/Stack -->
-        <div class="mb-20">
-            <h2
-                class="text-2xl font-bold mb-8 text-center md:text-left flex items-center gap-3"
-            >
-                <Monitor className="w-6 h-6" />
-                <span
-                    class="bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 to-zinc-600 dark:from-white dark:to-zinc-400"
-                    >装备 & 工具</span
-                >
-            </h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {
-                    [
-                        {
-                            name: "MacBook M2 Max",
-                            icon: Monitor,
-                            desc: "主力生产力",
-                        },
-                        { name: "VS Code", icon: Code2, desc: "代码编辑器" },
-                        { name: "PyCharm", icon: Code2, desc: "代码编辑器" },
-                        { name: "Antigravity", icon: Code2, desc: "AI助手" },
-                        // { name: "Raycast", icon: Zap, desc: "效率启动器" },
-                        // { name: "CleanShot X", icon: Camera, desc: "截图神器" },
-                    ].map((item) => (
-                        <div class="p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors group">
-                            <div class="flex items-center gap-3 mb-2">
-                                <item.icon className="w-5 h-5 text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-zinc-100" />
-                                <span class="font-medium text-zinc-900 dark:text-zinc-100">
-                                    {item.name}
-                                </span>
-                            </div>
-                            <p class="text-xs text-zinc-500">{item.desc}</p>
-                        </div>
-                    ))
-                }
-            </div>
-        </div>
-
-        <div
-            class="rounded-3xl p-8 md:p-12 text-center relative overflow-hidden
-    /* 背景色：亮模式浅灰，暗模式深灰 */
-    bg-zinc-100 dark:bg-zinc-800/50
-    /* 文字颜色：亮模式深黑，暗模式白 */
-    text-zinc-900 dark:text-white"
-        >
-            <div class="absolute inset-0 opacity-5 dark:opacity-10">
-                <svg width="100%" height="100%">
-                    <pattern
-                        id="grid"
-                        width="40"
-                        height="40"
-                        patternUnits="userSpaceOnUse"
-                    >
-                        <path
-                            d="M 40 0 L 0 0 0 40"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="1"></path>
-                    </pattern>
-                    <rect width="100%" height="100%" fill="url(#grid)"></rect>
-                </svg>
             </div>
 
-            <div class="relative z-10">
-                <h2 class="text-2xl md:text-3xl font-bold mb-4">
-                    随时欢迎交流
-                </h2>
-                <p
-                    class="mb-8 max-w-lg mx-auto
-            /* 副标题颜色：稍微淡一点的灰 */
-            text-zinc-600 dark:text-zinc-400"
-                >
-                    如果你想聊聊 Mac 工具，欢迎通过邮件联系我。
-                </p>
-
-                <a
-                    href={`mailto:${AUTHOR_EMAIL}`}
-                    class="inline-flex items-center gap-2 px-6 py-3 rounded-full font-medium hover:scale-105 transition-transform shadow-lg
-            /* 按钮背景：亮模式黑底，暗模式白底 */
-            bg-zinc-900 dark:bg-white
-            /* 按钮文字：亮模式白字，暗模式黑字 */
-            text-white dark:text-zinc-900"
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="18"
-                        height="18"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="lucide lucide-mail"
-                        ><rect width="20" height="16" x="2" y="4" rx="2"
-                        ></rect><path
-                            d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"
-                        ></path></svg
-                    >
-                    发送邮件
-                </a>
+            <!-- Module D: Side Quests (1x1) -->
+            <div class="glass-card md:col-span-1 lg:col-span-1 row-span-1 rounded-3xl p-6 flex flex-col justify-between min-h-[220px]">
+                <div class="w-12 h-12 rounded-xl bg-orange-500/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-500 ease-[cubic-bezier(0.25,0.8,0.25,1)]">
+                    <Zap className="w-6 h-6 text-orange-500" />
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-zinc-900 dark:text-white mb-2">Side Quests</h3>
+                    <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                        折腾日常，搞点好玩的开源组件和小程序。
+                    </p>
+                </div>
             </div>
+
         </div>
     </div>
 </Layout>

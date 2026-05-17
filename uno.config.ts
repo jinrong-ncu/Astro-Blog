@@ -74,5 +74,8 @@ export default defineConfig({
   ],
   shortcuts: [
     ['transition-spring', 'transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)]'],
+    ['glass-card', 'relative overflow-hidden bg-white/40 dark:bg-white/5 backdrop-blur-xl saturate-200 shadow-[inset_0_1px_0_rgba(255,255,255,0.6),0_4px_24px_rgba(0,0,0,0.02)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_4px_24px_rgba(0,0,0,0.2)] transition-all duration-500 ease-[cubic-bezier(0.25,0.8,0.25,1)] hover:-translate-y-1.5 hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.8)] dark:hover:shadow-[0_20px_40px_-10px_rgba(255,255,255,0.08),inset_0_1px_0_rgba(255,255,255,0.2)]'],
+    ['project-card', 'relative flex flex-col rounded-3xl overflow-hidden bg-white/40 dark:bg-white/5 backdrop-blur-2xl saturate-200 shadow-[inset_0_1px_0_rgba(255,255,255,0.6),0_4px_24px_rgba(0,0,0,0.02)] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_4px_24px_rgba(0,0,0,0.2)] transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-2 hover:shadow-[0_24px_48px_-12px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.8)] dark:hover:shadow-[0_24px_48px_-12px_rgba(255,255,255,0.08),inset_0_1px_0_rgba(255,255,255,0.2)]'],
+    ['glass-tag', 'bg-zinc-900/5 dark:bg-white/5 backdrop-blur-md saturate-150 border border-solid border-zinc-900/10 dark:border-white/10'],
   ],
 });

@@ -1,0 +1,102 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { AUTHOR_NAME } from "../consts";
+import { ArrowUpRight, Palette, Calculator, LineChart, Code, Sparkles } from "lucide-react";
+import "../styles/global.css";
+
+const projects = [
+    {
+        name: "Liquid Glass UI",
+        desc: "极致的毛玻璃物理动效组件库，复刻 Apple HIG 的阻尼感与通透度。",
+        icon: Palette,
+        tags: ["Astro", "UnoCSS", "React"],
+        link: "https://github.com/",
+        color: "text-purple-500",
+    },
+    {
+        name: "Treasure Calculator",
+        desc: "财富自由计算器与定投模拟器，用可视化的方式规划你的提前退休路线图。",
+        icon: Calculator,
+        tags: ["Vue", "TypeScript", "ECharts"],
+        link: "https://github.com/",
+        color: "text-emerald-500",
+    },
+    {
+        name: "A-Share Monitor",
+        desc: "极简的 A 股摸鱼盯盘助手，常驻状态栏，在老板眼皮子底下看基金。",
+        icon: LineChart,
+        tags: ["React", "Node.js", "Electron"],
+        link: "https://github.com/",
+        color: "text-red-500",
+    },
+    {
+        name: "Vibe Coder Theme",
+        desc: "专为 Vibe Coder 打造的 VS Code 极简主题，降低视觉噪音，专注代码本身。",
+        icon: Code,
+        tags: ["VS Code", "JSON"],
+        link: "https://github.com/",
+        color: "text-blue-500",
+    },
+    {
+        name: "AI Prompt Builder",
+        desc: "基于大模型的提示词组装与自动化测试工厂，支持批量跑分和评估。",
+        icon: Sparkles,
+        tags: ["Next.js", "Tailwind", "OpenAI"],
+        link: "https://github.com/",
+        color: "text-orange-500",
+    },
+];
+---
+
+<Layout title={`项目 - ${AUTHOR_NAME}`}>
+    <div class="max-w-5xl mx-auto px-4 md:px-6 py-12 md:py-20 animate-fade-in">
+        <!-- Header -->
+        <div class="flex flex-col space-y-4">
+            <h1 class="text-4xl md:text-5xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 to-zinc-500 dark:from-white dark:to-zinc-400">
+                Projects / 创造与折腾
+            </h1>
+            <p class="text-lg text-zinc-500 dark:text-zinc-400 font-medium">
+                这里存放着我写过的代码、造过的轮子，以及一些没用的奇思妙想。
+            </p>
+        </div>
+
+        <!-- Projects Grid -->
+        <div grid="~ cols-1 md:cols-2" gap="8" mt="12">
+            {projects.map((project) => (
+                <a
+                    href={project.link}
+                    target="_blank"
+                    class="group project-card"
+                >
+                    <!-- Visual Area -->
+                    <div class="h-48 w-full bg-gradient-to-br from-zinc-100 to-white dark:from-white/5 dark:to-transparent flex items-center justify-center relative overflow-hidden">
+                        <project.icon className={`w-16 h-16 ${project.color} opacity-80 group-hover:scale-110 group-hover:opacity-100 transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] drop-shadow-[0_0_16px_currentColor]`} />
+                        
+                        <div class="absolute top-6 right-6 w-8 h-8 rounded-full bg-white/50 dark:bg-black/20 backdrop-blur-md flex items-center justify-center shadow-sm opacity-0 group-hover:opacity-100 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] translate-y-2 group-hover:translate-y-0">
+                            <ArrowUpRight className="w-4 h-4 text-zinc-900 dark:text-white" />
+                        </div>
+                    </div>
+
+                    <!-- Info Area -->
+                    <div class="p-6 md:p-8 flex flex-col flex-1 bg-white/30 dark:bg-transparent">
+                        <h2 class="text-2xl font-bold text-zinc-900 dark:text-white tracking-tight mb-2 group-hover:text-black dark:group-hover:text-white transition-colors">
+                            {project.name}
+                        </h2>
+                        <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-8 flex-1">
+                            {project.desc}
+                        </p>
+
+                        <!-- Tech Stack Tags -->
+                        <div class="flex flex-wrap gap-2 mt-auto">
+                            {project.tags.map((tag) => (
+                                <span class="glass-tag inline-flex items-center rounded-lg px-2.5 py-1 text-[11px] font-semibold tracking-wide text-zinc-600 dark:text-zinc-300">
+                                    {tag}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+                </a>
+            ))}
+        </div>
+    </div>
+</Layout>
