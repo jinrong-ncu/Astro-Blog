@@ -1,15 +1,17 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import {
+    ArrowUpRight,
+    Braces,
+    Camera,
+    Code2,
     Github,
     Mail,
-    Monitor,
-    Coffee,
-    Zap,
-    Camera,
-    Smartphone,
-    Code2,
+    MapPin,
+    PenLine,
     Server,
+    Sparkles,
+    Terminal,
 } from "lucide-react";
 import {
     AUTHOR_NAME,
@@ -19,105 +21,214 @@ import {
     AUTHOR_ZHIHU,
 } from "../consts";
 import "../styles/global.css";
+
+const surfaceClass =
+    "rounded-lg border border-zinc-200/80 bg-white/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.78),0_20px_60px_-42px_rgba(24,24,27,0.5)] backdrop-blur-2xl dark:border-white/10 dark:bg-zinc-950/50 dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_24px_70px_-46px_rgba(0,0,0,0.9)]";
+const labelClass =
+    "inline-flex items-center gap-2 text-[0.78rem] font-bold uppercase tracking-[0.08em] text-zinc-500 dark:text-zinc-400";
+const bodyTextClass = "text-[0.96rem] leading-[1.85] text-zinc-600 dark:text-zinc-400";
+const actionClass =
+    "inline-flex items-center gap-2 rounded-lg border border-zinc-300/90 bg-white/70 px-3 py-2.5 text-[0.88rem] font-bold text-zinc-800 no-underline transition-all duration-150 hover:-translate-y-px hover:border-zinc-500/55 hover:bg-zinc-100/90 dark:border-zinc-700/90 dark:bg-zinc-900/70 dark:text-zinc-100 dark:hover:border-zinc-400/50 dark:hover:bg-zinc-800/90";
+
+const focusAreas = [
+    {
+        title: "产品化前端",
+        description: "把复杂交互拆得清楚，写成稳定、顺滑、容易继续迭代的体验。",
+        icon: Code2,
+        tone: "text-sky-600 bg-sky-500/10 dark:text-sky-300",
+    },
+    {
+        title: "AI 工作流",
+        description: "用 Agent 做研究、实现、复盘，把想法更快推到可验证的形态。",
+        icon: Sparkles,
+        tone: "text-violet-600 bg-violet-500/10 dark:text-violet-300",
+    },
+    {
+        title: "工程手感",
+        description: "关注类型、状态、性能和边界条件，也在意动效与界面的细枝末节。",
+        icon: Braces,
+        tone: "text-emerald-600 bg-emerald-500/10 dark:text-emerald-300",
+    },
+];
+
+const stack = [
+    "React",
+    "Vue",
+    "TypeScript",
+    "Astro",
+    "Node.js",
+    "Python",
+    "Rust",
+    "UnoCSS",
+    "Shiki",
+    "S3",
+];
+
+const now = [
+    "维护这个博客，把技术、工具和折腾过程沉淀下来。",
+    "探索 AI Agent 在真实开发流程里的边界和机会。",
+    "打磨上传、搜索、动效、微交互这类能直接改善体验的小系统。",
+];
+
+const links = [
+    {
+        label: "GitHub",
+        href: `https://github.com/${AUTHOR_GITHUB}`,
+        icon: Github,
+    },
+    {
+        label: "Email",
+        href: `mailto:${AUTHOR_EMAIL}`,
+        icon: Mail,
+    },
+    {
+        label: "Zhihu",
+        href: `https://www.zhihu.com/people/${AUTHOR_ZHIHU}`,
+        icon: ArrowUpRight,
+    },
+];
 ---
 
 <Layout title={`关于我 - ${AUTHOR_NAME}`}>
-    <div class="max-w-5xl mx-auto px-4 md:px-6 py-12 md:py-20 animate-fade-in">
-        
-        <!-- Bento Grid Container -->
-        <div grid="~ cols-1 md:cols-3 lg:cols-4 flow-dense" class="gap-4 md:gap-6">
-            
-            <!-- Module A: Profile (2x2) -->
-            <div class="glass-card md:col-span-2 lg:col-span-2 row-span-2 rounded-3xl p-8 md:p-10 flex flex-col justify-between">
-                <div class="space-y-4">
-                    <div class="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden border-2 border-white/20 dark:border-white/10 shadow-lg">
-                        <img src={`https://github.com/${AUTHOR_GITHUB}.png`} alt={AUTHOR_NAME} class="w-full h-full object-cover" />
-                    </div>
-                    <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-zinc-900 dark:text-white">
-                        Hi, 我是{AUTHOR_NAME} <span class="animate-bounce inline-block origin-bottom-right">👋</span>
-                    </h1>
-                    <h2 class="text-lg md:text-xl font-medium text-zinc-600 dark:text-zinc-300">
-                        前端开发工程师 / Vibe Coder
-                    </h2>
-                </div>
-                <div class="mt-8">
-                    <p class="text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-md">
-                        坐标上海。热爱代码、设计与未来。比起单纯地实现功能，我更在意像素级的极致体验与微交互的物理阻尼感。
-                    </p>
-                </div>
+    <section class="grid gap-4 pb-10">
+        <div
+            class="grid min-h-[430px] grid-cols-1 gap-5 lg:grid-cols-[minmax(0,0.86fr)_minmax(0,1.14fr)]"
+        >
+            <div class={`${surfaceClass} relative min-h-[300px] overflow-hidden lg:min-h-[430px]`}>
+                <img
+                    src="/about.jpg"
+                    alt={AUTHOR_NAME}
+                    class="absolute inset-0 block h-full w-full object-cover"
+                    loading="eager"
+                />
             </div>
 
-            <!-- Module B: Tech Stack (2x1) -->
-            <div class="glass-card md:col-span-2 lg:col-span-2 row-span-1 rounded-3xl p-8 flex flex-col justify-center overflow-hidden">
-                <h3 class="text-sm font-semibold text-zinc-400 tracking-widest uppercase mb-6 flex items-center gap-2">
-                    <Code2 className="w-4 h-4" /> Tech Stack
-                </h3>
-                <!-- 水平滚动容器 -->
-                <div class="flex items-center gap-4 md:gap-6 overflow-x-auto pb-2 scrollbar-hide">
-                    {/* 使用 UnoCSS preset-icons 图标，或者随便画个带首字母的色块兜底 */}
-                    <div class="w-14 h-14 shrink-0 rounded-2xl bg-white/50 dark:bg-white/5 flex items-center justify-center border border-zinc-200/50 dark:border-white/5 shadow-sm hover:scale-110 transition-transform duration-300 ease-[cubic-bezier(0.25,0.8,0.25,1)]">
-                        <div class="text-2xl font-bold text-sky-500">Re</div>
-                    </div>
-                    <div class="w-14 h-14 shrink-0 rounded-2xl bg-white/50 dark:bg-white/5 flex items-center justify-center border border-zinc-200/50 dark:border-white/5 shadow-sm hover:scale-110 transition-transform duration-300 ease-[cubic-bezier(0.25,0.8,0.25,1)]">
-                        <div class="text-2xl font-bold text-emerald-500">Vue</div>
-                    </div>
-                    <div class="w-14 h-14 shrink-0 rounded-2xl bg-white/50 dark:bg-white/5 flex items-center justify-center border border-zinc-200/50 dark:border-white/5 shadow-sm hover:scale-110 transition-transform duration-300 ease-[cubic-bezier(0.25,0.8,0.25,1)]">
-                        <div class="text-2xl font-bold text-blue-600">TS</div>
-                    </div>
-                    <div class="w-14 h-14 shrink-0 rounded-2xl bg-white/50 dark:bg-white/5 flex items-center justify-center border border-zinc-200/50 dark:border-white/5 shadow-sm hover:scale-110 transition-transform duration-300 ease-[cubic-bezier(0.25,0.8,0.25,1)]">
-                        <div class="text-2xl font-bold text-green-600">Node</div>
-                    </div>
-                    <div class="w-14 h-14 shrink-0 rounded-2xl bg-white/50 dark:bg-white/5 flex items-center justify-center border border-zinc-200/50 dark:border-white/5 shadow-sm hover:scale-110 transition-transform duration-300 ease-[cubic-bezier(0.25,0.8,0.25,1)]">
-                        <div class="text-2xl font-bold text-orange-600">Ast</div>
-                    </div>
-                    <div class="w-14 h-14 shrink-0 rounded-2xl bg-white/50 dark:bg-white/5 flex items-center justify-center border border-zinc-200/50 dark:border-white/5 shadow-sm hover:scale-110 transition-transform duration-300 ease-[cubic-bezier(0.25,0.8,0.25,1)]">
-                        <Monitor className="w-6 h-6 text-zinc-700 dark:text-zinc-300" />
-                    </div>
+            <div class="self-center pt-1 lg:p-9">
+                <div class={labelClass}>
+                    <MapPin className="h-4 w-4" />
+                    <span>Shanghai / Remote</span>
+                </div>
+
+                <h1 class="mt-5 text-[2.75rem] font-extrabold leading-[0.98] text-zinc-900 dark:text-zinc-50 sm:text-[3.6rem]">
+                    {AUTHOR_NAME}
+                </h1>
+                <p class="mt-3 text-base font-bold text-zinc-600 dark:text-zinc-300">
+                    {AUTHOR_EN}
+                </p>
+                <p class={`${bodyTextClass} mt-5 max-w-2xl`}>
+                    前端开发工程师，喜欢把产品想法、界面细节和工程实现揉到一起。这里记录技术、工具、AI 工作流，以及一些日常里值得留下的观察。
+                </p>
+
+                <div class="mt-7 flex flex-wrap gap-2.5">
+                    {
+                        links.map(({ label, href, icon: Icon }) => (
+                            <a
+                                href={href}
+                                target={href.startsWith("http") ? "_blank" : undefined}
+                                rel={href.startsWith("http") ? "noreferrer" : undefined}
+                                class={actionClass}
+                            >
+                                <Icon className="h-4 w-4" />
+                                <span>{label}</span>
+                            </a>
+                        ))
+                    }
                 </div>
             </div>
-
-            <!-- Module C: Gear & Life (1x1) -->
-            <div class="glass-card md:col-span-1 lg:col-span-1 row-span-1 rounded-3xl relative overflow-hidden group min-h-[220px]">
-                <!-- 预留背景图：这里先用渐变代替 -->
-                <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 group-hover:scale-110 group-hover:saturate-150 transition-all duration-700 ease-[cubic-bezier(0.25,0.8,0.25,1)]"></div>
-                
-                <div class="absolute inset-x-0 bottom-0 p-4 bg-white/30 dark:bg-black/30 backdrop-blur-xl border-t border-white/20 dark:border-white/10">
-                    <p class="text-sm font-medium text-zinc-900 dark:text-white flex items-center gap-2">
-                        <Camera className="w-4 h-4" />
-                        Photography & Vlog
-                    </p>
-                </div>
-            </div>
-
-            <!-- Module D: Side Quests (1x1) -->
-            <div class="glass-card md:col-span-1 lg:col-span-1 row-span-1 rounded-3xl p-6 flex flex-col justify-between min-h-[220px]">
-                <div class="w-12 h-12 rounded-xl bg-orange-500/10 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-500 ease-[cubic-bezier(0.25,0.8,0.25,1)]">
-                    <Zap className="w-6 h-6 text-orange-500" />
-                </div>
-                <div>
-                    <h3 class="text-xl font-bold text-zinc-900 dark:text-white mb-2">Side Quests</h3>
-                    <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
-                        折腾日常，搞点好玩的开源组件和小程序。
-                    </p>
-                </div>
-            </div>
-
         </div>
-    </div>
-</Layout>
 
-<style>
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    .animate-fade-in {
-        animation: fadeIn 0.8s ease-out forwards;
-    }
-</style>
+        <div class="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1.35fr)_minmax(280px,0.65fr)]">
+            <section class={`${surfaceClass} p-6`}>
+                <div class={labelClass}>
+                    <PenLine className="h-4 w-4" />
+                    <span>About</span>
+                </div>
+                <h2 class="mt-3.5 text-2xl font-extrabold leading-tight text-zinc-900 dark:text-zinc-50">
+                    我更关心：一个东西能不能被真实地用起来。
+                </h2>
+                <p class={`${bodyTextClass} mt-4`}>
+                    我做前端，但不会只停在页面切图。一个功能从交互、数据状态、边界反馈到后续维护，都应该有清楚的结构。越是小的体验，越需要认真打磨。
+                </p>
+                <p class={`${bodyTextClass} mt-3.5`}>
+                    最近我也在高频使用 AI Agent 协作开发，尝试让它进入调研、编码、验证和复盘的完整链路。这个博客本身，也是这个过程的一部分。
+                </p>
+            </section>
+
+            <aside class={`${surfaceClass} p-6`}>
+                <div class={labelClass}>
+                    <Terminal className="h-4 w-4" />
+                    <span>Now</span>
+                </div>
+                <ul class="mt-4 grid list-none gap-3.5 p-0">
+                    {
+                        now.map((item) => (
+                            <li class="relative pl-4 text-[0.92rem] leading-[1.7] text-zinc-600 dark:text-zinc-400">
+                                <span class="absolute left-0 top-[0.72em] h-1.5 w-1.5 rounded-full bg-sky-500"></span>
+                                {item}
+                            </li>
+                        ))
+                    }
+                </ul>
+            </aside>
+        </div>
+
+        <section class="grid grid-cols-1 gap-4 lg:grid-cols-3">
+            {
+                focusAreas.map(({ title, description, icon: Icon, tone }) => (
+                    <article class={`${surfaceClass} min-h-52 p-6`}>
+                        <div class={`inline-flex h-10 w-10 items-center justify-center rounded-lg ${tone}`}>
+                            <Icon className="h-5 w-5" />
+                        </div>
+                        <h3 class="mt-5 text-[1.05rem] font-extrabold text-zinc-900 dark:text-zinc-50">
+                            {title}
+                        </h3>
+                        <p class="mt-2.5 text-sm leading-[1.75] text-zinc-600 dark:text-zinc-400">
+                            {description}
+                        </p>
+                    </article>
+                ))
+            }
+        </section>
+
+        <section class={`${surfaceClass} grid grid-cols-1 items-center gap-5 p-6 lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)]`}>
+            <div>
+                <div class={labelClass}>
+                    <Server className="h-4 w-4" />
+                    <span>Stack</span>
+                </div>
+                <h2 class="mt-3.5 text-2xl font-extrabold leading-tight text-zinc-900 dark:text-zinc-50">
+                    常用技术栈
+                </h2>
+                <p class={`${bodyTextClass} mt-4`}>
+                    偏爱轻量、直接、可组合的工具。能少引入一层复杂度的时候，就让系统保持简单。
+                </p>
+            </div>
+
+            <div class="flex flex-wrap gap-2 lg:justify-end">
+                {
+                    stack.map((item) => (
+                        <span class="rounded-lg border border-zinc-300/85 bg-zinc-50/75 px-2.5 py-2 text-[0.82rem] font-bold text-zinc-700 dark:border-zinc-700/90 dark:bg-zinc-900/75 dark:text-zinc-300">
+                            {item}
+                        </span>
+                    ))
+                }
+            </div>
+        </section>
+
+        <section class={`${surfaceClass} flex flex-col items-start justify-between gap-5 p-6 sm:flex-row sm:items-center`}>
+            <div>
+                <div class={labelClass}>
+                    <Camera className="h-4 w-4" />
+                    <span>Life</span>
+                </div>
+                <p class={`${bodyTextClass} mt-2.5 max-w-3xl`}>
+                    偶尔拍照，偶尔写点工具，更多时候是在把一个小想法慢慢磨成能用的东西。
+                </p>
+            </div>
+            <a href={`mailto:${AUTHOR_EMAIL}`} class={actionClass}>
+                <Mail className="h-4 w-4" />
+                <span>联系我</span>
+            </a>
+        </section>
+    </section>
+</Layout>

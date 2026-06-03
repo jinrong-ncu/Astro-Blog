@@ -53,6 +53,7 @@ const { title, description = SITE_DESCRIPTION } = Astro.props;
       };
 
       const theme = getTheme();
+      document.documentElement.style.colorScheme = theme;
       if (theme === "dark") {
         document.documentElement.classList.add("dark");
       } else {
@@ -61,6 +62,7 @@ const { title, description = SITE_DESCRIPTION } = Astro.props;
 
       document.addEventListener("astro:after-swap", () => {
         const theme = getTheme();
+        document.documentElement.style.colorScheme = theme;
         if (theme === "dark") {
           document.documentElement.classList.add("dark");
         } else {

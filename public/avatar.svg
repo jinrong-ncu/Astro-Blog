@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Minimal Ronin avatar</title>
+  <desc id="desc">A minimal black avatar with a white R monogram and one red cut.</desc>
+  <rect width="512" height="512" rx="128" fill="#0a0a0a"/>
+  <path d="M161 376V136h117c64 0 106 38 106 96 0 47-28 82-73 95l76 49h-71l-68-45h-31v45h-56Zm56-94h57c33 0 54-19 54-50 0-30-21-49-54-49h-57v99Z" fill="#fafafa"/>
+  <path d="M360 118 145 394" stroke="#ef4444" stroke-width="18" stroke-linecap="round"/>
+  <circle cx="360" cy="118" r="12" fill="#ef4444"/>
+</svg>
