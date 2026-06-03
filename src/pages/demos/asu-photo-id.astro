@@ -1,0 +1,87 @@
+---
+import Layout from "../../layouts/Layout.astro";
+---
+
+<Layout title="ASU Photo ID - Jaclyn Shields">
+  <div
+    class="min-h-screen bg-gray-100 dark:bg-zinc-900 flex items-center justify-center p-4 font-sans"
+  >
+    <!-- ID Card Container -->
+    <div
+      class="relative w-full max-w-sm bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200 dark:border-gray-800"
+    >
+      <!-- Top Banner (ASU Maroon) -->
+      <div class="bg-[#8C1D40] h-24 flex items-center justify-between px-6">
+        <div class="text-white">
+          <h1 class="text-xl font-bold tracking-wider">ARIZONA STATE</h1>
+          <h2 class="text-sm font-semibold text-[#FFC627]">UNIVERSITY</h2>
+        </div>
+        <!-- Simple logo representation -->
+        <div
+          class="w-12 h-12 bg-[#FFC627] rounded-full flex items-center justify-center shadow-inner"
+        >
+          <span class="text-[#8C1D40] font-bold text-xl">ASU</span>
+        </div>
+      </div>
+
+      <!-- Main Content Area -->
+      <div class="p-6 relative">
+        <!-- Photo -->
+        <div
+          class="absolute -top-12 right-6 w-24 h-32 bg-gray-200 rounded-lg border-4 border-white shadow-md overflow-hidden"
+        >
+          <img
+            src="https://api.dicebear.com/7.x/notionists/svg?seed=Jaclyn"
+            alt="Jaclyn Shields"
+            class="w-full h-full object-cover bg-blue-50"
+          />
+        </div>
+
+        <div class="mt-4">
+          <div
+            class="text-sm text-gray-500 uppercase font-semibold tracking-wider"
+          >
+            Student
+          </div>
+          <h2 class="text-3xl font-bold text-gray-900 mt-1">Jaclyn</h2>
+          <h2 class="text-3xl font-bold text-gray-900 leading-tight">
+            Shields
+          </h2>
+        </div>
+
+        <div class="mt-8 space-y-3 border-t border-gray-100 pt-6">
+          <div flex="~ row" justify-between items-end>
+            <div class="text-xs text-gray-500 uppercase">ASU ID Number</div>
+            <div class="font-mono font-medium text-gray-800 text-sm">
+              1239434420
+            </div>
+          </div>
+
+          <div flex="~ row" justify-between items-end>
+            <div class="text-xs text-gray-500 uppercase">Issue Date</div>
+            <div class="font-medium text-gray-800 text-sm">Aug 15, 2023</div>
+          </div>
+        </div>
+
+        <!-- Barcode / Footer -->
+        <div class="mt-8 flex flex-col items-center">
+          <!-- Fake Barcode -->
+          <div class="w-full h-12 flex justify-between gap-[2px] opacity-80">
+            {
+              Array.from({ length: 40 }).map(() => (
+                <div
+                  class="bg-black h-full"
+                  style={`width: ${Math.random() * 4 + 1}px`}
+                />
+              ))
+            }
+          </div>
+          <div class="text-[10px] text-gray-400 mt-2 font-mono">1239434420</div>
+        </div>
+      </div>
+
+      <!-- Bottom Strip (ASU Gold) -->
+      <div class="bg-[#FFC627] h-4 w-full"></div>
+    </div>
+  </div>
+</Layout>

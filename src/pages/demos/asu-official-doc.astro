@@ -1,0 +1,170 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { Download, Printer } from "lucide-react";
+---
+
+<Layout title="ASU Official Document - Jaclyn Shields">
+  <div class="min-h-screen bg-zinc-100 dark:bg-zinc-900 py-8 px-4 font-sans">
+    <!-- Action Bar -->
+    <div class="max-w-4xl mx-auto mb-6 flex justify-end gap-4 print:hidden">
+      <button
+        class="flex items-center gap-2 px-4 py-2 bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200 rounded-lg shadow-sm hover:shadow transition border border-zinc-200 dark:border-zinc-700"
+      >
+        <Printer class="w-4 h-4" /> Print
+      </button>
+      <button
+        class="flex items-center gap-2 px-4 py-2 bg-[#8C1D40] text-white rounded-lg shadow-sm hover:bg-[#7a1836] transition"
+      >
+        <Download class="w-4 h-4" /> Download PDF
+      </button>
+    </div>
+
+    <!-- Document Paper -->
+    <div
+      class="max-w-4xl mx-auto bg-white min-h-[1056px] shadow-xl p-12 md:p-20 text-zinc-800 relative print:shadow-none print:p-0 border border-zinc-200"
+    >
+      <!-- Watermark -->
+      <div
+        class="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none select-none"
+      >
+        <div
+          class="text-[12rem] font-bold text-[#8C1D40] -rotate-45 uppercase tracking-tighter"
+        >
+          ASU
+        </div>
+      </div>
+
+      <!-- Header -->
+      <div
+        class="flex justify-between items-start border-b-2 border-[#8C1D40] pb-8 mb-8 relative z-10"
+      >
+        <div class="flex flex-col">
+          <h1
+            class="text-3xl font-bold text-[#8C1D40] tracking-tight uppercase"
+          >
+            Arizona State University
+          </h1>
+          <p class="text-zinc-500 mt-1">Office of the University Registrar</p>
+          <p class="text-zinc-500">1151 S Forest Ave, Tempe, AZ 85281</p>
+        </div>
+        <div
+          class="w-24 h-24 bg-[#8C1D40] text-[#FFC627] flex items-center justify-center rounded font-bold text-4xl shadow-md"
+        >
+          ASU
+        </div>
+      </div>
+
+      <!-- Document Meta -->
+      <div class="flex justify-between items-end mb-12 relative z-10">
+        <div>
+          <h2 class="text-xl font-bold uppercase tracking-wide text-zinc-900">
+            Official Certification of Enrollment
+          </h2>
+        </div>
+        <div class="text-right text-sm">
+          <p>
+            <span class="font-semibold">Date Issued:</span>
+            {
+              new Date().toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })
+            }
+          </p>
+          <p><span class="font-semibold">Student ID:</span> 1239434420</p>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="space-y-6 text-zinc-700 leading-relaxed relative z-10">
+        <p>To Whom It May Concern,</p>
+
+        <p>
+          This document serves as an official certification of enrollment for
+          the student listed below at Arizona State University.
+        </p>
+
+        <div class="bg-zinc-50 border border-zinc-200 p-6 rounded-md my-8">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <p class="text-sm text-zinc-500 uppercase font-semibold">
+                Student Name
+              </p>
+              <p class="text-lg font-medium text-zinc-900">Jaclyn Shields</p>
+            </div>
+            <div>
+              <p class="text-sm text-zinc-500 uppercase font-semibold">
+                Program
+              </p>
+              <p class="text-lg font-medium text-zinc-900">
+                Bachelor of Science in Computer Science
+              </p>
+            </div>
+            <div>
+              <p class="text-sm text-zinc-500 uppercase font-semibold">
+                Enrollment Status
+              </p>
+              <p
+                class="text-lg font-medium text-zinc-900 flex items-center gap-2"
+              >
+                <span class="w-2 h-2 rounded-full bg-green-500"></span> Full-Time
+              </p>
+            </div>
+            <div>
+              <p class="text-sm text-zinc-500 uppercase font-semibold">
+                Expected Graduation
+              </p>
+              <p class="text-lg font-medium text-zinc-900">May 2029</p>
+            </div>
+          </div>
+        </div>
+
+        <p>
+          Arizona State University is accredited by the Higher Learning
+          Commission. This certification is provided at the request of the
+          student and constitutes an official academic record from the
+          university.
+        </p>
+
+        <p>
+          If you require any further information, please contact the Office of
+          the University Registrar at (480) 965-3124 or registrar@asu.edu.
+        </p>
+      </div>
+
+      <!-- Signature -->
+      <div class="mt-24 w-64 relative z-10">
+        <div class="border-b border-zinc-400 pb-2 mb-2">
+          <!-- Fake Signature SVG -->
+          <svg
+            viewBox="0 0 200 50"
+            class="w-48 h-12 stroke-[#8C1D40] fill-none stroke-2"
+          >
+            <path
+              d="M 10 40 C 20 10, 30 10, 40 40 C 45 20, 50 15, 60 35 C 70 20, 80 20, 90 40 C 100 30, 110 30, 120 40 C 130 15, 140 15, 150 40 C 160 25, 170 25, 180 35 C 185 20, 190 20, 195 40"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </div>
+        <p class="font-bold text-zinc-900">Jane Doe</p>
+        <p class="text-sm text-zinc-500">University Registrar</p>
+        <p class="text-sm text-zinc-500">Arizona State University</p>
+      </div>
+
+      <!-- Footer -->
+      <div
+        class="absolute bottom-12 left-12 right-12 border-t border-zinc-200 pt-6 mt-12 text-center text-xs text-zinc-400 relative z-10"
+      >
+        <p>
+          This is an official document generated by the Arizona State University
+          student portal.
+        </p>
+        <p>
+          Alteration or forgery of this document is a violation of university
+          policy and may result in disciplinary action.
+        </p>
+      </div>
+    </div>
+  </div>
+</Layout>
