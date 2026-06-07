@@ -1,11 +1,10 @@
-
-title: "edu 邮箱可以使用哪些 Pro / 高级版产品？学生党必看的 edu 邮箱福利清单"
-description: " 大学生专属福利大揭秘！拥有 edu 邮箱，你可以免费或大幅折扣使用 ChatGPT Plus、GitHub Copilot、AWS Educate、Figma Professional 等数十款 Pro 版工具。本文详细列出每个产品的权益、适用人群、申请方式和注意事项，帮你在学习、创作和开发的路上省下大笔开销。无论是 AI 助手、云服务还是设计工具，学生党必备的福利清单都在这里！"
+---
+title: "edu 邮箱可以使用哪些 Pro / 高级版产品？"
+description: "拥有 edu 邮箱，你可以免费或大幅折扣使用 ChatGPT Plus、GitHub Copilot、AWS Educate、Figma Professional 等 Pro 版工具。本文整理常见学生权益、申请方式和注意事项，帮你少走弯路。"
 pubDate: 2026-06-01
 tags: ["edu邮箱", "学生福利", "Pro会员", "ChatGPT", "GitHub Copilot", "AWS Educate", "Figma Professional", "云服务", "设计工具"]
+author: "荣十一"
 ---
-
-## 开头引入  
 
 大学校园里最常被忽视的福利，往往就是那串 **"*.edu"** 结尾的邮箱。只要手握一张 edu 邮箱，你就能打开一大堆原本要花钱买的 **Pro 会员**、**高级版**、**学生专属计划**。从 AI 助手到云服务器，从设计工具到学习平台，几乎所有主流 SaaS 服务都有针对学生的优惠。
 
