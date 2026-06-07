@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build && npx pagefind --site dist",
+    "indexnow": "node scripts/submit-indexnow.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },

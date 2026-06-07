@@ -1,7 +1,7 @@
 ---
 title: "JetBrains 学生许可证申请教程"
 description: "JetBrains Student Pack 可以让学生和教师免费使用 IntelliJ IDEA、PyCharm、WebStorm 等专业 IDE。本文整理申请条件、适合人群和使用注意事项。"
-pubDate: 2026-06-04
+pubDate: 2026-05-18
 tags: ["JetBrains", "学生福利", "编程开发", "IDE", "edu邮箱"]
 author: "荣十一"
 ---

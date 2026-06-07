@@ -1,7 +1,7 @@
 ---
 title: "GitHub Student Developer Pack 申请教程"
 description: "GitHub Student Developer Pack 是学生开发者最值得申请的权益之一。本文整理申请条件、材料准备、审核注意事项，以及通过后怎么真正用起来。"
-pubDate: 2026-06-03
+pubDate: 2026-05-04
 tags: ["GitHub", "学生福利", "编程开发", "GitHub Copilot", "edu邮箱"]
 author: "荣十一"
 ---

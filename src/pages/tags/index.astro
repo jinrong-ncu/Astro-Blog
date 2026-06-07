@@ -1,0 +1,73 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import "../../styles/global.css";
+import { AUTHOR_NAME } from "../../consts";
+
+const posts = (await getCollection("blog")).filter((post) => !post.data.draft);
+const tagMap = new Map<string, { count: number; latest: Date }>();
+
+posts.forEach((post) => {
+  post.data.tags.forEach((tag) => {
+    const current = tagMap.get(tag);
+    if (!current) {
+      tagMap.set(tag, { count: 1, latest: post.data.pubDate });
+      return;
+    }
+
+    current.count += 1;
+    if (post.data.pubDate > current.latest) {
+      current.latest = post.data.pubDate;
+    }
+  });
+});
+
+const tags = [...tagMap.entries()]
+  .map(([name, meta]) => ({ name, ...meta }))
+  .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, "zh-CN"));
+---
+
+<Layout
+  title={`标签 - ${AUTHOR_NAME}`}
+  description={`按标签浏览 ${AUTHOR_NAME} 的博客文章，包含学习工具、AI、全栈开发、个人网站和效率方法。`}
+>
+  <section class="space-y-10">
+    <div class="max-w-2xl space-y-4">
+      <h1 class="text-4xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-5xl">
+        标签
+      </h1>
+      <p class="text-lg leading-relaxed text-zinc-500 dark:text-zinc-400">
+        按主题浏览文章。数字越大，说明这个方向我写得越多，也越可能继续更新。
+      </p>
+    </div>
+
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        tags.map((tag) => (
+          <a
+            href={`/tags/${encodeURIComponent(tag.name)}/`}
+            class="group rounded-lg border border-zinc-200/80 bg-white/60 p-5 backdrop-blur-xl transition-all hover:-translate-y-1 hover:border-zinc-300 hover:bg-white/80 dark:border-white/10 dark:bg-zinc-950/50 dark:hover:border-white/20 dark:hover:bg-zinc-900/70"
+          >
+            <div class="flex items-start justify-between gap-4">
+              <h2 class="text-xl font-extrabold tracking-tight text-zinc-900 group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-300">
+                #{tag.name}
+              </h2>
+              <span class="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-bold text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">
+                {tag.count}
+              </span>
+            </div>
+            <p class="mt-4 text-sm text-zinc-500 dark:text-zinc-400">
+              最近更新：{
+                tag.latest.toLocaleDateString("zh-CN", {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })
+              }
+            </p>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</Layout>

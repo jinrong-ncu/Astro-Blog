@@ -3,9 +3,10 @@ import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import "../../styles/global.css";
 import Comments from "../../components/Comments.astro";
+import { AUTHOR_NAME, SITE_TITLE } from "../../consts";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog");
+  const posts = (await getCollection("blog")).filter((post) => !post.data.draft);
   return posts.map((entry) => ({
     params: { slug: entry.slug },
     props: { entry },
@@ -14,17 +15,91 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await entry.render();
+const posts = (await getCollection("blog"))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const articleUrl = new URL(`/blog/${entry.slug}/`, Astro.site || "https://liujinrong.cn").href;
+const imageUrl = new URL(`/og/${entry.slug}.png`, Astro.site || "https://liujinrong.cn").href;
+const relatedPosts = posts
+  .filter((post) => post.slug !== entry.slug)
+  .map((post) => ({
+    post,
+    score: post.data.tags.filter((tag) => entry.data.tags.includes(tag)).length,
+  }))
+  .filter(({ score }) => score > 0)
+  .sort((a, b) => b.score - a.score || b.post.data.pubDate.valueOf() - a.post.data.pubDate.valueOf())
+  .slice(0, 3)
+  .map(({ post }) => post);
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": `${articleUrl}#article`,
+      headline: entry.data.title,
+      description: entry.data.description,
+      image: imageUrl,
+      url: articleUrl,
+      datePublished: entry.data.pubDate.toISOString(),
+      dateModified: entry.data.pubDate.toISOString(),
+      inLanguage: "zh-CN",
+      keywords: entry.data.tags.join(", "),
+      author: {
+        "@type": "Person",
+        name: entry.data.author || AUTHOR_NAME,
+      },
+      publisher: {
+        "@type": "Person",
+        name: AUTHOR_NAME,
+      },
+      isPartOf: {
+        "@type": "Blog",
+        name: SITE_TITLE,
+        url: new URL("/", Astro.site || "https://liujinrong.cn").href,
+      },
+      mainEntityOfPage: {
+        "@type": "WebPage",
+        "@id": articleUrl,
+      },
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${articleUrl}#breadcrumb`,
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "首页",
+          item: new URL("/", Astro.site || "https://liujinrong.cn").href,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: entry.data.title,
+          item: articleUrl,
+        },
+      ],
+    },
+  ],
+};
 ---
 
-<Layout title={entry.data.title}>
-  <article class="max-w-3xl mx-auto pt-10 pb-20">
-    <header class="mb-10 text-center space-y-4">
-      <div class="flex justify-center gap-2 mb-6">
+<Layout
+  title={entry.data.title}
+  description={entry.data.description}
+  type="article"
+  canonical={articleUrl}
+  jsonLd={jsonLd}
+>
+  <article class="max-w-3xl mx-auto pt-8 pb-20">
+    <header class="mb-12 text-center">
+      <div class="mx-auto mb-6 flex max-w-3xl flex-wrap justify-center gap-2">
         {
           entry.data.tags.map((tag) => (
             <a
               href={`/tags/${tag}`}
-              class="inline-flex items-center rounded-full bg-zinc-100 dark:bg-zinc-800 px-3 py-1 text-xs font-medium text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors"
+              class="inline-flex items-center rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-600 transition-colors hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
             >
               {tag}
             </a>
@@ -33,14 +108,14 @@ const { Content } = await entry.render();
       </div>
 
       <h1
-        class="text-4xl md:text-5xl font-bold tracking-tight text-zinc-900 dark:text-white text-balance"
+        class="mx-auto max-w-3xl text-balance text-3xl font-bold leading-tight tracking-tight text-zinc-900 dark:text-white sm:text-4xl md:text-[2.75rem]"
         transition:name={`title-${entry.slug}`}
       >
         {entry.data.title}
       </h1>
 
       <div
-        class="text-zinc-500 dark:text-zinc-400 flex items-center justify-center gap-2 text-sm"
+        class="mt-5 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-sm text-zinc-500 dark:text-zinc-400"
       >
         <time
           >{
@@ -69,6 +144,41 @@ const { Content } = await entry.render();
     >
       <Content />
     </div>
+
+    {
+      relatedPosts.length > 0 && (
+        <aside class="mt-16 border-t border-zinc-200/70 pt-8 dark:border-zinc-800/80">
+          <h2 class="text-xl font-bold text-zinc-900 dark:text-zinc-50">
+            继续阅读
+          </h2>
+          <div class="mt-5 grid gap-4 sm:grid-cols-3">
+            {relatedPosts.map((post) => (
+              <a
+                href={`/blog/${post.slug}/`}
+                class="group rounded-lg border border-zinc-200/80 bg-white/60 p-4 transition-colors hover:border-zinc-300 hover:bg-white dark:border-white/10 dark:bg-zinc-900/50 dark:hover:border-white/20 dark:hover:bg-zinc-900"
+              >
+                <time
+                  datetime={post.data.pubDate.toISOString()}
+                  class="text-xs font-medium text-zinc-400"
+                >
+                  {post.data.pubDate.toLocaleDateString("zh-CN", {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                  })}
+                </time>
+                <h3 class="mt-2 text-sm font-bold leading-snug text-zinc-900 group-hover:text-blue-600 dark:text-zinc-100 dark:group-hover:text-blue-300">
+                  {post.data.title}
+                </h3>
+                <p class="mt-2 line-clamp-2 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
+                  {post.data.description}
+                </p>
+              </a>
+            ))}
+          </div>
+        </aside>
+      )
+    }
   </article>
   <Comments />
 

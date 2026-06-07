@@ -1,10 +1,28 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import {
+    Bot,
+    BookOpen,
+    Brain,
+    Brush,
+    Cable,
     Monitor,
     Cpu,
+    Database,
+    FileText,
+    FolderSync,
+    GitBranch,
     Keyboard,
     Code2,
+    Layers,
+    MessageSquareText,
+    MousePointer2,
+    Network,
+    NotebookPen,
+    PanelsTopLeft,
+    PencilRuler,
+    Search,
+    ShieldCheck,
     Terminal,
     Globe,
     Zap,
@@ -20,7 +38,7 @@ const items = [
         category: "核心装备 (Workstation)",
         icon: Monitor,
         list: [
-            { name: 'MacBook Pro 14"', desc: "M4 Max / 32GB / 1TB", icon: Cpu },
+            { name: 'MacBook Pro 16"', desc: "M2 Max / 64GB / 8TB", icon: Cpu },
             {
                 name: "LG 27UP850",
                 desc: "4K Display / Type-C 96W",
@@ -30,6 +48,11 @@ const items = [
                 name: "HHKB Professional Hybrid",
                 desc: "Type-S / 静电容",
                 icon: Keyboard,
+            },
+            {
+                name: "Magic Trackpad",
+                desc: "手势、窗口切换和轻量浏览",
+                icon: MousePointer2,
             },
         ],
     },
@@ -42,11 +65,98 @@ const items = [
                 desc: "Theme: Vercel Dark / Font: JetBrains Mono",
                 icon: Code2,
             },
+            {
+                name: "Cursor",
+                desc: "AI IDE，适合多文件理解和快速改稿",
+                icon: Bot,
+            },
+            {
+                name: "Windsurf",
+                desc: "Agentic IDE，适合连续上下文开发",
+                icon: PanelsTopLeft,
+            },
             { name: "Warp", desc: "Rust-based Terminal / Zsh", icon: Terminal },
+            { name: "iTerm2", desc: "稳定备用终端与 SSH 会话", icon: Terminal },
             {
                 name: "Arc Browser",
-                desc: "The Chrome replacement",
+                desc: "主力浏览器与工作区管理",
                 icon: Globe,
+            },
+            {
+                name: "Chrome",
+                desc: "调试、兼容性测试和扩展生态",
+                icon: Globe,
+            },
+            {
+                name: "Postman",
+                desc: "API 调试、集合管理和接口验证",
+                icon: Network,
+            },
+            {
+                name: "TablePlus",
+                desc: "数据库连接、查询和轻量管理",
+                icon: Database,
+            },
+        ],
+    },
+    {
+        category: "AI Agents / Coding Assistants",
+        icon: Bot,
+        list: [
+            {
+                name: "Codex",
+                desc: "OpenAI coding agent，适合仓库级任务和代码审查",
+                icon: Bot,
+            },
+            {
+                name: "Claude Code",
+                desc: "终端里的 agentic coding system，适合重构和测试迭代",
+                icon: Terminal,
+            },
+            {
+                name: "GitHub Copilot",
+                desc: "编辑器内补全、Chat 和 PR 辅助",
+                icon: Code2,
+            },
+            {
+                name: "Gemini CLI",
+                desc: "命令行 AI 助手，适合脚本和上下文查询",
+                icon: Terminal,
+            },
+            {
+                name: "Cline / Roo Code",
+                desc: "VS Code 内的 agent 执行与工具调用",
+                icon: Cable,
+            },
+            {
+                name: "Aider",
+                desc: "Git-aware 结对编程，适合小步提交",
+                icon: GitBranch,
+            },
+            {
+                name: "Continue",
+                desc: "开源 AI 编程插件，适合自定义模型工作流",
+                icon: Cable,
+            },
+            {
+                name: "Devin",
+                desc: "异步工程任务代理，适合观察长期 agent 形态",
+                icon: Brain,
+            },
+            {
+                name: "ChatGPT",
+                desc: "方案讨论、代码解释、写作和调试复盘",
+                icon: MessageSquareText,
+            },
+            {
+                name: "Claude",
+                desc: "长文档理解、产品推演和复杂写作",
+                icon: Brain,
+            },
+            {
+                name: "Perplexity",
+                desc: "带来源的信息检索和资料梳理",
+                icon: Search,
             },
         ],
     },
@@ -54,32 +164,95 @@ const items = [
         category: "效率神器 (Productivity)",
         icon: Zap,
         list: [
-            { name: "Raycast", desc: "Spotlight 的完美替代", icon: Zap },
-            { name: "CleanShot X", desc: "Mac 截图录屏天花板", icon: Camera },
-            { name: "AlDente Pro", desc: "电池健康管理", icon: Battery },
-            { name: "Downie 4", desc: "万能视频下载器", icon: Download },
+            { name: "Raycast", desc: "启动器与快捷操作中心", icon: Zap },
+            { name: "uTools", desc: "插件化效率工具和本地小组件", icon: Layers },
+            { name: "Bob", desc: "划词翻译、OCR 和多引擎翻译", icon: Search },
+            { name: "CleanShot X", desc: "截图、标注与录屏工具", icon: Camera },
+            { name: "AlDente", desc: "电池充电习惯管理", icon: Battery },
+            { name: "Downie", desc: "个人素材整理工具", icon: Download },
+            { name: "IINA", desc: "本地视频播放和素材预览", icon: PanelsTopLeft },
+            { name: "The Unarchiver", desc: "压缩包解压与格式兼容", icon: FolderSync },
+            { name: "AppCleaner", desc: "应用卸载和残留文件清理", icon: ShieldCheck },
+        ],
+    },
+    {
+        category: "笔记与写作 (Notes & Writing)",
+        icon: NotebookPen,
+        list: [
+            { name: "Notion", desc: "项目、资料、任务和内容库", icon: NotebookPen },
+            { name: "Obsidian", desc: "Markdown 本地知识库和双链笔记", icon: Brain },
+            { name: "Typora", desc: "长文 Markdown 写作和排版预览", icon: FileText },
+            { name: "MindNode", desc: "思维导图、结构梳理和选题拆解", icon: Network },
+            { name: "Apple Notes", desc: "随手记录和跨设备同步", icon: NotebookPen },
+            { name: "Readwise Reader", desc: "稍后读、摘录和阅读流整理", icon: BookOpen },
+            { name: "Zotero", desc: "论文、引用和资料管理", icon: BookOpen },
+            { name: "Craft", desc: "轻量文档、周报和结构化草稿", icon: FileText },
+            { name: "MWeb", desc: "Markdown 博客写作备用工具", icon: FileText },
+        ],
+    },
+    {
+        category: "设计与媒体 (Design & Media)",
+        icon: Brush,
+        list: [
+            { name: "Figma", desc: "UI、原型、流程图和团队协作", icon: PencilRuler },
+            { name: "FigJam", desc: "白板、头脑风暴和流程梳理", icon: Brush },
+            { name: "Canva", desc: "展示图、海报和社媒素材", icon: Brush },
+            { name: "Pixelmator Pro", desc: "图片编辑和轻量设计处理", icon: Camera },
+            { name: "CapCut", desc: "短视频剪辑和演示素材处理", icon: PanelsTopLeft },
+            { name: "Screen Studio", desc: "产品演示录屏和教程视频", icon: Camera },
+            { name: "OBS Studio", desc: "直播、录屏和多源采集", icon: Camera },
+        ],
+    },
+    {
+        category: "云服务与同步 (Cloud & Sync)",
+        icon: FolderSync,
+        list: [
+            { name: "GitHub", desc: "代码托管、项目展示和协作", icon: Code2 },
+            { name: "Vercel", desc: "前端项目和静态站点部署", icon: Globe },
+            { name: "Cloudflare", desc: "DNS、Pages、Workers 和 CDN", icon: Globe },
+            { name: "Supabase", desc: "Postgres、Auth 和轻量后端", icon: Database },
+            { name: "Cloudflare R2", desc: "对象存储和静态资源托管", icon: Database },
+            { name: "iCloud Drive", desc: "桌面文件和 Apple 设备同步", icon: FolderSync },
+            { name: "OneDrive", desc: "文档、课程资料和备份", icon: FolderSync },
+        ],
+    },
+    {
+        category: "浏览与信息流 (Research)",
+        icon: Globe,
+        list: [
+            { name: "Arc", desc: "Spaces 管理不同项目上下文", icon: Globe },
+            { name: "Chrome DevTools", desc: "前端调试、性能和网络面板", icon: Code2 },
+            { name: "Safari", desc: "WebKit 兼容性和 Apple 端检查", icon: Globe },
+            { name: "RSS", desc: "博客、技术站和产品更新订阅", icon: BookOpen },
+            { name: "GitHub Trending", desc: "开源项目观察和技术雷达", icon: Search },
+            { name: "Product Hunt", desc: "产品灵感和工具趋势观察", icon: Search },
         ],
     },
 ];
+
+const lastUpdated = "Jun 2026";
 ---
 
-<Layout title={`Uses - ${AUTHOR_NAME}`}>
+<Layout
+    title={`Uses - ${AUTHOR_NAME}`}
+    description={`${AUTHOR_NAME} 的硬件、开发环境、AI agents、效率工具、笔记写作和云服务清单。`}
+>
     <div class="max-w-5xl mx-auto px-6 py-12 md:py-20 animate-fade-in">
         <div class="mb-16">
             <h1 class="text-4xl font-bold mb-6 text-zinc-900 dark:text-white">
                 Uses
             </h1>
-            <p class="text-zinc-500 dark:text-zinc-400 text-lg max-w-2xl">
-                工欲善其事，必先利其器。这里列出了我日常工作和生活中使用的硬件与软件。
+            <p class="text-zinc-500 dark:text-zinc-400 text-lg max-w-3xl leading-relaxed">
+                工具会变，但工作流会留下来。这里整理我日常开发、写作、学习、AI 协作和内容创作里常用的硬件与软件。
             </p>
             <div
                 class="mt-6 mb-6 inline-flex items-center text-xs font-medium px-2.5 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400"
             >
-                Last Updated: Feb 2026
+                Last Updated: {lastUpdated}
             </div>
         </div>
 
-        <div class="space-y-20">
+        <div class="space-y-16">
             {
                 items.map((section) => (
                     <section class="mb-8">
@@ -88,14 +261,14 @@ const items = [
                             {section.category}
                         </h2>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {section.list.map((item) => (
-                                <div class="p-6 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/60 bg-white dark:bg-zinc-900/50 hover:border-zinc-300 dark:hover:border-zinc-700 transition-colors group">
-                                    <div class="flex items-start gap-5">
-                                        <div class="p-3 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-zinc-100 transition-colors">
-                                            <item.icon className="w-6 h-6" />
+                                <div class="p-5 rounded-lg border border-zinc-200/60 dark:border-zinc-800/60 bg-white/70 dark:bg-zinc-900/50 hover:border-zinc-300 dark:hover:border-zinc-700 transition-colors group">
+                                    <div class="flex items-start gap-4">
+                                        <div class="p-2.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-zinc-100 transition-colors">
+                                            <item.icon className="w-5 h-5" />
                                         </div>
-                                        <div>
+                                        <div class="min-w-0">
                                             <h3 class="font-bold text-zinc-900 dark:text-zinc-100 text-lg mb-1">
                                                 {item.name}
                                             </h3>

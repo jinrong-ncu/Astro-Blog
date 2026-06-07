@@ -23,8 +23,8 @@ const { posts } = Astro.props;
 ---
 
 <Layout
-    title={`Posts tagged " #${tag}"`}
-    description={`Blog posts tagged with #${tag}`}
+    title={`#${tag} 相关文章 - 荣十一`}
+    description={`这里整理了 ${posts.length} 篇关于「${tag}」的文章，包含学习工具、个人网站、开发实践和效率方法。`}
 >
     <section class="space-y-12">
         <div class="space-y-4 max-w-2xl">

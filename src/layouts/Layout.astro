@@ -9,9 +9,25 @@ import { SITE_TITLE, SITE_DESCRIPTION, AUTHOR_NAME } from "../consts";
 interface Props {
   title: string;
   description?: string;
+  type?: "website" | "article";
+  canonical?: string;
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
-const { title, description = SITE_DESCRIPTION } = Astro.props;
+const {
+  title,
+  description = SITE_DESCRIPTION,
+  type = "website",
+  canonical,
+  noindex = false,
+  jsonLd,
+} = Astro.props;
+
+const canonicalUrl = canonical ?? Astro.url.href;
+const jsonLdValue = jsonLd
+  ? JSON.stringify(jsonLd).replace(/</g, "\\u003c")
+  : undefined;
 ---
 
 <!doctype html>
@@ -20,7 +36,10 @@ const { title, description = SITE_DESCRIPTION } = Astro.props;
     <meta name="baidu-site-verification" content="codeva-Bq9PHADdgr" />
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
+    <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow"} />
     <meta name="viewport" content="width=device-width" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" type="application/rss+xml" title={`${SITE_TITLE} RSS`} href={new URL("/rss.xml", Astro.site || "https://liujinrong.cn").href} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <script
       async
@@ -30,8 +49,8 @@ const { title, description = SITE_DESCRIPTION } = Astro.props;
     <title>{title}</title>
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={Astro.url} />
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalUrl} />
     <meta
       property="og:image"
       content={new URL(
@@ -40,6 +59,7 @@ const { title, description = SITE_DESCRIPTION } = Astro.props;
       ).href}
     />
     <meta name="twitter:card" content="summary_large_image" />
+    {jsonLdValue && <script type="application/ld+json" set:html={jsonLdValue} />}
     <ClientRouter />
 
     <script is:inline>

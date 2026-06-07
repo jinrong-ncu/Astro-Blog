@@ -1,7 +1,7 @@
 ---
 title: "Microsoft 365 Education 学生版怎么用"
 description: "很多学校都支持 Microsoft 365 Education，但学生常常不知道怎么开通、能用哪些功能、和普通 Microsoft 365 有什么区别。本文做一次清晰整理。"
-pubDate: 2026-06-06
+pubDate: 2026-06-01
 tags: ["Microsoft 365", "Office", "学生福利", "学习工具", "edu邮箱"]
 author: "荣十一"
 ---

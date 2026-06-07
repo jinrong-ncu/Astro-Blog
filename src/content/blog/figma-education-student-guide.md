@@ -1,7 +1,7 @@
 ---
 title: "Figma Education 学生版申请教程"
 description: "Figma 不只是 UI 设计工具，也很适合学生做原型、展示图、课程项目和团队协作。本文整理 Figma Education 的适用人群、申请方式和使用建议。"
-pubDate: 2026-06-05
+pubDate: 2026-05-25
 tags: ["Figma", "学生福利", "设计工具", "产品设计", "edu邮箱"]
 author: "荣十一"
 ---

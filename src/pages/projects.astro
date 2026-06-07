@@ -1,102 +1,215 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { AUTHOR_NAME } from "../consts";
-import { ArrowUpRight, Palette, Calculator, LineChart, Code, Sparkles } from "lucide-react";
+import {
+    ArrowUpRight,
+    Bot,
+    Cloud,
+    Code2,
+    Compass,
+    Database,
+    FileText,
+    FlaskConical,
+    GraduationCap,
+    Layers,
+    LineChart,
+    Search,
+    Sparkles,
+    UploadCloud,
+} from "lucide-react";
 import "../styles/global.css";
 
 const projects = [
     {
-        name: "Liquid Glass UI",
-        desc: "极致的毛玻璃物理动效组件库，复刻 Apple HIG 的阻尼感与通透度。",
-        icon: Palette,
-        tags: ["Astro", "UnoCSS", "React"],
-        link: "https://github.com/",
-        color: "text-purple-500",
+        name: "Astro Blog System",
+        desc: "这个站点本身就是长期项目：内容集合、RSS、OG 图片、站内搜索、结构化数据、IndexNow 和静态部署都在持续打磨。",
+        icon: FileText,
+        tags: ["Astro", "SEO", "Pagefind", "Content"],
+        link: "/blog/astro-blog-seo-checklist/",
+        color: "text-sky-500",
+        status: "Live",
     },
     {
-        name: "Treasure Calculator",
-        desc: "财富自由计算器与定投模拟器，用可视化的方式规划你的提前退休路线图。",
-        icon: Calculator,
-        tags: ["Vue", "TypeScript", "ECharts"],
-        link: "https://github.com/",
+        name: "Student Toolkit Notes",
+        desc: "围绕学生软件、edu 邮箱、GitHub Pack、JetBrains、Figma、Microsoft 365 写成一组可持续扩展的资源笔记。",
+        icon: GraduationCap,
+        tags: ["Student", "Writing", "Research"],
+        link: "/blog/student-free-software-2026/",
         color: "text-emerald-500",
+        status: "Growing",
     },
     {
-        name: "A-Share Monitor",
-        desc: "极简的 A 股摸鱼盯盘助手，常驻状态栏，在老板眼皮子底下看基金。",
-        icon: LineChart,
-        tags: ["React", "Node.js", "Electron"],
-        link: "https://github.com/",
-        color: "text-red-500",
+        name: "AI Agent Workflow",
+        desc: "把 Codex、Claude Code、Cursor、Windsurf 等 agent 放进真实开发流程，观察它们适合调研、重构、测试还是交付。",
+        icon: Bot,
+        tags: ["AI Agents", "Full Stack", "Workflow"],
+        link: "/uses/",
+        color: "text-violet-500",
+        status: "Exploring",
     },
     {
-        name: "Vibe Coder Theme",
-        desc: "专为 Vibe Coder 打造的 VS Code 极简主题，降低视觉噪音，专注代码本身。",
-        icon: Code,
-        tags: ["VS Code", "JSON"],
-        link: "https://github.com/",
-        color: "text-blue-500",
-    },
-    {
-        name: "AI Prompt Builder",
-        desc: "基于大模型的提示词组装与自动化测试工厂，支持批量跑分和评估。",
-        icon: Sparkles,
-        tags: ["Next.js", "Tailwind", "OpenAI"],
-        link: "https://github.com/",
+        name: "Async Upload Lab",
+        desc: "多文件上传实验：并发控制、AbortController、任务队列、R2/S3 上传和可视化状态反馈，关注的是浏览器真实压力。",
+        icon: UploadCloud,
+        tags: ["React", "S3/R2", "Performance"],
+        link: "/blog/async-upload/",
         color: "text-orange-500",
+        status: "Shipped",
+    },
+    {
+        name: "Apple UI Demos",
+        desc: "一组 Apple 风格交互实验：Liquid Glass、现代 Tab Bar、App Store 动效和文档视觉，还原的是质感和交互节奏。",
+        icon: Layers,
+        tags: ["Astro", "UI", "Motion"],
+        link: "/demos/liquid-glass/",
+        color: "text-fuchsia-500",
+        status: "Lab",
+    },
+    {
+        name: "Knowledge Base Kit",
+        desc: "把个人知识库、文件备份、GitHub 作品集和个人网站串成一个学习系统。目标是让资料和项目不会散掉。",
+        icon: Database,
+        tags: ["Notion", "Obsidian", "GitHub"],
+        link: "/blog/student-knowledge-base-setup/",
+        color: "text-amber-500",
+        status: "Notes",
+    },
+    {
+        name: "Search & Discovery",
+        desc: "站内搜索、标签页、RSS、sitemap、canonical、BlogPosting JSON-LD 和 IndexNow 组成的搜索可发现性实验。",
+        icon: Search,
+        tags: ["Search", "Schema.org", "IndexNow"],
+        link: "/blog/google-search-console-blog-guide/",
+        color: "text-cyan-500",
+        status: "Live",
+    },
+    {
+        name: "Personal Finance Ideas",
+        desc: "从基金、持仓、盯盘和收益记录出发，思考一个个人资产助手应该如何做得轻、稳、可长期维护。这个方向先留作待开发。",
+        icon: LineChart,
+        tags: ["Product", "Data", "Full Stack"],
+        color: "text-red-500",
+        status: "Todo",
+    },
+];
+
+const lanes = [
+    {
+        title: "内容系统",
+        desc: "文章不是孤岛，要能被搜索、订阅、链接和长期更新。",
+        icon: FileText,
+    },
+    {
+        title: "全栈实验",
+        desc: "从前端交互到数据、部署、搜索可见性，尽量走完闭环。",
+        icon: Code2,
+    },
+    {
+        title: "AI 协作",
+        desc: "关注 agent 真正能替人省掉哪些步骤，也记录它们不适合做什么。",
+        icon: Sparkles,
     },
 ];
 ---
 
-<Layout title={`项目 - ${AUTHOR_NAME}`}>
+<Layout
+    title={`项目 - ${AUTHOR_NAME}`}
+    description={`${AUTHOR_NAME} 的项目页：全栈实验、AI agent 工作流、个人知识库、搜索与内容系统。`}
+>
     <div class="max-w-5xl mx-auto px-4 md:px-6 py-12 md:py-20 animate-fade-in">
-        <!-- Header -->
-        <div class="flex flex-col space-y-4">
-            <h1 class="text-4xl md:text-5xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-zinc-900 to-zinc-500 dark:from-white dark:to-zinc-400">
-                Projects / 创造与折腾
-            </h1>
-            <p class="text-lg text-zinc-500 dark:text-zinc-400 font-medium">
-                这里存放着我写过的代码、造过的轮子，以及一些没用的奇思妙想。
-            </p>
-        </div>
+        <section class="grid gap-5 lg:grid-cols-[minmax(0,1.05fr)_minmax(280px,0.95fr)] lg:items-end">
+            <div>
+                <div class="inline-flex items-center gap-2 rounded-lg border border-zinc-200/80 bg-white/60 px-3 py-2 text-xs font-bold uppercase tracking-[0.1em] text-zinc-500 backdrop-blur-xl dark:border-white/10 dark:bg-zinc-900/50 dark:text-zinc-400">
+                    <FlaskConical className="h-4 w-4" />
+                    <span>Project Lab</span>
+                </div>
+                <h1 class="mt-5 text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white md:text-5xl">
+                    一些正在长大的小系统
+                </h1>
+                <p class="mt-5 max-w-2xl text-lg leading-relaxed text-zinc-500 dark:text-zinc-400">
+                    这些项目不全是“完成品”。有些是上线的小工具，有些是文章驱动的研究，有些只是为了验证一个产品判断。共同点是：尽量把想法做成能访问、能复盘、能继续迭代的东西。
+                </p>
+            </div>
 
-        <!-- Projects Grid -->
-        <div grid="~ cols-1 md:cols-2" gap="8" mt="12">
-            {projects.map((project) => (
-                <a
-                    href={project.link}
-                    target="_blank"
-                    class="group project-card"
-                >
-                    <!-- Visual Area -->
-                    <div class="h-48 w-full bg-gradient-to-br from-zinc-100 to-white dark:from-white/5 dark:to-transparent flex items-center justify-center relative overflow-hidden">
-                        <project.icon className={`w-16 h-16 ${project.color} opacity-80 group-hover:scale-110 group-hover:opacity-100 transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] drop-shadow-[0_0_16px_currentColor]`} />
-                        
-                        <div class="absolute top-6 right-6 w-8 h-8 rounded-full bg-white/50 dark:bg-black/20 backdrop-blur-md flex items-center justify-center shadow-sm opacity-0 group-hover:opacity-100 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] translate-y-2 group-hover:translate-y-0">
-                            <ArrowUpRight className="w-4 h-4 text-zinc-900 dark:text-white" />
+            <div class="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+                {
+                    lanes.map(({ title, desc, icon: Icon }) => (
+                        <article class="rounded-lg border border-zinc-200/80 bg-white/60 p-4 backdrop-blur-xl dark:border-white/10 dark:bg-zinc-900/50">
+                            <div class="flex items-center gap-2 text-sm font-extrabold text-zinc-900 dark:text-zinc-100">
+                                <Icon className="h-4 w-4 text-sky-500" />
+                                <span>{title}</span>
+                            </div>
+                            <p class="mt-2 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
+                                {desc}
+                            </p>
+                        </article>
+                    ))
+                }
+            </div>
+        </section>
+
+        <div class="mt-12 grid gap-5 md:grid-cols-2">
+            {
+                projects.map((project) => {
+                    const Tag = project.link ? "a" : "article";
+                    return (
+                    <Tag
+                        href={project.link}
+                        class={`group rounded-lg border border-zinc-200/80 bg-white/62 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.78),0_22px_70px_-48px_rgba(24,24,27,0.55)] backdrop-blur-2xl transition-all duration-200 dark:border-white/10 dark:bg-zinc-950/52 dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_26px_80px_-52px_rgba(0,0,0,0.95)] ${project.link ? "hover:-translate-y-1 hover:border-zinc-300/90 hover:bg-white/80 dark:hover:border-white/20 dark:hover:bg-zinc-900/68" : "cursor-default opacity-90"}`}
+                    >
+                        <div class="flex items-start justify-between gap-4">
+                            <div class={`inline-flex h-11 w-11 items-center justify-center rounded-lg bg-zinc-100 dark:bg-zinc-900 ${project.color}`}>
+                                <project.icon className="h-5 w-5" />
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="rounded-full border border-zinc-200/80 bg-zinc-50/80 px-2.5 py-1 text-[0.68rem] font-bold uppercase tracking-[0.08em] text-zinc-500 dark:border-white/10 dark:bg-zinc-900/70 dark:text-zinc-400">
+                                    {project.status}
+                                </span>
+                                {project.link && (
+                                    <ArrowUpRight className="h-4 w-4 text-zinc-400 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-zinc-800 dark:group-hover:text-zinc-100" />
+                                )}
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- Info Area -->
-                    <div class="p-6 md:p-8 flex flex-col flex-1 bg-white/30 dark:bg-transparent">
-                        <h2 class="text-2xl font-bold text-zinc-900 dark:text-white tracking-tight mb-2 group-hover:text-black dark:group-hover:text-white transition-colors">
+                        <h2 class="mt-5 text-2xl font-extrabold tracking-tight text-zinc-900 dark:text-white">
                             {project.name}
                         </h2>
-                        <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-8 flex-1">
+                        <p class="mt-3 min-h-[5.2rem] text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
                             {project.desc}
                         </p>
 
-                        <!-- Tech Stack Tags -->
-                        <div class="flex flex-wrap gap-2 mt-auto">
+                        <div class="mt-5 flex flex-wrap gap-2">
                             {project.tags.map((tag) => (
-                                <span class="glass-tag inline-flex items-center rounded-lg px-2.5 py-1 text-[11px] font-semibold tracking-wide text-zinc-600 dark:text-zinc-300">
+                                <span class="rounded-md border border-zinc-200/80 bg-zinc-50/70 px-2.5 py-1 text-[0.72rem] font-semibold text-zinc-600 dark:border-white/10 dark:bg-zinc-900/70 dark:text-zinc-300">
                                     {tag}
                                 </span>
                             ))}
                         </div>
-                    </div>
-                </a>
-            ))}
+                    </Tag>
+                    );
+                })
+            }
         </div>
+
+        <section class="mt-10 rounded-lg border border-zinc-200/80 bg-white/60 p-6 backdrop-blur-2xl dark:border-white/10 dark:bg-zinc-950/52">
+            <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                <div>
+                    <div class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.1em] text-zinc-500 dark:text-zinc-400">
+                        <Compass className="h-4 w-4" />
+                        <span>Direction</span>
+                    </div>
+                    <p class="mt-3 max-w-3xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                        我会更偏向做“小而完整”的项目：一个清楚的问题，一个能跑的实现，一篇能复盘的文章。它们可能不庞大，但最好都能留下一个可以继续生长的入口。
+                    </p>
+                </div>
+                <a
+                    href="/uses"
+                    class="inline-flex shrink-0 items-center gap-2 rounded-lg border border-zinc-300/90 bg-white/70 px-3 py-2.5 text-sm font-bold text-zinc-800 transition-all hover:-translate-y-px hover:border-zinc-500/55 hover:bg-zinc-100/90 dark:border-zinc-700/90 dark:bg-zinc-900/70 dark:text-zinc-100 dark:hover:border-zinc-400/50 dark:hover:bg-zinc-800/90"
+                >
+                    <Cloud className="h-4 w-4" />
+                    <span>我的工具箱</span>
+                </a>
+            </div>
+        </section>
     </div>
 </Layout>

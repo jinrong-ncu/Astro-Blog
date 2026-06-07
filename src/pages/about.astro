@@ -2,16 +2,20 @@
 import Layout from "../layouts/Layout.astro";
 import {
     ArrowUpRight,
+    Bot,
+    Brain,
     Braces,
     Camera,
-    Code2,
+    Compass,
+    Database,
     Github,
+    Layers,
     Mail,
     MapPin,
-    PenLine,
+    NotebookPen,
+    Rocket,
     Server,
     Sparkles,
-    Terminal,
 } from "lucide-react";
 import {
     AUTHOR_NAME,
@@ -23,51 +27,64 @@ import {
 import "../styles/global.css";
 
 const surfaceClass =
-    "rounded-lg border border-zinc-200/80 bg-white/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.78),0_20px_60px_-42px_rgba(24,24,27,0.5)] backdrop-blur-2xl dark:border-white/10 dark:bg-zinc-950/50 dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_24px_70px_-46px_rgba(0,0,0,0.9)]";
+    "rounded-lg border border-zinc-200/80 bg-white/62 shadow-[inset_0_1px_0_rgba(255,255,255,0.78),0_20px_60px_-42px_rgba(24,24,27,0.5)] backdrop-blur-2xl dark:border-white/10 dark:bg-zinc-950/52 dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_24px_70px_-46px_rgba(0,0,0,0.9)]";
 const labelClass =
-    "inline-flex items-center gap-2 text-[0.78rem] font-bold uppercase tracking-[0.08em] text-zinc-500 dark:text-zinc-400";
-const bodyTextClass = "text-[0.96rem] leading-[1.85] text-zinc-600 dark:text-zinc-400";
+    "inline-flex items-center gap-2 text-[0.75rem] font-bold uppercase tracking-[0.1em] text-zinc-500 dark:text-zinc-400";
+const bodyTextClass =
+    "text-[0.96rem] leading-[1.85] text-zinc-600 dark:text-zinc-400";
 const actionClass =
     "inline-flex items-center gap-2 rounded-lg border border-zinc-300/90 bg-white/70 px-3 py-2.5 text-[0.88rem] font-bold text-zinc-800 no-underline transition-all duration-150 hover:-translate-y-px hover:border-zinc-500/55 hover:bg-zinc-100/90 dark:border-zinc-700/90 dark:bg-zinc-900/70 dark:text-zinc-100 dark:hover:border-zinc-400/50 dark:hover:bg-zinc-800/90";
 
-const focusAreas = [
+const identities = [
+    "全栈学习者",
+    "AI-native maker",
+    "独立项目观察员",
+    "工具流收藏家",
+];
+
+const principles = [
     {
-        title: "产品化前端",
-        description: "把复杂交互拆得清楚，写成稳定、顺滑、容易继续迭代的体验。",
-        icon: Code2,
+        title: "像学生一样学习",
+        description:
+            "把每个新工具、新框架、新想法都拆开看一遍。先问它解决什么问题，再决定要不要放进自己的工作流。",
+        icon: NotebookPen,
         tone: "text-sky-600 bg-sky-500/10 dark:text-sky-300",
     },
     {
-        title: "AI 工作流",
-        description: "用 Agent 做研究、实现、复盘，把想法更快推到可验证的形态。",
-        icon: Sparkles,
-        tone: "text-violet-600 bg-violet-500/10 dark:text-violet-300",
-    },
-    {
-        title: "工程手感",
-        description: "关注类型、状态、性能和边界条件，也在意动效与界面的细枝末节。",
-        icon: Braces,
+        title: "像全栈一样落地",
+        description:
+            "不把想法停在页面或草图里。前端、接口、数据、部署、搜索、内容结构，都尽量跑通到可访问的状态。",
+        icon: Layers,
         tone: "text-emerald-600 bg-emerald-500/10 dark:text-emerald-300",
     },
-];
-
-const stack = [
-    "React",
-    "Vue",
-    "TypeScript",
-    "Astro",
-    "Node.js",
-    "Python",
-    "Rust",
-    "UnoCSS",
-    "Shiki",
-    "S3",
+    {
+        title: "让 AI 进入流程",
+        description:
+            "把 Agent 当作协作者：调研、写代码、查漏、重构、复盘。重点不是炫技，而是更快逼近可验证结果。",
+        icon: Bot,
+        tone: "text-violet-600 bg-violet-500/10 dark:text-violet-300",
+    },
 ];
 
 const now = [
-    "维护这个博客，把技术、工具和折腾过程沉淀下来。",
-    "探索 AI Agent 在真实开发流程里的边界和机会。",
-    "打磨上传、搜索、动效、微交互这类能直接改善体验的小系统。",
+    "把这个博客打造成一个公开知识库：文章、工具、项目、搜索和结构化数据都逐步补齐。",
+    "持续观察 AI coding agents，记录它们在真实开发任务里的边界和适用场景。",
+    "用小项目练习完整产品闭环：从需求、界面、接口到部署和运营。",
+];
+
+const stack = [
+    "TypeScript",
+    "React",
+    "Vue",
+    "Astro",
+    "Node.js",
+    "Python",
+    "Supabase",
+    "Cloudflare",
+    "Vercel",
+    "AI Agents",
+    "Markdown",
+    "SEO",
 ];
 
 const links = [
@@ -89,10 +106,13 @@ const links = [
 ];
 ---
 
-<Layout title={`关于我 - ${AUTHOR_NAME}`}>
+<Layout
+    title={`关于我 - ${AUTHOR_NAME}`}
+    description={`${AUTHOR_NAME} 的关于页面：全栈学习者、AI-native maker，记录项目、工具、学习方法和技术实践。`}
+>
     <section class="grid gap-4 pb-10">
         <div
-            class="grid min-h-[430px] grid-cols-1 gap-5 lg:grid-cols-[minmax(0,0.86fr)_minmax(0,1.14fr)]"
+            class="grid min-h-[430px] grid-cols-1 gap-5 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)]"
         >
             <div class={`${surfaceClass} relative min-h-[300px] overflow-hidden lg:min-h-[430px]`}>
                 <img
@@ -106,18 +126,28 @@ const links = [
             <div class="self-center pt-1 lg:p-9">
                 <div class={labelClass}>
                     <MapPin className="h-4 w-4" />
-                    <span>Shanghai / Remote</span>
+                    <span>Shanghai / Building in public</span>
                 </div>
 
-                <h1 class="mt-5 text-[2.75rem] font-extrabold leading-[0.98] text-zinc-900 dark:text-zinc-50 sm:text-[3.6rem]">
+                <h1 class="mt-5 text-[2.65rem] font-extrabold leading-[0.98] text-zinc-900 dark:text-zinc-50 sm:text-[3.5rem]">
                     {AUTHOR_NAME}
                 </h1>
                 <p class="mt-3 text-base font-bold text-zinc-600 dark:text-zinc-300">
-                    {AUTHOR_EN}
+                    {AUTHOR_EN} · 全栈学习者 / AI-native maker
                 </p>
                 <p class={`${bodyTextClass} mt-5 max-w-2xl`}>
-                    前端开发工程师，喜欢把产品想法、界面细节和工程实现揉到一起。这里记录技术、工具、AI 工作流，以及一些日常里值得留下的观察。
+                    我喜欢把一个模糊想法拆成能访问、能搜索、能继续迭代的小系统。这里不是一份传统简历，更像一张公开的学习地图：代码、工具、产品判断、AI 工作流，还有那些慢慢成型的个人项目。
                 </p>
+
+                <div class="mt-5 flex flex-wrap gap-2">
+                    {
+                        identities.map((item) => (
+                            <span class="rounded-lg border border-zinc-300/80 bg-zinc-50/80 px-2.5 py-1.5 text-xs font-bold text-zinc-600 dark:border-zinc-700/80 dark:bg-zinc-900/75 dark:text-zinc-300">
+                                {item}
+                            </span>
+                        ))
+                    }
+                </div>
 
                 <div class="mt-7 flex flex-wrap gap-2.5">
                     {
@@ -137,26 +167,26 @@ const links = [
             </div>
         </div>
 
-        <div class="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1.35fr)_minmax(280px,0.65fr)]">
+        <div class="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1.32fr)_minmax(280px,0.68fr)]">
             <section class={`${surfaceClass} p-6`}>
                 <div class={labelClass}>
-                    <PenLine className="h-4 w-4" />
-                    <span>About</span>
+                    <Compass className="h-4 w-4" />
+                    <span>Positioning</span>
                 </div>
                 <h2 class="mt-3.5 text-2xl font-extrabold leading-tight text-zinc-900 dark:text-zinc-50">
-                    我更关心：一个东西能不能被真实地用起来。
+                    我更想成为：能把问题完整走通的人。
                 </h2>
                 <p class={`${bodyTextClass} mt-4`}>
-                    我做前端，但不会只停在页面切图。一个功能从交互、数据状态、边界反馈到后续维护，都应该有清楚的结构。越是小的体验，越需要认真打磨。
+                    前端只是入口。真正有意思的是从用户问题出发，设计信息结构，写出界面，接上数据，处理边界，部署上线，再根据真实反馈继续改。
                 </p>
                 <p class={`${bodyTextClass} mt-3.5`}>
-                    最近我也在高频使用 AI Agent 协作开发，尝试让它进入调研、编码、验证和复盘的完整链路。这个博客本身，也是这个过程的一部分。
+                    所以我更愿意用“全栈学习者”来描述自己：保持学生的好奇心，同时训练工程上的交付感。AI Agent 则像一个新的外骨骼，让很多过去很慢的尝试变得可以当天验证。
                 </p>
             </section>
 
             <aside class={`${surfaceClass} p-6`}>
                 <div class={labelClass}>
-                    <Terminal className="h-4 w-4" />
+                    <Rocket className="h-4 w-4" />
                     <span>Now</span>
                 </div>
                 <ul class="mt-4 grid list-none gap-3.5 p-0">
@@ -174,7 +204,7 @@ const links = [
 
         <section class="grid grid-cols-1 gap-4 lg:grid-cols-3">
             {
-                focusAreas.map(({ title, description, icon: Icon, tone }) => (
+                principles.map(({ title, description, icon: Icon, tone }) => (
                     <article class={`${surfaceClass} min-h-52 p-6`}>
                         <div class={`inline-flex h-10 w-10 items-center justify-center rounded-lg ${tone}`}>
                             <Icon className="h-5 w-5" />
@@ -190,17 +220,17 @@ const links = [
             }
         </section>
 
-        <section class={`${surfaceClass} grid grid-cols-1 items-center gap-5 p-6 lg:grid-cols-[minmax(0,0.78fr)_minmax(0,1.22fr)]`}>
+        <section class={`${surfaceClass} grid grid-cols-1 items-center gap-5 p-6 lg:grid-cols-[minmax(0,0.76fr)_minmax(0,1.24fr)]`}>
             <div>
                 <div class={labelClass}>
                     <Server className="h-4 w-4" />
                     <span>Stack</span>
                 </div>
                 <h2 class="mt-3.5 text-2xl font-extrabold leading-tight text-zinc-900 dark:text-zinc-50">
-                    常用技术栈
+                    常用技术与能力栈
                 </h2>
                 <p class={`${bodyTextClass} mt-4`}>
-                    偏爱轻量、直接、可组合的工具。能少引入一层复杂度的时候，就让系统保持简单。
+                    我偏爱轻量、可组合、容易迁移的工具。能用小系统解决的问题，就不要一开始做成大工程。
                 </p>
             </div>
 
@@ -215,6 +245,24 @@ const links = [
             </div>
         </section>
 
+        <section class={`${surfaceClass} grid grid-cols-1 gap-4 p-6 md:grid-cols-3`}>
+            <div class="md:col-span-2">
+                <div class={labelClass}>
+                    <Brain className="h-4 w-4" />
+                    <span>Memory Hook</span>
+                </div>
+                <p class={`${bodyTextClass} mt-3 max-w-3xl`}>
+                    如果只能用一句话记住我：一个把学生式好奇心、全栈落地能力和 AI 协作揉在一起的人。喜欢公开记录，也喜欢把“看起来只是想法”的东西做成真实页面。
+                </p>
+            </div>
+            <div class="flex items-center md:justify-end">
+                <a href="/projects" class={actionClass}>
+                    <Braces className="h-4 w-4" />
+                    <span>看看项目</span>
+                </a>
+            </div>
+        </section>
+
         <section class={`${surfaceClass} flex flex-col items-start justify-between gap-5 p-6 sm:flex-row sm:items-center`}>
             <div>
                 <div class={labelClass}>
@@ -222,7 +270,7 @@ const links = [
                     <span>Life</span>
                 </div>
                 <p class={`${bodyTextClass} mt-2.5 max-w-3xl`}>
-                    偶尔拍照，偶尔写点工具，更多时候是在把一个小想法慢慢磨成能用的东西。
+                    偶尔拍照，偶尔写工具，更多时候是在把一个小想法慢慢磨成能用的东西。
                 </p>
             </div>
             <a href={`mailto:${AUTHOR_EMAIL}`} class={actionClass}>
