@@ -49,6 +49,56 @@
     @apply shadow-md;
   }
 
+  .prose table {
+    display: block;
+    width: 100%;
+    min-width: 100%;
+    overflow-x: auto;
+    border-collapse: separate;
+    border-spacing: 0;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .prose thead,
+  .prose tbody,
+  .prose tr {
+    min-width: 720px;
+  }
+
+  .prose th,
+  .prose td {
+    min-width: 8.5rem;
+    vertical-align: top;
+  }
+
+  .prose th:first-child,
+  .prose td:first-child {
+    min-width: 7rem;
+  }
+
+  .prose td a {
+    word-break: normal;
+    overflow-wrap: normal;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 640px) {
+    .prose table {
+      margin-left: -0.25rem;
+      margin-right: -0.25rem;
+      padding-bottom: 0.5rem;
+    }
+
+    .prose th,
+    .prose td {
+      min-width: 9rem;
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+      font-size: 0.875rem;
+      line-height: 1.7;
+    }
+  }
+  
   /* Medium Zoom Liquid Glass Styling */
   .medium-zoom-overlay {
     background: rgba(10, 10, 10, 0.85) !important;

@@ -1,18 +1,18 @@
 ---
 import ThemeToggle from "../components/ThemeToggle";
 import Search from "../components/Search.astro";
-import { SITE_TITLE, SITE_DESCRIPTION, AUTHOR } from "../consts";
+import { SITE_TITLE } from "../consts";
 ---
 
 <header
-    class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-3rem)] max-w-5xl transition-all duration-500"
+    class="fixed left-1/2 top-4 z-50 w-[calc(100%-1.5rem)] max-w-5xl -translate-x-1/2 transition-all duration-500 sm:top-6 sm:w-[calc(100%-3rem)]"
 >
     <nav
-        class="flex h-14 items-center justify-between px-6 rounded-full bg-white/20 dark:bg-zinc-900/20 backdrop-blur-3xl saturate-200 shadow-[0_8px_32px_rgba(0,0,0,0.08),inset_0_0_0_1px_rgba(255,255,255,0.4)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_0_0_1px_rgba(255,255,255,0.1)] transition-colors"
+        class="flex h-12 items-center justify-between rounded-full bg-white/20 px-3 shadow-[0_8px_32px_rgba(0,0,0,0.08),inset_0_0_0_1px_rgba(255,255,255,0.4)] backdrop-blur-3xl saturate-200 transition-colors dark:bg-zinc-900/20 dark:shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_0_0_1px_rgba(255,255,255,0.1)] sm:h-14 sm:px-6"
     >
-        <a href="/" class="flex items-center gap-2 group">
+        <a href="/" class="group flex min-w-0 items-center gap-2">
             <div
-                class="p-1.5 bg-zinc-900 dark:bg-white rounded-lg group-hover:bg-zinc-800 dark:group-hover:bg-zinc-200 transition-colors"
+                class="shrink-0 rounded-lg bg-zinc-900 p-1.5 transition-colors group-hover:bg-zinc-800 dark:bg-white dark:group-hover:bg-zinc-200"
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -29,33 +29,81 @@ import { SITE_TITLE, SITE_DESCRIPTION, AUTHOR } from "../consts";
                     ></path><path d="m14.5 4-5 16"></path></svg
                 >
             </div>
-            <span class="font-bold text-zinc-900 dark:text-white tracking-tight"
+            <span
+                class="truncate whitespace-nowrap text-sm font-bold tracking-tight text-zinc-900 dark:text-white sm:text-base"
                 >{SITE_TITLE}</span
             >
         </a>
         <div
-            class="flex items-center gap-2 text-sm font-medium text-zinc-500 dark:text-zinc-400"
+            class="flex shrink-0 items-center gap-1 text-sm font-medium text-zinc-500 dark:text-zinc-400 sm:gap-2"
         >
             <a
                 href="/"
-                class="micro-droplet-text px-3 py-1.5 text-[13px] font-semibold tracking-tight"
+                class="micro-droplet-text hidden px-3 py-1.5 text-[13px] font-semibold tracking-tight md:inline-flex"
                 >博客</a
             >
             <a
                 href="/projects"
-                class="micro-droplet-text px-3 py-1.5 text-[13px] font-semibold tracking-tight"
+                class="micro-droplet-text hidden px-3 py-1.5 text-[13px] font-semibold tracking-tight md:inline-flex"
                 >项目</a
             >
             <a
                 href="/uses"
-                class="micro-droplet-text px-3 py-1.5 text-[13px] font-semibold tracking-tight"
+                class="micro-droplet-text hidden px-3 py-1.5 text-[13px] font-semibold tracking-tight md:inline-flex"
                 >工具</a
             >
             <a
                 href="/about"
-                class="micro-droplet-text px-3 py-1.5 text-[13px] font-semibold tracking-tight"
+                class="micro-droplet-text hidden px-3 py-1.5 text-[13px] font-semibold tracking-tight md:inline-flex"
                 >关于</a
             >
+            <details class="group/menu relative md:hidden">
+                <summary
+                    aria-label="打开导航"
+                    class="relative inline-flex h-9 w-9 cursor-pointer list-none items-center justify-center overflow-hidden rounded-full text-zinc-500 transition-colors hover:bg-zinc-900/5 hover:text-zinc-900 focus:outline-none dark:text-zinc-400 dark:hover:bg-white/10 dark:hover:text-zinc-100 [&::-webkit-details-marker]:hidden"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        aria-hidden="true"
+                    >
+                        <path d="M4 7h16"></path>
+                        <path d="M4 12h16"></path>
+                        <path d="M4 17h16"></path>
+                    </svg>
+                </summary>
+                <div
+                    class="absolute right-0 top-12 w-36 rounded-2xl border border-zinc-200/70 bg-white/90 p-2 shadow-[0_18px_60px_-28px_rgba(24,24,27,0.55)] backdrop-blur-2xl dark:border-white/10 dark:bg-zinc-950/90"
+                >
+                    <a
+                        href="/"
+                        class="block rounded-xl px-3 py-2 text-sm font-semibold text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 dark:text-zinc-300 dark:hover:bg-white/10 dark:hover:text-white"
+                        >博客</a
+                    >
+                    <a
+                        href="/projects"
+                        class="block rounded-xl px-3 py-2 text-sm font-semibold text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 dark:text-zinc-300 dark:hover:bg-white/10 dark:hover:text-white"
+                        >项目</a
+                    >
+                    <a
+                        href="/uses"
+                        class="block rounded-xl px-3 py-2 text-sm font-semibold text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 dark:text-zinc-300 dark:hover:bg-white/10 dark:hover:text-white"
+                        >工具</a
+                    >
+                    <a
+                        href="/about"
+                        class="block rounded-xl px-3 py-2 text-sm font-semibold text-zinc-600 hover:bg-zinc-100 hover:text-zinc-950 dark:text-zinc-300 dark:hover:bg-white/10 dark:hover:text-white"
+                        >关于</a
+                    >
+                </div>
+            </details>
             <Search />
             <ThemeToggle client:load />
             <!-- <ThemeToggle client:only="react" /> -->
