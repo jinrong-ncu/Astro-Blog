@@ -134,11 +134,14 @@ const hiddenPosts = regularPosts.slice(pageSize);
   </section>
 
   <script>
-    document.addEventListener("astro:page-load", () => {
+    const initLoadMorePosts = () => {
       const button = document.getElementById("load-more-posts");
       const extras = Array.from(document.querySelectorAll(".post-extra"));
 
       if (!button || extras.length === 0) return;
+      if (button.dataset.initialized === "true") return;
+
+      button.dataset.initialized = "true";
 
       const pageSize = Number(button.dataset.pageSize || 9);
       let visibleCount = 0;
@@ -158,6 +161,16 @@ const hiddenPosts = regularPosts.slice(pageSize);
       };
 
       button.addEventListener("click", revealMore);
-    });
+    };
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initLoadMorePosts, {
+        once: true,
+      });
+    } else {
+      initLoadMorePosts();
+    }
+
+    document.addEventListener("astro:page-load", initLoadMorePosts);
   </script>
 </Layout>

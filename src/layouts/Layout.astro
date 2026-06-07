@@ -107,7 +107,7 @@ const jsonLdValue = jsonLd
       });
     </script> -->
     <script>
-      document.addEventListener("astro:page-load", () => {
+      const initBusuanzi = () => {
         const bszSrc =
           "//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js";
 
@@ -131,7 +131,17 @@ const jsonLdValue = jsonLd
         newScript.referrerPolicy = "no-referrer-when-downgrade";
 
         document.body.appendChild(newScript);
-      });
+      };
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initBusuanzi, {
+          once: true,
+        });
+      } else {
+        initBusuanzi();
+      }
+
+      document.addEventListener("astro:page-load", initBusuanzi);
     </script>
     <script is:inline>
       (function () {
@@ -150,6 +160,13 @@ const jsonLdValue = jsonLd
   <body
     class="flex flex-col min-h-screen selection:bg-purple-100 selection:text-purple-900 dark:selection:bg-purple-900/30 dark:selection:text-purple-200 relative"
   >
+    <div id="global-page-loader" aria-hidden="true">
+      <div class="global-page-loader__panel">
+        <img src="/favicon.svg" alt="" class="global-page-loader__logo" />
+        <div class="global-page-loader__ring"></div>
+      </div>
+    </div>
+
     <!-- Liquid Glass Animated Background -->
     <div
       class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none bg-zinc-50 dark:bg-zinc-950 transition-colors duration-500"
@@ -181,8 +198,159 @@ const jsonLdValue = jsonLd
     </main>
 
     <Footer />
+    <style is:global>
+      #global-page-loader {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        display: grid;
+        place-items: center;
+        pointer-events: none;
+        opacity: 0;
+        visibility: hidden;
+        background:
+          radial-gradient(circle at 50% 35%, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.38) 38%, rgba(255, 255, 255, 0.18)),
+          rgba(244, 244, 245, 0.72);
+        backdrop-filter: blur(22px) saturate(160%);
+        transition: opacity 180ms ease, visibility 180ms ease;
+      }
+
+      .dark #global-page-loader {
+        background:
+          radial-gradient(circle at 50% 35%, rgba(39, 39, 42, 0.72), rgba(24, 24, 27, 0.54) 42%, rgba(9, 9, 11, 0.42)),
+          rgba(9, 9, 11, 0.76);
+      }
+
+      #global-page-loader.is-active {
+        pointer-events: auto;
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .global-page-loader__panel {
+        position: relative;
+        display: grid;
+        place-items: center;
+        width: 88px;
+        height: 88px;
+      }
+
+      .global-page-loader__logo {
+        width: 56px;
+        height: 56px;
+        border-radius: 18px;
+        box-shadow: 0 18px 50px rgba(24, 24, 27, 0.22);
+        animation: global-loader-breathe 1.35s ease-in-out infinite;
+      }
+
+      .global-page-loader__ring {
+        position: absolute;
+        inset: 0;
+        border-radius: 999px;
+        border: 1px solid rgba(24, 24, 27, 0.08);
+        border-top-color: rgba(239, 68, 68, 0.95);
+        border-right-color: rgba(24, 24, 27, 0.32);
+        animation: global-loader-spin 900ms linear infinite;
+      }
+
+      .dark .global-page-loader__ring {
+        border-color: rgba(255, 255, 255, 0.12);
+        border-top-color: rgba(248, 113, 113, 0.96);
+        border-right-color: rgba(255, 255, 255, 0.5);
+      }
+
+      @keyframes global-loader-spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes global-loader-breathe {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+
+        50% {
+          transform: scale(0.94);
+        }
+      }
+    </style>
+    <script is:inline>
+      (function () {
+        var loader = document.getElementById("global-page-loader");
+
+        if (!loader) {
+          return;
+        }
+
+        var showLoader = function () {
+          loader.classList.add("is-active");
+        };
+
+        var hideLoader = function () {
+          loader.classList.remove("is-active");
+        };
+
+        window.addEventListener("pageshow", hideLoader);
+
+        document.addEventListener("click", function (event) {
+          if (
+            event.defaultPrevented ||
+            event.metaKey ||
+            event.ctrlKey ||
+            event.shiftKey ||
+            event.altKey
+          ) {
+            return;
+          }
+
+          var link = event.target && event.target.closest
+            ? event.target.closest("a[href]")
+            : null;
+
+          if (!link) {
+            return;
+          }
+
+          var href = link.getAttribute("href");
+
+          if (
+            !href ||
+            link.target ||
+            link.hasAttribute("download") ||
+            href.startsWith("#") ||
+            href.startsWith("mailto:") ||
+            href.startsWith("tel:")
+          ) {
+            return;
+          }
+
+          var url;
+          try {
+            url = new URL(href, window.location.href);
+          } catch (error) {
+            return;
+          }
+
+          if (url.origin !== window.location.origin) {
+            return;
+          }
+
+          if (
+            url.pathname === window.location.pathname &&
+            url.search === window.location.search &&
+            url.hash
+          ) {
+            return;
+          }
+
+          showLoader();
+        });
+      })();
+    </script>
     <script>
-      document.addEventListener("astro:page-load", () => {
+      const initCodeCopyButtons = () => {
         const codeBlocks = document.querySelectorAll("pre");
 
         codeBlocks.forEach((pre) => {
@@ -239,7 +407,17 @@ const jsonLdValue = jsonLd
 
           wrapper.appendChild(button);
         });
-      });
+      };
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initCodeCopyButtons, {
+          once: true,
+        });
+      } else {
+        initCodeCopyButtons();
+      }
+
+      document.addEventListener("astro:page-load", initCodeCopyButtons);
     </script>
   </body>
 </html>
