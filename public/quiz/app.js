@@ -33,6 +33,7 @@
     emptyState: document.getElementById("empty-state"),
     showAll: document.getElementById("show-all-button"),
     wrongOnly: document.getElementById("wrong-only"),
+    wrongOnlyButton: document.getElementById("wrong-only-button"),
     wrongCount: document.getElementById("wrong-count"),
     answeredTotal: document.getElementById("answered-total"),
     accuracyTotal: document.getElementById("accuracy-total"),
@@ -223,6 +224,9 @@
     });
     elements.bankSelect.value = state.bank;
     elements.wrongOnly.checked = state.wrongOnly;
+    elements.wrongOnlyButton.classList.toggle("is-active", state.wrongOnly);
+    elements.wrongOnlyButton.setAttribute("aria-pressed", state.wrongOnly ? "true" : "false");
+    elements.wrongOnlyButton.title = state.wrongOnly ? "返回全部题目" : "只看错题";
     elements.shuffle.classList.toggle("is-active", Boolean(state.order));
     elements.shuffle.setAttribute("aria-pressed", state.order ? "true" : "false");
     elements.shuffle.title = state.order ? "切换回顺序练习" : "切换到随机练习";
@@ -235,6 +239,14 @@
     state.order = null;
     state.selected = [];
     save();
+    render();
+  }
+
+  function setWrongOnly(enabled) {
+    state.wrongOnly = enabled;
+    state.index = 0;
+    state.order = null;
+    state.selected = [];
     render();
   }
 
@@ -312,11 +324,9 @@
   });
   elements.bankSelect.addEventListener("change", function () { changeBank(elements.bankSelect.value); });
   elements.wrongOnly.addEventListener("change", function () {
-    state.wrongOnly = elements.wrongOnly.checked;
-    state.index = 0;
-    state.order = null;
-    render();
+    setWrongOnly(elements.wrongOnly.checked);
   });
+  elements.wrongOnlyButton.addEventListener("click", function () { setWrongOnly(!state.wrongOnly); });
   elements.submit.addEventListener("click", function () {
     var question = currentQuestion();
     if (question) grade(question);

@@ -110,11 +110,12 @@ button:focus-visible, select:focus-visible, input:focus-visible {
   background: var(--surface);
   cursor: pointer;
 }
-.icon-text-button { padding: 0 12px; display: inline-flex; align-items: center; gap: 7px; }
+.icon-text-button { min-width: 0; padding: 0 12px; display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; }
 .icon-text-button:hover, .icon-button:hover { border-color: #aebbb4; background: #f9fbf9; }
 .icon-text-button.is-active { color: var(--green-dark); border-color: #8fc7ac; background: var(--green-soft); }
 .reset-button { color: var(--red); border-color: #e4c7c3; background: #fffafa; }
 .reset-button:hover { color: #8f2f2f; border-color: #cf8d87; background: var(--red-soft); }
+.wrong-button.is-active { color: var(--red); border-color: #d58a84; background: var(--red-soft); }
 .icon-button { width: 38px; padding: 0; font-size: 25px; line-height: 1; }
 
 .quiz-view { width: min(900px, calc(100% - 48px)); margin: 0 auto; padding: 46px 0 130px; }
@@ -219,8 +220,8 @@ dialog::backdrop { background: rgba(11, 24, 18, 0.48); backdrop-filter: blur(2px
   .mobile-brand { display: flex; align-items: center; gap: 9px; white-space: nowrap; }
   .mobile-bank-select { display: block; margin-left: auto; }
   .mobile-bank-select select { max-width: 126px; height: 38px; border: 1px solid var(--line); border-radius: 6px; padding: 0 30px 0 10px; color: var(--ink); background: white; }
-  .top-actions { width: 100%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
-  .icon-text-button { width: 100%; padding: 0 8px; justify-content: center; }
+  .top-actions { width: 100%; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+  .icon-text-button { width: 100%; padding: 0 4px; gap: 4px; justify-content: center; font-size: 13px; }
   .quiz-view { width: calc(100% - 32px); padding: 28px 0 112px; }
   .progress-track { margin-bottom: 30px; }
   .question-area h1 { font-size: 20px; line-height: 1.62; }
