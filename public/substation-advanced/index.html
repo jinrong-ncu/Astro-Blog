@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#176b4d">
+  <title>变电设备高级工刷题</title>
+  <link rel="icon" href="assets/quiz-mark.png" type="image/png">
+  <link rel="stylesheet" href="styles.css?v=20260717-3">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="题库导航">
+      <div class="brand">
+        <img src="assets/quiz-mark.png" alt="" width="40" height="40">
+        <div>
+          <strong>变电设备高级工</strong>
+          <span>变电设备安装工理论题库</span>
+        </div>
+      </div>
+
+      <nav class="bank-nav" aria-label="选择题库">
+        <button class="bank-button is-active" data-bank="all">
+          <span>全部题库</span><b id="count-all">1242</b>
+        </button>
+        <button class="bank-button" data-bank="section-1">
+          <span>基本要求</span><b id="count-section-1">198</b>
+        </button>
+        <button class="bank-button" data-bank="section-2">
+          <span>相关知识要求</span><b id="count-section-2">1044</b>
+        </button>
+      </nav>
+
+      <div class="sidebar-section">
+        <span class="section-label">练习范围</span>
+        <label class="check-row">
+          <input id="wrong-only" type="checkbox">
+          <span>只看错题</span>
+          <b id="wrong-count">0</b>
+        </label>
+      </div>
+
+      <div class="session-summary">
+        <span class="section-label">本地进度</span>
+        <div class="summary-grid">
+          <div><strong id="answered-total">0</strong><span>已作答</span></div>
+          <div><strong id="accuracy-total">--</strong><span>正确率</span></div>
+        </div>
+        <button id="reset-progress" class="text-button">重置练习记录</button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="mobile-brand">
+          <img src="assets/quiz-mark.png" alt="" width="32" height="32">
+          <strong>变电设备高级工</strong>
+        </div>
+        <label class="mobile-bank-select">
+          <span class="sr-only">选择题库</span>
+          <select id="bank-select">
+            <option value="all">全部题库</option>
+            <option value="section-1">基本要求</option>
+            <option value="section-2">相关知识要求</option>
+          </select>
+        </label>
+        <div class="top-actions">
+          <button id="reset-progress-top" class="icon-text-button reset-button" title="清空全部答题记录">
+            <span aria-hidden="true">↻</span><span>清空</span>
+          </button>
+          <button id="wrong-only-button" class="icon-text-button wrong-button" title="只看错题" aria-pressed="false">
+            <span aria-hidden="true">×</span><span>错题</span>
+          </button>
+          <button id="shuffle-button" class="icon-text-button" title="切换到随机练习" aria-pressed="false">
+            <span aria-hidden="true">⇄</span><span id="shuffle-label">随机</span>
+          </button>
+          <button id="question-grid-button" class="icon-text-button" title="打开答题卡">
+            <span aria-hidden="true">▦</span><span>题卡</span>
+          </button>
+        </div>
+      </header>
+
+      <details id="study-tools" class="study-tools">
+        <summary>
+          <span><b>筛选与练习设置</b><small id="tools-summary">全部知识点 · 全部题目</small></span>
+          <span class="collapse-label"><em>展开</em></span>
+        </summary>
+        <div class="study-tools-body" aria-label="练习工具">
+          <label class="search-control">
+            <span class="sr-only">搜索题目</span>
+            <input id="question-search" type="search" placeholder="搜索题干或知识点" autocomplete="off">
+          </label>
+          <label>
+            <span>知识点</span>
+            <select id="topic-select"><option value="all">全部知识点</option></select>
+          </label>
+          <label>
+            <span>练习模式</span>
+            <select id="mode-select">
+              <option value="all">全部题目</option>
+              <option value="unanswered">只看未做</option>
+              <option value="favorites">我的收藏</option>
+              <option value="exam">模拟考试（100题）</option>
+            </select>
+          </label>
+          <button id="favorite-button" class="favorite-button" type="button" aria-pressed="false">
+            <span aria-hidden="true">☆</span><span>收藏本题</span>
+          </button>
+          <label class="auto-next-control">
+            <input id="auto-next" type="checkbox">
+            <span>答对自动下一题</span>
+          </label>
+        </div>
+      </details>
+
+      <section id="quiz-view" class="quiz-view" aria-live="polite">
+        <div class="question-meta">
+          <div>
+            <span id="question-type" class="type-badge">单选题</span>
+            <span id="question-bank-name" class="bank-name">基本要求</span>
+          </div>
+          <span id="question-position" class="position">1 / 1242</span>
+        </div>
+
+        <div class="progress-track" aria-hidden="true"><span id="progress-fill"></span></div>
+
+        <article class="question-area">
+          <h1 id="question-stem"></h1>
+          <p id="multiple-hint" class="multiple-hint" hidden>本题有多个正确答案</p>
+          <div id="options" class="options"></div>
+          <button id="submit-answer" class="primary-button" hidden>提交答案</button>
+          <button id="reveal-answer" class="primary-button" hidden>查看参考答案</button>
+
+          <div id="answer-feedback" class="answer-feedback" hidden>
+            <div class="feedback-heading">
+              <strong id="feedback-title"></strong>
+              <span id="correct-answer-label"></span>
+            </div>
+            <p id="answer-text"></p>
+          </div>
+        </article>
+
+        <div id="empty-state" class="empty-state" hidden>
+          <strong>当前范围没有题目</strong>
+          <p>完成一些题目后，答错的题会出现在这里。</p>
+          <button id="show-all-button" class="secondary-button">返回全部题目</button>
+        </div>
+      </section>
+
+      <footer class="quiz-footer">
+        <button id="previous-button" class="secondary-button"><span aria-hidden="true">←</span> 上一题</button>
+        <button id="next-button" class="primary-button">下一题 <span aria-hidden="true">→</span></button>
+      </footer>
+    </main>
+  </div>
+
+  <dialog id="question-dialog">
+    <div class="dialog-header">
+      <div><strong>答题卡</strong><span id="dialog-summary">0 / 1242 已作答</span></div>
+      <button id="close-dialog" class="icon-button" title="关闭答题卡" aria-label="关闭答题卡">×</button>
+    </div>
+    <div class="legend" aria-label="答题状态图例">
+      <span><i class="legend-current"></i>当前</span>
+      <span><i class="legend-correct"></i>正确</span>
+      <span><i class="legend-wrong"></i>错误</span>
+      <span><i class="legend-unanswered"></i>未答</span>
+    </div>
+    <div id="question-grid" class="question-grid"></div>
+  </dialog>
+
+  <script src="question-data.js?v=20260717-3"></script>
+  <script src="app.js?v=20260717-3"></script>
+</body>
+</html>
