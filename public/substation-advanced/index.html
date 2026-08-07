@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#176b4d">
   <title>变电设备高级工刷题</title>
   <link rel="icon" href="assets/quiz-mark.png" type="image/png">
-  <link rel="stylesheet" href="styles.css?v=20260717-3">
+  <link rel="stylesheet" href="styles.css?v=20260807-4">
 </head>
 <body>
   <div class="app-shell">
@@ -82,10 +82,18 @@
 
       <details id="study-tools" class="study-tools">
         <summary>
-          <span><b>筛选与练习设置</b><small id="tools-summary">全部知识点 · 全部题目</small></span>
+          <span><b>筛选与练习设置</b><small id="tools-summary">全部题型 · 全部知识点 · 全部题目</small></span>
           <span class="collapse-label"><em>展开</em></span>
         </summary>
         <div class="study-tools-body" aria-label="练习工具">
+          <div class="question-type-filter" role="radiogroup" aria-label="题型">
+            <div class="segmented-control">
+              <label><input type="radio" name="question-type-filter" value="all" checked><span>全部</span></label>
+              <label><input type="radio" name="question-type-filter" value="single"><span>单选</span></label>
+              <label><input type="radio" name="question-type-filter" value="multiple"><span>多选</span></label>
+              <label><input type="radio" name="question-type-filter" value="true_false"><span>判断</span></label>
+            </div>
+          </div>
           <label class="search-control">
             <span class="sr-only">搜索题目</span>
             <input id="question-search" type="search" placeholder="搜索题干或知识点" autocomplete="off">
@@ -142,7 +150,7 @@
 
         <div id="empty-state" class="empty-state" hidden>
           <strong>当前范围没有题目</strong>
-          <p>完成一些题目后，答错的题会出现在这里。</p>
+          <p>请调整题库、题型或筛选条件后重试。</p>
           <button id="show-all-button" class="secondary-button">返回全部题目</button>
         </div>
       </section>
@@ -169,6 +177,6 @@
   </dialog>
 
   <script src="question-data.js?v=20260717-3"></script>
-  <script src="app.js?v=20260717-3"></script>
+  <script src="app.js?v=20260807-1"></script>
 </body>
 </html>

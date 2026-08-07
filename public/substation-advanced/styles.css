@@ -149,6 +149,14 @@ button:focus-visible, select:focus-visible, input:focus-visible {
 .study-tools-body label > span:not(.sr-only) { display: block; margin-bottom: 6px; color: var(--muted); font-size: 11px; font-weight: 650; }
 .study-tools-body input, .study-tools-body select { width: 100%; height: 40px; border: 1px solid var(--line); border-radius: 6px; padding: 0 11px; color: var(--ink); background: white; }
 .study-tools input::placeholder { color: #8a958f; }
+.question-type-filter { grid-column: 1 / -1; width: 100%; max-width: 420px; min-width: 0; }
+.segmented-control { min-width: 0; padding: 3px; border: 1px solid #dfe4e0; border-radius: 8px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 3px; background: #f0f3f1; }
+.segmented-control label { min-width: 0; cursor: pointer; }
+.segmented-control input { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; opacity: 0; pointer-events: none; }
+.segmented-control span { min-height: 36px; margin-bottom: 0!important; line-height: 36px;text-align: center; padding: 0 10px; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #66736c; font-size: 13px; font-weight: 600; }
+.segmented-control label:hover span { color: var(--ink); background: rgba(255, 255, 255, 0.55); }
+.segmented-control input:checked + span { color: var(--green-dark); background: white; box-shadow: 0 1px 3px rgba(31, 52, 42, 0.13); }
+.segmented-control input:focus-visible + span { outline: 3px solid rgba(23, 107, 77, 0.23); outline-offset: 1px; }
 .favorite-button { height: 40px; border: 1px solid var(--line); border-radius: 6px; padding: 0 13px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: white; cursor: pointer; white-space: nowrap; }
 .favorite-button:hover { border-color: #d0aa62; background: var(--amber-soft); }
 .favorite-button.is-active { color: #81540a; border-color: #d5ae64; background: var(--amber-soft); }
@@ -285,6 +293,8 @@ dialog::backdrop { background: rgba(11, 24, 18, 0.48); backdrop-filter: blur(2px
   .question-grid { grid-template-columns: repeat(5, 1fr); }
   .study-tools-body { grid-template-columns: 1fr; }
   .search-control, .favorite-button { grid-column: auto; }
+  .question-type-filter { max-width: none; }
+  .segmented-control span { padding: 0 6px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -9,6 +9,7 @@
     wrongOnly: Boolean(saved.wrongOnly),
     query: saved.query || "",
     topic: saved.topic || "all",
+    questionType: saved.questionType || "all",
     mode: saved.mode || "all",
     order: null,
     index: 0,
@@ -55,6 +56,7 @@
     bankSelect: document.getElementById("bank-select"),
     search: document.getElementById("question-search"),
     topicSelect: document.getElementById("topic-select"),
+    questionTypeInputs: document.querySelectorAll('input[name="question-type-filter"]'),
     modeSelect: document.getElementById("mode-select"),
     favorite: document.getElementById("favorite-button"),
     autoNext: document.getElementById("auto-next"),
@@ -68,6 +70,8 @@
     true_false: "判断题",
     short: "简答题",
   };
+
+  if (!["all", "single", "multiple", "true_false", "short"].includes(state.questionType)) state.questionType = "all";
 
   document.getElementById("count-all").textContent = data.questions.length;
   data.banks.forEach(function (bank) {
@@ -86,6 +90,7 @@
   if (!Array.from(elements.topicSelect.options).some(function (option) { return option.value === state.topic; })) state.topic = "all";
   elements.search.value = state.query;
   elements.topicSelect.value = state.topic;
+  elements.questionTypeInputs.forEach(function (input) { input.checked = input.value === state.questionType; });
   elements.modeSelect.value = state.mode;
   elements.autoNext.checked = state.autoNext;
   elements.tools.open = state.toolsExpanded;
@@ -104,6 +109,7 @@
       wrongOnly: state.wrongOnly,
       query: state.query,
       topic: state.topic,
+      questionType: state.questionType,
       mode: state.mode,
       results: state.results,
       favorites: state.favorites,
@@ -118,6 +124,9 @@
     var questions = data.questions.filter(function (question) {
       return state.bank === "all" || question.bank === state.bank;
     });
+    if (state.questionType !== "all") {
+      questions = questions.filter(function (question) { return question.type === state.questionType; });
+    }
     if (state.topic !== "all") {
       questions = questions.filter(function (question) { return question.topic === state.topic; });
     }
@@ -298,6 +307,7 @@
     elements.bankSelect.value = state.bank;
     elements.search.value = state.query;
     elements.topicSelect.value = state.topic;
+    elements.questionTypeInputs.forEach(function (input) { input.checked = input.value === state.questionType; });
     elements.modeSelect.value = state.mode;
     elements.autoNext.checked = state.autoNext;
     elements.wrongOnly.checked = state.wrongOnly;
@@ -308,8 +318,9 @@
     elements.shuffle.setAttribute("aria-pressed", state.order ? "true" : "false");
     elements.shuffle.title = state.order ? "切换回顺序练习" : "切换到随机练习";
     elements.shuffleLabel.textContent = state.order ? "顺序" : "随机";
+    var typeLabels = { all: "全部题型", single: "单选题", multiple: "多选题", true_false: "判断题", short: "简答题" };
     var modeLabels = { all: "全部题目", unanswered: "只看未做", favorites: "我的收藏", exam: "模拟考试" };
-    var summaryParts = [state.topic === "all" ? "全部知识点" : state.topic, modeLabels[state.mode] || "全部题目"];
+    var summaryParts = [typeLabels[state.questionType] || "全部题型", state.topic === "all" ? "全部知识点" : state.topic, modeLabels[state.mode] || "全部题目"];
     if (state.query) summaryParts.push("搜索：" + state.query);
     elements.toolsSummary.textContent = summaryParts.join(" · ");
   }
@@ -365,6 +376,14 @@
 
   function changeBank(bank) {
     state.bank = bank;
+    if (state.mode === "exam") createExam();
+    resetRange();
+    save();
+    render();
+  }
+
+  function changeQuestionType(questionType) {
+    state.questionType = questionType;
     if (state.mode === "exam") createExam();
     resetRange();
     save();
@@ -466,6 +485,11 @@
     save();
     render();
   });
+  elements.questionTypeInputs.forEach(function (input) {
+    input.addEventListener("change", function () {
+      if (input.checked) changeQuestionType(input.value);
+    });
+  });
   elements.modeSelect.addEventListener("change", function () { changeMode(elements.modeSelect.value); });
   elements.favorite.addEventListener("click", toggleFavorite);
   elements.autoNext.addEventListener("change", function () {
@@ -490,7 +514,13 @@
   elements.shuffle.addEventListener("click", toggleOrder);
   elements.showAll.addEventListener("click", function () {
     state.wrongOnly = false;
-    state.index = 0;
+    state.query = "";
+    state.topic = "all";
+    state.questionType = "all";
+    state.mode = "all";
+    state.examOrder = null;
+    resetRange();
+    save();
     render();
   });
   elements.reset.addEventListener("click", resetProgress);
