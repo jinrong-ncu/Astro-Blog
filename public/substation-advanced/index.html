@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#176b4d">
   <title>变电设备高级工刷题</title>
   <link rel="icon" href="assets/quiz-mark.png" type="image/png">
-  <link rel="stylesheet" href="styles.css?v=20260807-4">
+  <link rel="stylesheet" href="styles.css?v=20260811-3">
 </head>
 <body>
   <div class="app-shell">
@@ -108,7 +108,7 @@
               <option value="all">全部题目</option>
               <option value="unanswered">只看未做</option>
               <option value="favorites">我的收藏</option>
-              <option value="exam">模拟考试（100题）</option>
+              <option value="exam">模拟考试（90题 · 100分）</option>
             </select>
           </label>
           <button id="favorite-button" class="favorite-button" type="button" aria-pressed="false">
@@ -127,7 +127,10 @@
             <span id="question-type" class="type-badge">单选题</span>
             <span id="question-bank-name" class="bank-name">基本要求</span>
           </div>
-          <span id="question-position" class="position">1 / 1242</span>
+          <div class="question-progress-meta">
+            <span id="exam-score" class="exam-score" hidden>得分 0 / 100 · 已答 0 / 90</span>
+            <span id="question-position" class="position">1 / 1242</span>
+          </div>
         </div>
 
         <div class="progress-track" aria-hidden="true"><span id="progress-fill"></span></div>
@@ -177,6 +180,6 @@
   </dialog>
 
   <script src="question-data.js?v=20260717-3"></script>
-  <script src="app.js?v=20260807-1"></script>
+  <script src="app.js?v=20260811-3"></script>
 </body>
 </html>

@@ -18,6 +18,7 @@
     favorites: saved.favorites || [],
     currentId: saved.currentId || null,
     examOrder: saved.examOrder || null,
+    examResults: saved.examResults || {},
     autoNext: Boolean(saved.autoNext),
     toolsExpanded: typeof saved.toolsExpanded === "boolean" ? saved.toolsExpanded : !window.matchMedia("(max-width: 820px)").matches,
   };
@@ -27,6 +28,7 @@
     questionType: document.getElementById("question-type"),
     questionBankName: document.getElementById("question-bank-name"),
     questionPosition: document.getElementById("question-position"),
+    examScore: document.getElementById("exam-score"),
     progressFill: document.getElementById("progress-fill"),
     questionStem: document.getElementById("question-stem"),
     multipleHint: document.getElementById("multiple-hint"),
@@ -56,6 +58,7 @@
     bankSelect: document.getElementById("bank-select"),
     search: document.getElementById("question-search"),
     topicSelect: document.getElementById("topic-select"),
+    questionTypeFilter: document.querySelector(".question-type-filter"),
     questionTypeInputs: document.querySelectorAll('input[name="question-type-filter"]'),
     modeSelect: document.getElementById("mode-select"),
     favorite: document.getElementById("favorite-button"),
@@ -70,6 +73,23 @@
     true_false: "判断题",
     short: "简答题",
   };
+
+  var examBlueprint = {
+    single: 60,
+    multiple: 10,
+    true_false: 20,
+  };
+
+  var examTypeOrder = ["single", "multiple", "true_false"];
+
+  var questionPoints = {
+    single: 1,
+    multiple: 2,
+    true_false: 1,
+  };
+
+  var examQuestionCount = 90;
+  var examTotalPoints = 100;
 
   if (!["all", "single", "multiple", "true_false", "short"].includes(state.questionType)) state.questionType = "all";
 
@@ -115,6 +135,7 @@
       favorites: state.favorites,
       currentId: state.currentId,
       examOrder: state.examOrder,
+      examResults: state.examResults,
       autoNext: state.autoNext,
       toolsExpanded: state.toolsExpanded,
     }));
@@ -162,6 +183,22 @@
     return filteredQuestions()[state.index];
   }
 
+  function activeResults() {
+    return state.mode === "exam" ? state.examResults : state.results;
+  }
+
+  function examStats() {
+    var byId = new Map(data.questions.map(function (question) { return [question.id, question]; }));
+    return (state.examOrder || []).reduce(function (stats, id) {
+      var result = state.examResults[id];
+      var question = byId.get(id);
+      if (!result || !question) return stats;
+      stats.answered += 1;
+      if (result.correct) stats.score += questionPoints[question.type] || 0;
+      return stats;
+    }, { answered: 0, score: 0 });
+  }
+
   function render() {
     var questions = filteredQuestions();
     if (state.index >= questions.length) state.index = Math.max(0, questions.length - 1);
@@ -186,9 +223,9 @@
     elements.quizView.querySelector(".question-area").hidden = false;
     elements.emptyState.hidden = true;
 
-    var result = state.results[question.id];
+    var result = activeResults()[question.id];
     state.selected = result && result.selected ? result.selected.slice() : [];
-    elements.questionType.textContent = typeNames[question.type];
+    elements.questionType.textContent = typeNames[question.type] + (state.mode === "exam" ? " · " + questionPoints[question.type] + "分" : "");
     elements.questionBankName.textContent = question.bankName + " · " + question.topic + " · 第 " + question.number + " 题";
     elements.questionPosition.textContent = (state.index + 1) + " / " + questions.length;
     elements.progressFill.style.width = ((state.index + 1) / questions.length * 100) + "%";
@@ -231,7 +268,7 @@
   }
 
   function selectOption(question, key) {
-    if (state.results[question.id]) return;
+    if (activeResults()[question.id]) return;
     if (question.type === "multiple") {
       state.selected = state.selected.includes(key)
         ? state.selected.filter(function (item) { return item !== key; })
@@ -255,7 +292,7 @@
     var selected = state.selected.slice().sort();
     var correct = question.correct.slice().sort();
     var isCorrect = selected.length === correct.length && selected.every(function (key, index) { return key === correct[index]; });
-    state.results[question.id] = { correct: isCorrect, selected: selected };
+    activeResults()[question.id] = { correct: isCorrect, selected: selected };
     save();
     render();
     if (isCorrect && state.autoNext && state.index < filteredQuestions().length - 1) {
@@ -269,7 +306,7 @@
   function revealShortAnswer() {
     var question = currentQuestion();
     if (!question || question.type !== "short") return;
-    state.results[question.id] = { correct: null, selected: [] };
+    activeResults()[question.id] = { correct: null, selected: [] };
     save();
     render();
   }
@@ -297,7 +334,15 @@
     elements.answeredTotal.textContent = resultValues.length;
     elements.accuracyTotal.textContent = graded.length ? Math.round(correct / graded.length * 100) + "%" : "--";
     elements.wrongCount.textContent = wrong;
-    elements.dialogSummary.textContent = resultValues.length + " / " + data.questions.length + " 已作答";
+    if (state.mode === "exam") {
+      var stats = examStats();
+      elements.examScore.hidden = false;
+      elements.examScore.textContent = (stats.answered === examQuestionCount ? "最终" : "得分") + " " + stats.score + " / " + examTotalPoints + " · 已答 " + stats.answered + " / " + examQuestionCount;
+      elements.dialogSummary.textContent = stats.answered + " / " + examQuestionCount + " 已作答 · 得分 " + stats.score + " / " + examTotalPoints;
+    } else {
+      elements.examScore.hidden = true;
+      elements.dialogSummary.textContent = resultValues.length + " / " + data.questions.length + " 已作答";
+    }
   }
 
   function updateBankControls() {
@@ -309,6 +354,10 @@
     elements.topicSelect.value = state.topic;
     elements.questionTypeInputs.forEach(function (input) { input.checked = input.value === state.questionType; });
     elements.modeSelect.value = state.mode;
+    elements.search.disabled = state.mode === "exam";
+    elements.topicSelect.disabled = state.mode === "exam";
+    elements.questionTypeFilter.hidden = state.mode === "exam";
+    elements.questionTypeInputs.forEach(function (input) { input.disabled = state.mode === "exam"; });
     elements.autoNext.checked = state.autoNext;
     elements.wrongOnly.checked = state.wrongOnly;
     elements.wrongOnlyButton.classList.toggle("is-active", state.wrongOnly);
@@ -319,7 +368,7 @@
     elements.shuffle.title = state.order ? "切换回顺序练习" : "切换到随机练习";
     elements.shuffleLabel.textContent = state.order ? "顺序" : "随机";
     var typeLabels = { all: "全部题型", single: "单选题", multiple: "多选题", true_false: "判断题", short: "简答题" };
-    var modeLabels = { all: "全部题目", unanswered: "只看未做", favorites: "我的收藏", exam: "模拟考试" };
+    var modeLabels = { all: "全部题目", unanswered: "只看未做", favorites: "我的收藏", exam: "模拟考试（90题 · 100分）" };
     var summaryParts = [typeLabels[state.questionType] || "全部题型", state.topic === "all" ? "全部知识点" : state.topic, modeLabels[state.mode] || "全部题目"];
     if (state.query) summaryParts.push("搜索：" + state.query);
     elements.toolsSummary.textContent = summaryParts.join(" · ");
@@ -353,22 +402,64 @@
     state.selected = [];
   }
 
-  function createExam() {
-    var previousMode = state.mode;
-    state.mode = "all";
-    var candidates = filteredQuestions().map(function (question) { return question.id; });
-    state.mode = previousMode;
-    for (var i = candidates.length - 1; i > 0; i -= 1) {
+  function shuffle(items) {
+    for (var i = items.length - 1; i > 0; i -= 1) {
       var j = Math.floor(Math.random() * (i + 1));
-      var temp = candidates[i]; candidates[i] = candidates[j]; candidates[j] = temp;
+      var temp = items[i]; items[i] = items[j]; items[j] = temp;
     }
-    state.examOrder = candidates.slice(0, 100);
+    return items;
+  }
+
+  function createExam() {
+    var candidates = data.questions.filter(function (question) {
+      return state.bank === "all" || question.bank === state.bank;
+    });
+    var examQuestions = [];
+    var missingType = null;
+
+    examTypeOrder.some(function (type) {
+      var pool = shuffle(candidates.filter(function (question) { return question.type === type; }).slice());
+      if (pool.length < examBlueprint[type]) {
+        missingType = type;
+        return true;
+      }
+      examQuestions = examQuestions.concat(pool.slice(0, examBlueprint[type]));
+      return false;
+    });
+
+    if (missingType) {
+      window.alert("当前题库的" + typeNames[missingType] + "数量不足，无法生成模拟考试。");
+      state.examOrder = null;
+      state.examResults = {};
+      return false;
+    }
+
+    state.examOrder = examQuestions.map(function (question) { return question.id; });
+    state.examResults = {};
+    return true;
+  }
+
+  function hasValidExam() {
+    if (!Array.isArray(state.examOrder) || state.examOrder.length !== examQuestionCount) return false;
+    var byId = new Map(data.questions.map(function (question) { return [question.id, question]; }));
+    var expectedTypes = examTypeOrder.reduce(function (types, type) {
+      return types.concat(Array(examBlueprint[type]).fill(type));
+    }, []);
+    return state.examOrder.every(function (id, index) {
+      var question = byId.get(id);
+      return question && question.type === expectedTypes[index];
+    });
   }
 
   function changeMode(mode) {
     state.mode = mode;
     state.wrongOnly = false;
-    if (mode === "exam") createExam();
+    if (mode === "exam") {
+      state.query = "";
+      state.topic = "all";
+      state.questionType = "all";
+      if (!createExam()) state.mode = "all";
+    }
     resetRange();
     save();
     render();
@@ -446,14 +537,17 @@
 
   function renderQuestionGrid() {
     var questions = filteredQuestions();
+    var results = activeResults();
     elements.questionGrid.replaceChildren();
-    questions.forEach(function (question, index) {
-      var result = state.results[question.id];
+    elements.questionGrid.classList.toggle("is-grouped", state.mode === "exam");
+
+    function createGridButton(question, index) {
+      var result = results[question.id];
       var button = document.createElement("button");
       button.type = "button";
       button.className = "grid-cell";
       button.textContent = index + 1;
-      button.title = question.bankName + " 第 " + question.number + " 题";
+      button.title = typeNames[question.type] + " · " + question.bankName + " 第 " + question.number + " 题";
       if (index === state.index) button.classList.add("is-current");
       if (result && result.correct === true) button.classList.add("is-correct");
       if (result && result.correct === false) button.classList.add("is-wrong");
@@ -463,7 +557,41 @@
         render();
         window.scrollTo({ top: 0, behavior: "smooth" });
       });
-      elements.questionGrid.appendChild(button);
+      return button;
+    }
+
+    if (state.mode !== "exam") {
+      questions.forEach(function (question, index) {
+        elements.questionGrid.appendChild(createGridButton(question, index));
+      });
+      return;
+    }
+
+    var startNumber = 1;
+    examTypeOrder.forEach(function (type) {
+      var section = document.createElement("section");
+      var heading = document.createElement("div");
+      var title = document.createElement("strong");
+      var details = document.createElement("span");
+      var cells = document.createElement("div");
+      var typeQuestions = questions.map(function (question, index) {
+        return { question: question, index: index };
+      }).filter(function (item) { return item.question.type === type; });
+      var endNumber = startNumber + typeQuestions.length - 1;
+
+      section.className = "question-grid-section";
+      section.dataset.type = type;
+      heading.className = "question-grid-heading";
+      title.textContent = typeNames[type];
+      details.textContent = typeQuestions.length + "题 · " + (typeQuestions.length * questionPoints[type]) + "分 · 第" + startNumber + "–" + endNumber + "题";
+      cells.className = "question-grid-cells";
+      typeQuestions.forEach(function (item) {
+        cells.appendChild(createGridButton(item.question, item.index));
+      });
+      heading.append(title, details);
+      section.append(heading, cells);
+      elements.questionGrid.appendChild(section);
+      startNumber = endNumber + 1;
     });
   }
 
@@ -544,7 +672,7 @@
     }
   });
 
-  if (state.mode === "exam" && (!state.examOrder || state.examOrder.length === 0)) createExam();
+  if (state.mode === "exam" && !hasValidExam()) createExam();
   var restoredQuestions = filteredQuestions();
   var restoredIndex = restoredQuestions.findIndex(function (question) { return question.id === state.currentId; });
   state.index = restoredIndex >= 0 ? restoredIndex : 0;

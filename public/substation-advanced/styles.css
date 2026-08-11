@@ -169,6 +169,9 @@ button:focus-visible, select:focus-visible, input:focus-visible {
 .question-meta { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .type-badge { display: inline-flex; min-height: 26px; align-items: center; padding: 0 8px; border-radius: 4px; color: var(--green-dark); background: var(--green-soft); font-size: 12px; font-weight: 700; }
 .bank-name, .position { margin-left: 9px; color: var(--muted); font-size: 13px; }
+.question-progress-meta { display: flex; align-items: center; justify-content: flex-end; gap: 10px; white-space: nowrap; }
+.exam-score { min-height: 26px; padding: 0 9px; border: 1px solid #d7b36d; border-radius: 4px; display: inline-flex; align-items: center; color: #754d09; background: var(--amber-soft); font-size: 12px; font-weight: 700; }
+.question-progress-meta .position { margin-left: 0; }
 .progress-track { height: 4px; margin: 16px 0 42px; background: #e2e7e3; overflow: hidden; }
 .progress-track span { display: block; width: 0; height: 100%; background: var(--green); transition: width 180ms ease; }
 
@@ -241,18 +244,27 @@ button:focus-visible, select:focus-visible, input:focus-visible {
 .quiz-footer { position: fixed; z-index: 5; right: 0; bottom: 0; left: 260px; min-height: 82px; padding: 14px clamp(24px, 5vw, 72px); border-top: 1px solid var(--line); display: flex; justify-content: space-between; background: rgba(255, 255, 255, 0.96); backdrop-filter: blur(12px); }
 .quiz-footer button { min-width: 116px; }
 
-dialog { width: min(720px, calc(100% - 32px)); max-height: min(80vh, 760px); border: 0; border-radius: 8px; padding: 0; color: var(--ink); background: var(--surface); box-shadow: var(--shadow); }
+dialog { width: min(720px, calc(100% - 32px)); max-height: min(80vh, 760px); border: 0; border-radius: 8px; padding: 0; overflow: hidden; color: var(--ink); background: var(--surface); box-shadow: var(--shadow); }
+dialog[open] { display: flex; flex-direction: column; }
 dialog::backdrop { background: rgba(11, 24, 18, 0.48); backdrop-filter: blur(2px); }
-.dialog-header { min-height: 76px; padding: 16px 20px; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; }
+.dialog-header { min-height: 76px; padding: 16px 20px; border-bottom: 1px solid var(--line); display: flex; flex: 0 0 auto; align-items: center; justify-content: space-between; }
 .dialog-header strong { display: block; font-size: 19px; }
 .dialog-header span { display: block; margin-top: 4px; color: var(--muted); font-size: 12px; }
-.legend { padding: 16px 20px 4px; display: flex; flex-wrap: wrap; gap: 14px; color: var(--muted); font-size: 12px; }
+.legend { padding: 16px 20px 4px; display: flex; flex: 0 0 auto; flex-wrap: wrap; gap: 14px; color: var(--muted); font-size: 12px; }
 .legend span { display: inline-flex; align-items: center; gap: 6px; }
 .legend i { width: 10px; height: 10px; border: 1px solid var(--line); border-radius: 2px; }
 .legend-current { border-color: var(--green) !important; box-shadow: 0 0 0 2px rgba(23, 107, 77, 0.14); }
 .legend-correct { border-color: var(--green) !important; background: var(--green-soft); }
 .legend-wrong { border-color: var(--red) !important; background: var(--red-soft); }
-.question-grid { max-height: 55vh; padding: 16px 20px 24px; display: grid; grid-template-columns: repeat(10, 1fr); gap: 8px; overflow-y: auto; }
+.question-grid { min-height: 0; padding: 16px 20px 24px; display: grid; flex: 1 1 auto; grid-template-columns: repeat(10, 1fr); gap: 8px; overflow-y: auto; }
+.question-grid.is-grouped { display: block; }
+.question-grid-section + .question-grid-section { margin-top: 24px; padding-top: 22px; border-top: 1px solid var(--line); }
+.question-grid-heading { margin-bottom: 11px; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.question-grid-heading strong { color: var(--green-dark); font-size: 14px; }
+.question-grid-section[data-type="multiple"] .question-grid-heading strong { color: #81540a; }
+.question-grid-section[data-type="true_false"] .question-grid-heading strong { color: #4d5b54; }
+.question-grid-heading span { color: var(--muted); font-size: 12px; }
+.question-grid-cells { display: grid; grid-template-columns: repeat(10, 1fr); gap: 8px; }
 .grid-cell { aspect-ratio: 1; min-width: 0; border: 1px solid var(--line); border-radius: 4px; background: white; cursor: pointer; font-size: 12px; }
 .grid-cell:hover { border-color: #8ba89a; }
 .grid-cell.is-current { border: 2px solid var(--green); }
@@ -281,16 +293,20 @@ dialog::backdrop { background: rgba(11, 24, 18, 0.48); backdrop-filter: blur(2px
   .quiz-footer { left: 0; min-height: 72px; padding: 10px 16px; }
   .quiz-footer button { min-width: 104px; }
   .question-grid { grid-template-columns: repeat(7, 1fr); }
+  .question-grid-cells { grid-template-columns: repeat(7, 1fr); }
 }
 
 @media (max-width: 520px) {
   .mobile-brand strong { display: none; }
   .question-meta { align-items: flex-start; }
   .bank-name { display: block; margin: 6px 0 0; }
+  .question-progress-meta { flex-direction: column; align-items: flex-end; gap: 5px; }
   .position { margin-left: 0; white-space: nowrap; }
   .feedback-heading { display: block; }
   .feedback-heading span { display: block; margin-top: 6px; }
   .question-grid { grid-template-columns: repeat(5, 1fr); }
+  .question-grid-heading { align-items: flex-start; flex-direction: column; gap: 3px; }
+  .question-grid-cells { grid-template-columns: repeat(5, 1fr); }
   .study-tools-body { grid-template-columns: 1fr; }
   .search-control, .favorite-button { grid-column: auto; }
   .question-type-filter { max-width: none; }
