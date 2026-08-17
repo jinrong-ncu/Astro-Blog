@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#176b4d">
   <title>线路安规刷题</title>
   <link rel="icon" href="assets/quiz-mark.png" type="image/png">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=20260817-1">
 </head>
 <body>
   <div class="app-shell">
@@ -80,13 +80,57 @@
         </div>
       </header>
 
+      <details id="study-tools" class="study-tools">
+        <summary>
+          <span><b>筛选与练习设置</b><small id="tools-summary">全部题型 · 全部知识点 · 全部题目</small></span>
+          <span class="collapse-label"><em>展开</em></span>
+        </summary>
+        <div class="study-tools-body" aria-label="练习工具">
+          <div class="question-type-filter" role="radiogroup" aria-label="题型">
+            <div class="segmented-control">
+              <label><input type="radio" name="question-type-filter" value="all" checked><span>全部</span></label>
+              <label><input type="radio" name="question-type-filter" value="single"><span>单选</span></label>
+              <label><input type="radio" name="question-type-filter" value="multiple"><span>多选</span></label>
+              <label><input type="radio" name="question-type-filter" value="true_false"><span>判断</span></label>
+            </div>
+          </div>
+          <label class="search-control">
+            <span class="sr-only">搜索题目</span>
+            <input id="question-search" type="search" placeholder="搜索题干或知识点" autocomplete="off">
+          </label>
+          <label>
+            <span>知识点</span>
+            <select id="topic-select"><option value="all">全部知识点</option></select>
+          </label>
+          <label>
+            <span>练习模式</span>
+            <select id="mode-select">
+              <option value="all">全部题目</option>
+              <option value="unanswered">只看未做</option>
+              <option value="favorites">我的收藏</option>
+              <option value="exam">模拟考试（100题 · 120分）</option>
+            </select>
+          </label>
+          <button id="favorite-button" class="favorite-button" type="button" aria-pressed="false">
+            <span aria-hidden="true">☆</span><span>收藏本题</span>
+          </button>
+          <label class="auto-next-control">
+            <input id="auto-next" type="checkbox">
+            <span>答对自动下一题</span>
+          </label>
+        </div>
+      </details>
+
       <section id="quiz-view" class="quiz-view" aria-live="polite">
         <div class="question-meta">
           <div>
             <span id="question-type" class="type-badge">单选题</span>
             <span id="question-bank-name" class="bank-name">通用部分</span>
           </div>
-          <span id="question-position" class="position">1 / 412</span>
+          <div class="question-progress-meta">
+            <span id="exam-score" class="exam-score" hidden>得分 0 / 120 · 已答 0 / 100</span>
+            <span id="question-position" class="position">1 / 412</span>
+          </div>
         </div>
 
         <div class="progress-track" aria-hidden="true"><span id="progress-fill"></span></div>
@@ -109,7 +153,7 @@
 
         <div id="empty-state" class="empty-state" hidden>
           <strong>当前范围没有题目</strong>
-          <p>完成一些题目后，答错的题会出现在这里。</p>
+          <p>请调整题库、题型或筛选条件后重试。</p>
           <button id="show-all-button" class="secondary-button">返回全部题目</button>
         </div>
       </section>
@@ -135,7 +179,7 @@
     <div id="question-grid" class="question-grid"></div>
   </dialog>
 
-  <script src="question-data.js"></script>
-  <script src="app.js"></script>
+  <script src="question-data.js?v=20260817-1"></script>
+  <script src="app.js?v=20260817-1"></script>
 </body>
 </html>
