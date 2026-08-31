@@ -220,7 +220,7 @@
   }
 
   function ensurePracticeOptionOrder(question) {
-    if (question.type !== "single") return optionKeys(question);
+    if (question.type !== "single" && question.type !== "multiple") return optionKeys(question);
     var savedOrder = state.practiceOptionOrders[question.id];
     if (!isValidOptionOrder(question, savedOrder)) {
       savedOrder = shuffle(optionKeys(question).slice());
