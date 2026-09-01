@@ -1,0 +1,36 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import PostCard from "../../components/PostCard.astro";
+import { BLOG_CATEGORIES, CATEGORY_META, type BlogCategory } from "../../content/categories";
+import { AUTHOR_NAME } from "../../consts";
+import "../../styles/global.css";
+
+export async function getStaticPaths() {
+  const posts = (await getCollection("blog")).filter((post) => !post.data.draft);
+  return BLOG_CATEGORIES.map((category) => ({
+    params: { category },
+    props: {
+      posts: posts
+        .filter((post) => post.data.category === category)
+        .sort((a, b) => (b.data.updatedDate ?? b.data.pubDate).valueOf() - (a.data.updatedDate ?? a.data.pubDate).valueOf()),
+    },
+  })).filter(({ props }) => props.posts.length > 0);
+}
+
+const category = Astro.params.category as BlogCategory;
+const { posts } = Astro.props;
+const meta = CATEGORY_META[category];
+---
+
+<Layout title={`${meta.label} - ${AUTHOR_NAME}`} description={meta.description}>
+  <section>
+    <a href="/categories/" class="text-sm font-bold text-zinc-500 hover:text-zinc-950 dark:hover:text-white">← 全部分类</a>
+    <h1 class="mt-5 text-4xl font-extrabold tracking-tight text-zinc-950 dark:text-white sm:text-5xl">{meta.label}</h1>
+    <p class="mt-4 max-w-2xl text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">{meta.description}</p>
+    <p class="mt-3 text-sm text-zinc-400">{posts.length} 篇教程</p>
+    <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {posts.map((post) => <PostCard post={post} />)}
+    </div>
+  </section>
+</Layout>

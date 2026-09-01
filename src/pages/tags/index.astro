@@ -9,15 +9,16 @@ const tagMap = new Map<string, { count: number; latest: Date }>();
 
 posts.forEach((post) => {
   post.data.tags.forEach((tag) => {
+    const displayDate = post.data.updatedDate ?? post.data.pubDate;
     const current = tagMap.get(tag);
     if (!current) {
-      tagMap.set(tag, { count: 1, latest: post.data.pubDate });
+      tagMap.set(tag, { count: 1, latest: displayDate });
       return;
     }
 
     current.count += 1;
-    if (post.data.pubDate > current.latest) {
-      current.latest = post.data.pubDate;
+    if (displayDate > current.latest) {
+      current.latest = displayDate;
     }
   });
 });

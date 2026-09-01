@@ -38,13 +38,13 @@ export default function UploadManager() {
             {/* 顶部状态栏 */}
             <div className="flex justify-between items-center mb-6">
                 <div>
-                    <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">上传管理</h2>
-                    <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">最大支持同时并发上传 3 个文件</p>
+                    <h2 className="text-lg font-semibold text-zinc-900 dark:text-zinc-100">上传队列演示</h2>
+                    <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">模拟 3 个并发任务，不会发送文件</p>
                 </div>
                 <div className="flex flex-col items-end gap-2">
                     {isMockMode ? (
                         <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 dark:bg-amber-500/10 text-amber-700 dark:text-amber-500 border border-amber-200 dark:border-amber-500/20">
-                            模拟模式
+                            仅本地模拟
                         </span>
                     ) : (
                         <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-500 border border-emerald-200 dark:border-emerald-500/20">
@@ -63,8 +63,8 @@ export default function UploadManager() {
             >
                 <input type="file" multiple ref={fileInputRef} className="hidden" onChange={handleFileChange} />
                 <UploadCloud className="w-8 h-8 mx-auto text-zinc-400 dark:text-zinc-500 group-hover:text-zinc-600 dark:group-hover:text-zinc-300 transition-colors mb-3" />
-                <h3 className="text-sm font-medium text-zinc-900 dark:text-zinc-100">点击此处或拖拽文件到此区域上传</h3>
-                <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1.5">单文件大小不超过 150MB</p>
+                <h3 className="text-sm font-medium text-zinc-900 dark:text-zinc-100">点击或拖拽文件，观察队列状态</h3>
+                <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1.5">文件只用于浏览器内演示，不会上传到服务器</p>
             </div>
 
             {/* 操作按钮与任务列表 */}

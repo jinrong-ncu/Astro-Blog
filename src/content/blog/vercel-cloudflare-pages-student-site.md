@@ -1,78 +1,42 @@
 ---
-title: "个人网站部署选 Vercel 还是 Cloudflare Pages"
-description: "Vercel 和 Cloudflare Pages 都适合部署学生个人网站。本文从上手难度、域名、构建、静态站点和长期维护角度做一次实用对比。"
+title: "静态个人网站选 Vercel 还是 Cloudflare Pages"
+description: "按框架适配、构建限制、域名、预览部署和迁移成本比较 Vercel 与 Cloudflare Pages，给出静态学生网站的选择规则。"
 pubDate: 2026-05-11
-tags: ["Vercel", "Cloudflare Pages", "个人网站", "Astro", "建站"]
+updatedDate: 2026-09-01
+category: "websites-seo"
+tags: ["Vercel", "Cloudflare Pages", "Astro"]
 author: "荣十一"
 ---
 
-个人网站写完后，下一步就是部署。对学生和独立开发者来说，最常见的选择是 Vercel 和 Cloudflare Pages。
+纯静态 Astro 个人网站，两者都能胜任。已经在 Cloudflare 管理 DNS、重视静态文件分发时，优先 Cloudflare Pages；使用 Vercel 生态框架或重视开箱即用的预览体验时，优先 Vercel。真正影响选择的是项目限制与迁移成本，不是首页宣传语。
 
-这两个平台都能很好地部署静态网站，也都支持从 GitHub 仓库自动构建。真正的区别不在“谁更强”，而在你的网站是什么类型、你想怎么维护。
+以下限制最后核对于 2026 年 9 月 1 日，申请或迁移前请重新查看 [Vercel Limits](https://vercel.com/docs/limits) 与 [Cloudflare Pages Limits](https://developers.cloudflare.com/pages/platform/limits/)。
 
-## 如果你用 Astro、Hugo、Vite
+## 对静态站最有影响的差异
 
-静态博客、作品集、文档站，这类项目用 Vercel 或 Cloudflare Pages 都可以。
+| 维度 | Vercel | Cloudflare Pages |
+| --- | --- | --- |
+| Git 自动部署 | 支持 | 支持 |
+| 预览部署 | 支持 | 支持 |
+| 自定义域名与 HTTPS | 支持 | 支持 |
+| 免费计划构建并发 | 1 | 1 |
+| 单次构建超时 | 官方当前列为 45 分钟 | 官方当前列为 20 分钟 |
+| 静态文件约束 | CLI 源文件上传等限制见官方页 | 免费计划站点文件数与单文件 25 MiB 限制见官方页 |
 
-典型流程是：
+这些数字会变化；不要把它们写进长期不更新的部署脚本。
 
-1. 把项目推到 GitHub
-2. 在平台导入仓库
-3. 设置构建命令
-4. 设置输出目录
-5. 绑定域名
+## 选择规则
 
-Astro 项目常见构建命令是：
+- **选 Vercel**：项目使用 Vercel 重点支持的框架能力，或团队已经依赖其预览、日志和项目权限。
+- **选 Cloudflare Pages**：站点是静态输出，域名和其他 Cloudflare 服务已在同一账号管理。
+- **都可以**：个人简历、博客、文档站；此时选你更容易查看构建日志和迁移 DNS 的平台。
 
-```bash
-npm run build
-```
+## 保持可迁移
 
-输出目录通常是：
+1. 构建命令和输出目录写进 README；
+2. 不把内容只存平台后台；
+3. 环境变量保留名称清单，不提交值；
+4. DNS TTL、重定向和自定义头单独记录；
+5. 切换前用预览域名检查 canonical，正式上线后再改 DNS。
 
-```text
-dist
-```
-
-## Vercel 的优势
-
-Vercel 对前端框架非常友好，尤其是 Next.js。导入仓库、自动识别框架、预览部署、环境变量管理都比较顺手。
-
-如果你经常做前端项目、React 项目、Next.js 项目，Vercel 的体验会更直接。每次提交代码后，它会自动生成预览链接，很适合给同学、老师或面试官看。
-
-## Cloudflare Pages 的优势
-
-Cloudflare Pages 很适合静态站点和全球访问。它和 Cloudflare 的 DNS、CDN、Workers 等能力放在一起，长期维护网站会比较完整。
-
-如果你的域名本来就托管在 Cloudflare，Pages 绑定域名会很自然。对于纯静态博客，它也很稳。
-
-## 怎么选
-
-可以按项目类型选：
-
-- Astro 静态博客：两者都可以
-- Next.js 项目：优先 Vercel
-- 纯静态作品集：两者都可以
-- 域名和 DNS 已在 Cloudflare：Cloudflare Pages 更顺手
-- 需要频繁给别人看预览部署：Vercel 很舒服
-
-不要把部署平台选择想得太重。对个人网站来说，内容和维护频率比平台更重要。
-
-## 绑定域名前检查什么
-
-无论选哪个平台，绑定域名前都要检查：
-
-- 构建是否成功
-- 站点地图里的域名是否正确
-- RSS 地址是否正确
-- canonical 是否是正式域名
-- 404 页面是否能正常显示
-- 图片和字体是否加载
-
-很多网站部署后看似正常，但 sitemap 还指向旧域名，搜索引擎会很难受。
-
-## 我的建议
-
-如果你刚开始做个人网站，选你更容易上手的平台。先发布，再优化。
-
-后面真的遇到限制，也可以迁移。静态站点的好处就是可迁移性强，只要内容和代码在自己手里，平台不是锁死你的东西。
+如果站点还没成型，先用[最小学生个人网站方案](/blog/personal-website-for-students/)确定内容范围。

@@ -1,230 +1,69 @@
 ---
-title: "从微信读书 API 抓取高清书籍封面"
-description: "最近在做一些书籍的整理，发现封面很难找到高清的，发现微信阅读的封面还不错，还能自己改参数，之前学过一点Python 和 Rust, 想试试这几种语言，于是用它们做了一个自动化脚本。"
+title: "书籍封面抓取：从未公开接口迁移到 Open Library"
+description: "不再依赖微信读书未公开接口，改用有文档的 Open Library Covers API，并处理 ISBN、尺寸、缺图和版权边界。"
 pubDate: 2026-01-26
+updatedDate: 2026-09-01
+category: "dev-tools"
+tags: ["Open Library", "ISBN", "Node.js", "Python"]
 author: "荣十一"
-tags: [ "Python","NodeJs","Rust","折腾"]
 ---
 
+原文使用微信读书未公开接口抓取封面，接口稳定性、授权和批量使用边界都不清楚。本次改为有公开文档的 [Open Library Covers API](https://openlibrary.org/dev/docs/api/covers)，并保留缺图处理。
 
-## 🚀 核心逻辑
-1. **API 请求**：访问 `https://weread.qq.com/api/store/search?keyword=书名`。
-2. **数据解析**：定位 `results[0] -> books[0] -> bookInfo -> cover`。
-3. **高清处理**：将封面 URL 中的 `/s_` 替换为 `/t9_` 获取高清大图。
-4. **本地保存**：以书名命名并保存为 `.jpg`。
+## 用 ISBN 生成封面地址
 
-## 🐍 1. Python 实现（最简易）
-Python 的代码最接近自然语言，适合快速原型开发。
+Open Library 支持按 ISBN 请求 S、M、L 三种尺寸：
 
-**环境准备：** `pip install requests`
+~~~text
+https://covers.openlibrary.org/b/isbn/9780140328721-L.jpg?default=false
+~~~
 
-```python
-import requests
+加上 default=false 时，找不到封面会返回 404，程序就能区分真实图片和默认占位图。
 
-def download_weread_cover(keyword):
-    api_url = f"https://weread.qq.com/api/store/search?keyword={keyword}"
-    
-    try:
-        response = requests.get(api_url)
-        data = response.json()
-        
-        # 修正后的路径：results[0] -> books[0]
-        # 使用 .get() 增加容错性
-        results = data.get("results", [])
-        if results and "books" in results[0]:
-            books = results[0]["books"]
-            
-            # 3. 遍历书籍，找到阅读人数最多的书籍
-            max_reading_count = 0
-            best_book = None
-            
-            for book in books:
-                book_info = book.get("bookInfo", {})
-                title = book_info.get("title", "")
-                
-                if keyword in title:
-                    reading_count = book.get("readingCount", 0)
-                    if reading_count > max_reading_count:
-                        max_reading_count = reading_count
-                        best_book = book_info
-            
-            if best_book is None:
-                # 如果没有找到包含关键词的书籍，使用第一本
-                best_book = books[0]["bookInfo"]
-                max_reading_count = books[0].get("readingCount", 0)
-            
-            print(f"[Python] 选择了阅读人数最多的书籍，阅读人数: {max_reading_count}")
-            
-            cover_url = best_book.get("cover")
-            if cover_url:
-                # 将 s_yuewen 替换为 t9_yuewen 以获取高清原图
-                hd_url = cover_url.replace("/s_", "/t9_")
-                img_data = requests.get(hd_url).content
-                with open(f"{keyword}.jpg", "wb") as f:
-                    f.write(img_data)
-                print(f"[Python] 成功！已保存: {keyword}.jpg")
-        else:
-            print("未找到书籍数据")
-            
-    except Exception as e:
-        print(f"发生错误: {e}")
+## Node.js 下载示例
 
-if __name__ == "__main__":
-    import sys
-    if len(sys.argv) > 1:
-        book_name = sys.argv[1]
-        download_weread_cover(book_name)
-    else:
-        print("请提供书名作为参数，如：python main.py 书名")
-```
+~~~js
+import { writeFile } from "node:fs/promises";
 
-## 🟢 2. Node.js 实现（异步 I/O）
-Node.js 使用可选链（Optional Chaining）处理深层 JSON 非常优雅。
+async function downloadCover(isbn) {
+  const clean = isbn.replaceAll("-", "");
+  const url = `https://covers.openlibrary.org/b/isbn/${clean}-L.jpg?default=false`;
+  const response = await fetch(url);
 
-**环境准备：** `npm install axios`
+  if (response.status === 404) return false;
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
-```javascript
-const axios = require('axios');
-const fs = require('fs');
-
-async function download(keyword) {
-    const url = `https://weread.qq.com/api/store/search?keyword=${encodeURIComponent(keyword)}`;
-    
-    try {
-        const { data } = await axios.get(url);
-        const books = data.results?.[0]?.books;
-
-        if (!books || books.length === 0) {
-            console.log("未找到相关书籍");
-            return;
-        }
-
-        // 3. 遍历书籍，找到阅读人数最多的书籍
-        let maxReadingCount = 0;
-        let bestBook = null;
-
-        for (const book of books) {
-            const bookInfo = book.bookInfo;
-            const title = bookInfo?.title || "";
-            
-            if (title.includes(keyword)) {
-                const readingCount = book.readingCount || 0;
-                if (readingCount > maxReadingCount) {
-                    maxReadingCount = readingCount;
-                    bestBook = bookInfo;
-                }
-            }
-        }
-
-        // 如果没有找到包含关键词的书籍，使用第一本
-        if (!bestBook) {
-            bestBook = books[0].bookInfo;
-            maxReadingCount = books[0].readingCount || 0;
-        }
-
-        console.log(`[Node.js] 选择了阅读人数最多的书籍，阅读人数: ${maxReadingCount}`);
-
-        if (!bestBook || !bestBook.cover) {
-            console.log("未找到封面");
-            return;
-        }
-
-        // 核心逻辑：替换为高清地址 t9_
-        const hdCoverUrl = bestBook.cover.replace("/s_", "/t9_");
-
-        const response = await axios({
-            url: hdCoverUrl,
-            method: 'GET',
-            responseType: 'stream'
-        });
-
-        const fileName = `${keyword}.jpg`;
-        const writer = fs.createWriteStream(fileName);
-        response.data.pipe(writer);
-
-        writer.on('finish', () => console.log(`[Node.js] 高清封面保存成功: ${fileName}`));
-    } catch (err) {
-        console.error(`[Node.js] 出错: ${err.message}`);
-    }
+  const bytes = Buffer.from(await response.arrayBuffer());
+  await writeFile(`${clean}.jpg`, bytes);
+  return true;
 }
 
-// 获取命令行参数：node index.js 书名
-const args = process.argv.slice(2);
-if (args.length > 0) {
-    download(args[0]);
-} else {
-    console.log("用法: node index.js <书名>");
-}
-```
+await downloadCover("978-0-14-032872-1");
+~~~
 
-## 🦀 3. Rust 实现（高性能与安全）
-Rust 提供了极高的运行效率和类型安全，适合对性能有追求的场景。
+## Python 下载示例
 
-项目配置 (Cargo.toml):
+~~~python
+from pathlib import Path
+from urllib.error import HTTPError
+from urllib.request import urlopen
 
-```Ini, TOML
-[dependencies]
-reqwest = { version = "0.11", features = ["json", "blocking"] }
-serde_json = "1.0"
-```
+isbn = "9780140328721"
+url = f"https://covers.openlibrary.org/b/isbn/{isbn}-L.jpg?default=false"
 
-核心代码 (src/main.rs):
+try:
+    Path(f"{isbn}.jpg").write_bytes(urlopen(url, timeout=15).read())
+except HTTPError as error:
+    if error.code != 404:
+        raise
+~~~
 
-```rust
-use std::env;
-use std::fs::File;
-use std::io::copy;
+## 批量使用时的边界
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // 1. 获取命令行参数
-    let args: Vec<String> = env::args().collect();
-    if args.len() < 2 {
-        println!("用法: cargo run <书名>");
-        return Ok(());
-    }
-    let keyword = &args[1];
+- 先去除 ISBN 中的连字符，并校验长度或校验位；
+- 设置超时、有限并发和失败重试，不要高频扫库；
+- 记录来源与获取日期，便于以后替换；
+- 缺图时保留占位状态，不要把其他版本封面强行当成同一本书；
+- 封面仍可能受版权保护，公开展示和再分发前需要确认用途与授权。
 
-    let api_url = format!("https://weread.qq.com/api/store/search?keyword={}", keyword);
-
-    // 2. 请求 API
-    let resp = reqwest::blocking::get(api_url)?.json::<serde_json::Value>()?;
-   
-    // 3. 遍历书籍，找到阅读人数最多的书籍
-
-    let mut max_reading_count = 0;
-    let mut best_book_index = 0;
-
-    for (i, book) in resp["results"][0]["books"].as_array().unwrap().iter().enumerate() {
-        let book_info = &book["bookInfo"];
-        if let Some(title) = book_info["title"].as_str() {
-            if title.contains(keyword) {
-                if let Some(reading_count) = book["readingCount"].as_u64() {
-                    if reading_count > max_reading_count {
-                        max_reading_count = reading_count;
-                        best_book_index = i;
-                    }
-                }
-            }
-        }
-    }
-    
-    println!("[Rust] 选择了阅读人数最多的书籍，阅读人数: {}", max_reading_count);
-    // 4. 提取并替换 URL
-    if let Some(cover_url) = resp["results"][0]["books"][best_book_index]["bookInfo"]["cover"].as_str() {
-        // 核心逻辑：字符串替换
-        let hd_url = cover_url.replace("/s_", "/t9_");
-        
-        // 5. 下载高清图
-        let mut img_resp = reqwest::blocking::get(hd_url)?;
-        let file_name = format!("{}.jpg", keyword);
-        let mut dest = File::create(&file_name)?;
-        
-        copy(&mut img_resp, &mut dest)?;
-        println!("[Rust] 高清封面保存成功: {}", file_name);
-    } else {
-        println!("[Rust] 未找到封面地址");
-    }
-
-    Ok(())
-}
-```
+如果必须使用商业数据或稳定 SLA，应选择明确授权的图书数据服务，而不是继续猜测第三方 App 的内部接口。

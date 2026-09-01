@@ -1,75 +1,39 @@
 ---
-title: "个人博客如何接入 Google Search Console"
-description: "Search Console 能帮你确认博客是否被 Google 抓取和收录。本文整理验证、提交 sitemap、检查索引状态的基本流程。"
+title: "个人博客接入 Google Search Console 并检查索引"
+description: "完成站点所有权验证、提交 sitemap、使用 URL Inspection 检查抓取，并正确理解“已发现”“已抓取”和“未编入索引”。"
 pubDate: 2026-01-15
-tags: ["Google Search Console", "SEO", "个人网站", "博客", "建站"]
+updatedDate: 2026-09-01
+category: "websites-seo"
+tags: ["Google Search Console", "Sitemap", "URL Inspection"]
 author: "荣十一"
 ---
 
-个人博客上线后，很多人第一反应是搜索自己的标题。搜不到就慌，搜到了就觉得万事大吉。其实更靠谱的方式，是接入 Google Search Console。
+Search Console 不会替你“上传网站”，它让你证明站点所有权、提交 sitemap，并查看 Google 对 URL 的抓取与索引状态。提交 sitemap 也不保证每个页面都会被收录。
 
-Search Console 不会让你立刻有流量，但它能告诉你 Google 有没有看到你的网站、哪些页面被抓取、哪些页面还没进入索引。
+本文依据 [Google Search Console 官方帮助](https://support.google.com/webmasters/answer/7451001)整理。
 
-## 先选择验证方式
+## 1. 选择站点属性
 
-Search Console 常见有两种资源类型：Domain 和 URL prefix。
+- 能修改 DNS 时，优先使用 Domain 属性，它覆盖协议和子域名。
+- 只能改当前站点页面时，使用 URL-prefix 属性，并确保协议、域名和路径完全一致。
 
-Domain 资源覆盖整个域名，包括不同协议和子域名，比如 `https://example.com`、`http://example.com`、`www.example.com`。它通常需要 DNS TXT 记录验证。
+按页面给出的 DNS TXT、HTML 文件或 meta 标签完成验证。验证记录不要在通过后立即删除，否则后续可能失去权限。
 
-URL prefix 只覆盖你填写的具体前缀，比如 `https://example.com/`。它可以用 HTML 文件、meta 标签、Google Analytics 等方式验证。
+## 2. 提交 sitemap
 
-如果你有域名 DNS 管理权限，建议用 Domain 验证。它更完整，也不容易因为换部署方式而失效。
+先在未登录浏览器中打开站点生成的 sitemap，确认返回成功且其中 URL 属于正式域名。然后在 Sitemaps 报告里提交它的完整地址。
 
-## 提交 sitemap
+Google 的说明强调：提交表示“告诉 Google 在哪里找”，不是把 sitemap 文件上传到 Search Console。状态不是 Success 时，先修复无法访问、格式错误或跳转过多。
 
-验证完成后，第一件事是提交 sitemap。
+## 3. 检查单个 URL
 
-Astro 博客通常会生成类似这样的地址：
+在 URL Inspection 输入完整文章地址：
 
-```text
-https://你的域名/sitemap-index.xml
-```
+- **URL is on Google**：已进入索引，但展示仍取决于查询与质量。
+- **Discovered / Crawled, currently not indexed**：Google 知道或抓取过页面，但暂未收录；先检查内容重复、内部链接和页面是否真正有独立价值。
+- **Duplicate**：查看 Google 选择的 canonical 是否与你声明的一致。
+- **Blocked / noindex**：检查 robots、meta robots、响应和登录限制。
 
-提交后不要期待马上收录。Google 抓取和索引需要时间，新站尤其慢。你要做的是确保 sitemap 可访问，里面的 URL 是正式域名，不是 localhost，也不是旧域名。
+修改后可做 Live Test，再为少量关键页面请求重新编入索引。大量更新应依靠可抓取导航和 sitemap，而不是逐页重复提交。
 
-## 检查单个页面
-
-Search Console 里有 URL Inspection 工具。你可以输入某篇文章地址，查看：
-
-- Google 是否知道这个 URL
-- 最近一次抓取时间
-- 页面是否可被索引
-- canonical 是否正确
-- 是否有移动端可用性问题
-
-如果页面刚发布，可以请求编入索引。但不要频繁对大量页面重复提交，这不是加速器。
-
-## 常见问题
-
-**提交了 sitemap 但没收录。**  
-这很常见。新站、内容少、外链少、页面质量一般，都可能导致收录慢。先保证页面可访问，内容有完整结构，再等抓取。
-
-**Google 抓取到了但不索引。**  
-可能是内容太薄、重复、质量不足，或者 Google 认为暂时没有必要索引。增加原创内容和站内链接会更有帮助。
-
-**验证文件影响页面吗？**  
-不会。像 Google、Baidu 的验证 HTML 文件通常只是给平台确认所有权用。它们可以不参与站内搜索索引。
-
-## 审核期的网站要注意什么
-
-如果网站还在 Google Ads 或 AdSense 审核期，别只盯 Search Console。还要检查这些基础页面：
-
-- About 页面是否清楚
-- 是否有联系方式
-- 是否有隐私政策
-- 内容是否原创
-- 是否存在大量空页面或跳转页
-- 是否有版权风险内容
-
-Search Console 解决的是“Google 能不能看到你”，不是“广告审核一定通过”。
-
-## 我的建议
-
-个人博客接入 Search Console 后，前一个月重点看错误，不要天天看展示量。先确认 sitemap 正常、文章能被抓取、页面没有明显索引问题。
-
-等内容数量上来，再看哪些关键词带来了曝光。那时候你再回头优化标题和描述，会比一开始瞎猜有效得多。
+上线前的技术准备可用[Astro SEO 检查清单](/blog/astro-blog-seo-checklist/)复核。

@@ -1,87 +1,55 @@
 ---
 title: "Astro 博客上线前的 SEO 检查清单"
-description: "个人博客上线不只是能打开页面。标题、描述、RSS、站点地图、OG 图片和 Search Console 都会影响搜索引擎理解你的网站。"
+description: "从可抓取、canonical、标题描述到 sitemap、RSS、结构化数据和 404，按构建产物逐项检查 Astro 博客。"
 pubDate: 2025-12-06
-tags: ["Astro", "SEO", "个人网站", "博客", "建站"]
+updatedDate: 2026-09-01
+category: "websites-seo"
+tags: ["Astro", "Google Search Console", "Schema.org"]
 author: "荣十一"
 ---
 
-博客能打开，不代表它已经准备好被搜索引擎理解。
+Astro 博客“构建成功”只说明页面生成了，不代表搜索引擎能正确发现、理解和归并 URL。上线前至少检查：公开页面可访问、草稿不输出、canonical 正确、sitemap 可抓取、元数据唯一，以及旧 URL 有明确跳转。
 
-尤其是 Astro 这种静态站点，技术上很轻，但很多 SEO 细节需要自己处理。好消息是，个人博客不需要复杂的增长技巧，只要把基础项做好，就已经超过很多临时搭出来的网站。
+下面的清单以静态 Astro 站点为例。
 
-## 每篇文章都要有清楚的标题和描述
+## 先检查构建产物
 
-标题不要只写“笔记”“教程”“记录一下”。它应该告诉读者这篇文章解决什么问题。
+运行项目自己的生产构建，再查看输出目录：
 
-比如：
+~~~bash
+npm run build
+~~~
 
-- 弱：`GitHub 笔记`
-- 强：`GitHub Student Developer Pack 申请教程`
+确认以下页面真实存在：
 
-description 也不要堆关键词。它应该用一两句话说明文章内容。搜索结果页里，读者通常先看标题，再看描述，这两项决定了他是否愿意点进来。
+- 首页、文章页、分类页和归档页；
+- /sitemap-index.xml 或集成实际生成的 sitemap；
+- /rss.xml；
+- 404 页面或托管平台的 404 行为；
+- 旧文章迁移后的重定向响应。
 
-## URL 要稳定
+不要只在开发服务器里点通页面。开发模式可能掩盖大小写、尾斜杠和静态输出差异。
 
-文章 slug 一旦发布，尽量不要频繁修改。搜索引擎收录的是 URL，别人分享的也是 URL。
+## 每类页面抽查一个 HTML
 
-我更喜欢用英文 slug，比如：
+在生成的 HTML 中检查：
 
-```text
-/blog/github-student-developer-pack-guide/
-```
+- 一个明确、与正文意图一致的 title；
+- 准确的 meta description；
+- 指向首选 URL 的 canonical；
+- 文章页的 BlogPosting JSON-LD；
+- datePublished 与真正更新后的 dateModified；
+- Open Graph 标题、描述与图片；
+- 导航能从首页到达文章。
 
-它比中文 URL 更稳定，也更适合复制、分享和日志分析。
+Astro 的 [sitemap 集成](https://docs.astro.build/en/guides/integrations-guide/sitemap/)需要配置站点 URL。RSS 则应过滤草稿并使用稳定文章链接。
 
-## RSS 和 sitemap 要配置
+## 避免最常见的索引问题
 
-RSS 给订阅用户用，sitemap 给搜索引擎用。
+1. 标签页、OG 图片路由和相关推荐都过滤草稿。
+2. 同一内容不要同时保留多个可索引 URL；合并时使用永久重定向。
+3. 删除内容后不要把所有旧 URL 都跳到首页，应跳到等价内容或返回 404/410。
+4. sitemap 只列 canonical、可索引页面。
+5. 页面没有误加 noindex，也没有被 robots.txt 阻止。
 
-Astro 可以比较方便地生成 RSS 和 sitemap。上线后要检查：
-
-- `/rss.xml` 能否访问
-- `/sitemap-index.xml` 或 `/sitemap.xml` 能否访问
-- sitemap 里是否包含文章页
-- 站点域名是否正确
-
-如果 sitemap 里还是 localhost 或旧域名，搜索引擎会很困惑。
-
-## OG 图片和社交分享
-
-Open Graph 信息决定文章分享到社交平台时显示什么标题、描述和图片。
-
-至少要检查这些字段：
-
-- `og:title`
-- `og:description`
-- `og:image`
-- `canonical`
-- `twitter:card`
-
-如果你的博客能为每篇文章生成 OG 图片，会比纯文字链接更容易被识别。图片不用花哨，但标题必须清楚，中文字体也要能正常显示。
-
-## 内容不要太薄
-
-审核和收录都不喜欢只有几句话的页面。
-
-个人博客的文章不一定要很长，但至少要有完整结构：问题是什么、适合谁、怎么做、注意什么、下一步是什么。只贴几个链接或简单复制官方说明，很容易显得没有原创价值。
-
-## 上线后做 Search Console
-
-Google Search Console 可以让你看到网站是否被抓取、哪些页面被收录、有没有索引错误。
-
-基本流程是：
-
-1. 添加网站资源
-2. 验证域名或页面所有权
-3. 提交 sitemap
-4. 等待抓取
-5. 检查索引状态和覆盖率问题
-
-刚上线的网站不用急着看流量，先确保搜索引擎能正常读取你的页面。
-
-## 我的建议
-
-SEO 对个人博客来说，不是玄学，也不是堆关键词。它更像一套写作和发布规范：标题清楚、描述准确、URL 稳定、内容有用、页面能被抓取。
-
-把这些基础项做好，再持续写几个月，网站才会慢慢长出自己的搜索入口。
+完成技术检查后，再按[Search Console 接入与索引排查](/blog/google-search-console-blog-guide/)确认 Google 实际看到的结果。

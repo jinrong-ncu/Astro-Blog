@@ -183,7 +183,7 @@
   z-index: -1;
 }
 
-:global(.dark) .micro-droplet::before {
+.dark .micro-droplet::before {
   background: radial-gradient(
     circle at center,
     rgba(255, 255, 255, 0.15) 0%,
@@ -196,7 +196,7 @@
   color: #18181b; /* strict selection to zinc-900 */
 }
 
-:global(.dark) .micro-droplet:hover {
+.dark .micro-droplet:hover {
   color: #ffffff;
 }
 
@@ -232,7 +232,7 @@
   z-index: -1;
 }
 
-:global(.dark) .micro-droplet-text::before {
+.dark .micro-droplet-text::before {
   background: rgba(255, 255, 255, 0.1);
 }
 
@@ -241,7 +241,7 @@
   color: #18181b;
 }
 
-:global(.dark) .micro-droplet-text:hover {
+.dark .micro-droplet-text:hover {
   color: #ffffff;
 }
 

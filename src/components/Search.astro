@@ -14,7 +14,12 @@ const stripMarkdown = (value: string) =>
 
 const posts = (await getCollection("blog"))
     .filter((post) => !post.data.draft)
-    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+    .sort(
+        (a, b) =>
+            (b.data.updatedDate ?? b.data.pubDate).valueOf() -
+                (a.data.updatedDate ?? a.data.pubDate).valueOf() ||
+            b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+    );
 
 const searchEntries = posts.map((post) => {
     const body = stripMarkdown(post.body).slice(0, 12000);
@@ -24,8 +29,8 @@ const searchEntries = posts.map((post) => {
         title: post.data.title,
         description: post.data.description,
         tags,
-        url: `/blog/${post.slug}/`,
-        date: post.data.pubDate.toLocaleDateString("zh-CN", {
+        url: `/blog/${post.id}/`,
+        date: (post.data.updatedDate ?? post.data.pubDate).toLocaleDateString("zh-CN", {
             year: "numeric",
             month: "short",
             day: "numeric",

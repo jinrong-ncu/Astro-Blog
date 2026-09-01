@@ -1,44 +1,54 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import "../../styles/global.css";
 import Comments from "../../components/Comments.astro";
 import { AUTHOR_NAME, SITE_TITLE } from "../../consts";
+import { CATEGORY_META } from "../../content/categories";
 
 export async function getStaticPaths() {
   const posts = (await getCollection("blog")).filter(
     (post) => !post.data.draft,
   );
   return posts.map((entry) => ({
-    params: { slug: entry.slug },
+    params: { slug: entry.id },
     props: { entry },
   }));
 }
 
 const { entry } = Astro.props;
-const { Content } = await entry.render();
+const { Content } = await render(entry);
 const posts = (await getCollection("blog"))
   .filter((post) => !post.data.draft)
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+  .sort(
+    (a, b) =>
+      (b.data.updatedDate ?? b.data.pubDate).valueOf() -
+      (a.data.updatedDate ?? a.data.pubDate).valueOf(),
+  );
+const categoryMeta = CATEGORY_META[entry.data.category];
+const modifiedDate = entry.data.updatedDate ?? entry.data.pubDate;
 const articleUrl = new URL(
-  `/blog/${entry.slug}/`,
+  `/blog/${entry.id}/`,
   Astro.site || "https://liujinrong.cn",
 ).href;
 const imageUrl = new URL(
-  `/og/${entry.slug}.png`,
+  `/og/${entry.id}.png`,
   Astro.site || "https://liujinrong.cn",
 ).href;
 const relatedPosts = posts
-  .filter((post) => post.slug !== entry.slug)
+  .filter((post) => post.id !== entry.id)
   .map((post) => ({
     post,
-    score: post.data.tags.filter((tag) => entry.data.tags.includes(tag)).length,
+    score:
+      (post.data.category === entry.data.category ? 3 : 0) +
+      post.data.tags.filter((tag) => entry.data.tags.includes(tag)).length,
   }))
   .filter(({ score }) => score > 0)
   .sort(
     (a, b) =>
       b.score - a.score ||
-      b.post.data.pubDate.valueOf() - a.post.data.pubDate.valueOf(),
+      (b.post.data.updatedDate ?? b.post.data.pubDate).valueOf() -
+        (a.post.data.updatedDate ?? a.post.data.pubDate).valueOf(),
   )
   .slice(0, 3)
   .map(({ post }) => post);
@@ -54,7 +64,8 @@ const jsonLd = {
       image: imageUrl,
       url: articleUrl,
       datePublished: entry.data.pubDate.toISOString(),
-      dateModified: entry.data.pubDate.toISOString(),
+      dateModified: modifiedDate.toISOString(),
+      articleSection: categoryMeta.label,
       inLanguage: "zh-CN",
       keywords: entry.data.tags.join(", "),
       author: {
@@ -88,6 +99,15 @@ const jsonLd = {
         {
           "@type": "ListItem",
           position: 2,
+          name: categoryMeta.label,
+          item: new URL(
+            `/categories/${entry.data.category}/`,
+            Astro.site || "https://liujinrong.cn",
+          ).href,
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
           name: entry.data.title,
           item: articleUrl,
         },
@@ -111,9 +131,17 @@ const jsonLd = {
           class="mx-auto mb-5 flex max-w-3xl flex-wrap justify-center gap-2 sm:mb-6"
         >
           {
+            <a
+              href={`/categories/${entry.data.category}/`}
+              class="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-bold text-blue-700 transition-colors hover:bg-blue-100 dark:bg-blue-950/50 dark:text-blue-300 dark:hover:bg-blue-900/50"
+            >
+              {categoryMeta.label}
+            </a>
+          }
+          {
             entry.data.tags.map((tag) => (
               <a
-                href={`/tags/${tag}`}
+                href={`/tags/${encodeURIComponent(tag)}/`}
                 class="inline-flex items-center rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-600 transition-colors hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
               >
                 {tag}
@@ -124,7 +152,7 @@ const jsonLd = {
 
         <h1
           class="mx-auto max-w-3xl text-balance text-3xl font-bold leading-tight tracking-tight text-zinc-900 dark:text-white sm:text-4xl"
-          transition:name={`title-${entry.slug}`}
+          transition:name={`title-${entry.id}`}
         >
           {entry.data.title}
         </h1>
@@ -143,6 +171,16 @@ const jsonLd = {
           >
           <span>·</span>
           <span>{entry.data.author}</span>
+          {
+            entry.data.updatedDate && (
+              <>
+                <span>·</span>
+                <time datetime={entry.data.updatedDate.toISOString()}>
+                  更新于 {entry.data.updatedDate.toLocaleDateString("zh-CN")}
+                </time>
+              </>
+            )
+          }
           <span>·</span>
           <span
             id="busuanzi_container_page_pv"
@@ -169,7 +207,7 @@ const jsonLd = {
             <div class="mt-5 grid gap-4 sm:grid-cols-3">
               {relatedPosts.map((post) => (
                 <a
-                  href={`/blog/${post.slug}/`}
+                  href={`/blog/${post.id}/`}
                   class="group rounded-lg border border-zinc-200/80 bg-white/60 p-4 transition-colors hover:border-zinc-300 hover:bg-white dark:border-white/10 dark:bg-zinc-900/50 dark:hover:border-white/20 dark:hover:bg-zinc-900"
                 >
                   <time

@@ -1,215 +1,59 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { ArrowUpRight, BookOpen, LayoutPanelTop, Search, UploadCloud } from "lucide-react";
 import { AUTHOR_NAME } from "../consts";
-import {
-    ArrowUpRight,
-    Bot,
-    Cloud,
-    Code2,
-    Compass,
-    Database,
-    FileText,
-    FlaskConical,
-    GraduationCap,
-    Layers,
-    LineChart,
-    Search,
-    Sparkles,
-    UploadCloud,
-} from "lucide-react";
 import "../styles/global.css";
 
 const projects = [
-    {
-        name: "Astro Blog System",
-        desc: "这个站点本身就是长期项目：内容集合、RSS、OG 图片、站内搜索、结构化数据、IndexNow 和静态部署都在持续打磨。",
-        icon: FileText,
-        tags: ["Astro", "SEO", "Pagefind", "Content"],
-        link: "/blog/astro-blog-seo-checklist/",
-        color: "text-sky-500",
-        status: "Live",
-    },
-    {
-        name: "Student Toolkit Notes",
-        desc: "围绕学生软件、edu 邮箱、GitHub Pack、JetBrains、Figma、Microsoft 365 写成一组可持续扩展的资源笔记。",
-        icon: GraduationCap,
-        tags: ["Student", "Writing", "Research"],
-        link: "/blog/student-free-software-2026/",
-        color: "text-emerald-500",
-        status: "Growing",
-    },
-    {
-        name: "AI Agent Workflow",
-        desc: "把 Codex、Claude Code、Cursor、Windsurf 等 agent 放进真实开发流程，观察它们适合调研、重构、测试还是交付。",
-        icon: Bot,
-        tags: ["AI Agents", "Full Stack", "Workflow"],
-        link: "/uses/",
-        color: "text-violet-500",
-        status: "Exploring",
-    },
-    {
-        name: "Async Upload Lab",
-        desc: "多文件上传实验：并发控制、AbortController、任务队列、R2/S3 上传和可视化状态反馈，关注的是浏览器真实压力。",
-        icon: UploadCloud,
-        tags: ["React", "S3/R2", "Performance"],
-        link: "/blog/async-upload/",
-        color: "text-orange-500",
-        status: "Shipped",
-    },
-    {
-        name: "Apple UI Demos",
-        desc: "一组 Apple 风格交互实验：Liquid Glass、现代 Tab Bar、App Store 动效和文档视觉，还原的是质感和交互节奏。",
-        icon: Layers,
-        tags: ["Astro", "UI", "Motion"],
-        link: "/demos/liquid-glass/",
-        color: "text-fuchsia-500",
-        status: "Lab",
-    },
-    {
-        name: "Knowledge Base Kit",
-        desc: "把个人知识库、文件备份、GitHub 作品集和个人网站串成一个学习系统。目标是让资料和项目不会散掉。",
-        icon: Database,
-        tags: ["Notion", "Obsidian", "GitHub"],
-        link: "/blog/student-knowledge-base-setup/",
-        color: "text-amber-500",
-        status: "Notes",
-    },
-    {
-        name: "Search & Discovery",
-        desc: "站内搜索、标签页、RSS、sitemap、canonical、BlogPosting JSON-LD 和 IndexNow 组成的搜索可发现性实验。",
-        icon: Search,
-        tags: ["Search", "Schema.org", "IndexNow"],
-        link: "/blog/google-search-console-blog-guide/",
-        color: "text-cyan-500",
-        status: "Live",
-    },
-    {
-        name: "Personal Finance Ideas",
-        desc: "从基金、持仓、盯盘和收益记录出发，思考一个个人资产助手应该如何做得轻、稳、可长期维护。这个方向先留作待开发。",
-        icon: LineChart,
-        tags: ["Product", "Data", "Full Stack"],
-        color: "text-red-500",
-        status: "Todo",
-    },
-];
-
-const lanes = [
-    {
-        title: "内容系统",
-        desc: "文章不是孤岛，要能被搜索、订阅、链接和长期更新。",
-        icon: FileText,
-    },
-    {
-        title: "全栈实验",
-        desc: "从前端交互到数据、部署、搜索可见性，尽量走完闭环。",
-        icon: Code2,
-    },
-    {
-        title: "AI 协作",
-        desc: "关注 agent 真正能替人省掉哪些步骤，也记录它们不适合做什么。",
-        icon: Sparkles,
-    },
+  {
+    name: "实用教程内容系统",
+    description: "当前站点本身：Astro Content Collections、分类与标签、RSS、sitemap、OG 图片、JSON-LD、Pagefind 搜索和旧 URL 跳转。",
+    href: "/",
+    icon: BookOpen,
+    status: "持续维护",
+  },
+  {
+    name: "多文件上传队列",
+    description: "只在浏览器内模拟的 React 演示，用来验证有限并发、逐项取消和全部取消。不会把选中的文件发送到服务器。",
+    href: "/demos/upload/",
+    icon: UploadCloud,
+    status: "可交互",
+  },
+  {
+    name: "Apple 风格界面实验",
+    description: "几组独立的导航与材质实验，用于观察动效、层级和触控反馈，不伪装成真实 App 或官方界面。",
+    href: "/demos/apple-tabs/",
+    icon: LayoutPanelTop,
+    status: "界面实验",
+  },
+  {
+    name: "搜索可发现性",
+    description: "围绕构建产物、canonical、结构化数据、sitemap 与 Search Console 的公开检查流程。",
+    href: "/blog/astro-blog-seo-checklist/",
+    icon: Search,
+    status: "文档化",
+  },
 ];
 ---
 
-<Layout
-    title={`项目 - ${AUTHOR_NAME}`}
-    description={`${AUTHOR_NAME} 的项目页：全栈实验、AI agent 工作流、个人知识库、搜索与内容系统。`}
->
-    <div class="max-w-5xl mx-auto px-4 md:px-6 py-12 md:py-20 animate-fade-in">
-        <section class="grid gap-5 lg:grid-cols-[minmax(0,1.05fr)_minmax(280px,0.95fr)] lg:items-end">
-            <div>
-                <div class="inline-flex items-center gap-2 rounded-lg border border-zinc-200/80 bg-white/60 px-3 py-2 text-xs font-bold uppercase tracking-[0.1em] text-zinc-500 backdrop-blur-xl dark:border-white/10 dark:bg-zinc-900/50 dark:text-zinc-400">
-                    <FlaskConical className="h-4 w-4" />
-                    <span>Project Lab</span>
-                </div>
-                <h1 class="mt-5 text-4xl font-extrabold tracking-tight text-zinc-900 dark:text-white md:text-5xl">
-                    一些正在长大的小系统
-                </h1>
-                <p class="mt-5 max-w-2xl text-lg leading-relaxed text-zinc-500 dark:text-zinc-400">
-                    这些项目不全是“完成品”。有些是上线的小工具，有些是文章驱动的研究，有些只是为了验证一个产品判断。共同点是：尽量把想法做成能访问、能复盘、能继续迭代的东西。
-                </p>
-            </div>
+<Layout title={`项目 - ${AUTHOR_NAME}`} description="这个博客中真实存在、可访问或已文档化的项目与交互实验。">
+  <section class="animate-fade-in">
+    <p class="text-sm font-bold text-blue-600 dark:text-blue-300">Projects</p>
+    <h1 class="mt-3 text-4xl font-extrabold tracking-tight text-zinc-950 dark:text-white sm:text-5xl">真实存在的站点项目</h1>
+    <p class="mt-5 max-w-2xl text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">这里只列当前仓库里能打开、能检查或有明确文档的内容。未开始的想法不会被包装成项目。</p>
 
-            <div class="grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
-                {
-                    lanes.map(({ title, desc, icon: Icon }) => (
-                        <article class="rounded-lg border border-zinc-200/80 bg-white/60 p-4 backdrop-blur-xl dark:border-white/10 dark:bg-zinc-900/50">
-                            <div class="flex items-center gap-2 text-sm font-extrabold text-zinc-900 dark:text-zinc-100">
-                                <Icon className="h-4 w-4 text-sky-500" />
-                                <span>{title}</span>
-                            </div>
-                            <p class="mt-2 text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
-                                {desc}
-                            </p>
-                        </article>
-                    ))
-                }
-            </div>
-        </section>
-
-        <div class="mt-12 grid gap-5 md:grid-cols-2">
-            {
-                projects.map((project) => {
-                    const Tag = project.link ? "a" : "article";
-                    return (
-                    <Tag
-                        href={project.link}
-                        class={`group rounded-lg border border-zinc-200/80 bg-white/62 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.78),0_22px_70px_-48px_rgba(24,24,27,0.55)] backdrop-blur-2xl transition-all duration-200 dark:border-white/10 dark:bg-zinc-950/52 dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.08),0_26px_80px_-52px_rgba(0,0,0,0.95)] ${project.link ? "hover:-translate-y-1 hover:border-zinc-300/90 hover:bg-white/80 dark:hover:border-white/20 dark:hover:bg-zinc-900/68" : "cursor-default opacity-90"}`}
-                    >
-                        <div class="flex items-start justify-between gap-4">
-                            <div class={`inline-flex h-11 w-11 items-center justify-center rounded-lg bg-zinc-100 dark:bg-zinc-900 ${project.color}`}>
-                                <project.icon className="h-5 w-5" />
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <span class="rounded-full border border-zinc-200/80 bg-zinc-50/80 px-2.5 py-1 text-[0.68rem] font-bold uppercase tracking-[0.08em] text-zinc-500 dark:border-white/10 dark:bg-zinc-900/70 dark:text-zinc-400">
-                                    {project.status}
-                                </span>
-                                {project.link && (
-                                    <ArrowUpRight className="h-4 w-4 text-zinc-400 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-zinc-800 dark:group-hover:text-zinc-100" />
-                                )}
-                            </div>
-                        </div>
-
-                        <h2 class="mt-5 text-2xl font-extrabold tracking-tight text-zinc-900 dark:text-white">
-                            {project.name}
-                        </h2>
-                        <p class="mt-3 min-h-[5.2rem] text-sm leading-relaxed text-zinc-500 dark:text-zinc-400">
-                            {project.desc}
-                        </p>
-
-                        <div class="mt-5 flex flex-wrap gap-2">
-                            {project.tags.map((tag) => (
-                                <span class="rounded-md border border-zinc-200/80 bg-zinc-50/70 px-2.5 py-1 text-[0.72rem] font-semibold text-zinc-600 dark:border-white/10 dark:bg-zinc-900/70 dark:text-zinc-300">
-                                    {tag}
-                                </span>
-                            ))}
-                        </div>
-                    </Tag>
-                    );
-                })
-            }
-        </div>
-
-        <section class="mt-10 rounded-lg border border-zinc-200/80 bg-white/60 p-6 backdrop-blur-2xl dark:border-white/10 dark:bg-zinc-950/52">
-            <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                <div>
-                    <div class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.1em] text-zinc-500 dark:text-zinc-400">
-                        <Compass className="h-4 w-4" />
-                        <span>Direction</span>
-                    </div>
-                    <p class="mt-3 max-w-3xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-                        我会更偏向做“小而完整”的项目：一个清楚的问题，一个能跑的实现，一篇能复盘的文章。它们可能不庞大，但最好都能留下一个可以继续生长的入口。
-                    </p>
-                </div>
-                <a
-                    href="/uses"
-                    class="inline-flex shrink-0 items-center gap-2 rounded-lg border border-zinc-300/90 bg-white/70 px-3 py-2.5 text-sm font-bold text-zinc-800 transition-all hover:-translate-y-px hover:border-zinc-500/55 hover:bg-zinc-100/90 dark:border-zinc-700/90 dark:bg-zinc-900/70 dark:text-zinc-100 dark:hover:border-zinc-400/50 dark:hover:bg-zinc-800/90"
-                >
-                    <Cloud className="h-4 w-4" />
-                    <span>我的工具箱</span>
-                </a>
-            </div>
-        </section>
+    <div class="mt-10 grid gap-5 sm:grid-cols-2">
+      {projects.map((project) => (
+        <a href={project.href} class="group rounded-2xl border border-zinc-200/80 bg-white/60 p-6 transition hover:-translate-y-1 hover:border-zinc-300 dark:border-white/10 dark:bg-zinc-950/50 dark:hover:border-white/20">
+          <div class="flex items-start justify-between gap-4">
+            <project.icon className="h-6 w-6 text-blue-600 dark:text-blue-300" />
+            <span class="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-bold text-zinc-500 dark:bg-zinc-800 dark:text-zinc-400">{project.status}</span>
+          </div>
+          <h2 class="mt-5 text-xl font-extrabold text-zinc-950 dark:text-white">{project.name}</h2>
+          <p class="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">{project.description}</p>
+          <span class="mt-5 inline-flex items-center gap-1 text-sm font-bold text-blue-600 dark:text-blue-300">打开 <ArrowUpRight className="h-4 w-4" /></span>
+        </a>
+      ))}
     </div>
+  </section>
 </Layout>

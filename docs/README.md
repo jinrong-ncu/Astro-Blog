@@ -1,0 +1,10 @@
+# Blog Documentation
+
+Only current operating documents live here:
+
+- content-strategy.md — positioning, reader promise and category policy.
+- topic-clusters.md — each article's role and internal-link direction.
+- content-model.md — live frontmatter and taxonomy contract.
+- redirects.md — permanent mappings created by merges.
+
+Historical audit and migration checklists were removed after the September 2026 migration was applied. Git history remains the record of the previous state.
