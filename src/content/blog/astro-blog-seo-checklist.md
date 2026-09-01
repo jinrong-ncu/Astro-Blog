@@ -52,4 +52,6 @@ Astro 的 [sitemap 集成](https://docs.astro.build/en/guides/integrations-guide
 4. sitemap 只列 canonical、可索引页面。
 5. 页面没有误加 noindex，也没有被 robots.txt 阻止。
 
+如果使用 Pagefind，继续按[Astro 博客的 Pagefind 中文搜索与分类筛选](/blog/pagefind-chinese-search-astro/)把索引限制在文章标题和正文，避免导航、页脚与演示页面污染结果。
+
 完成技术检查后，再按[Search Console 接入与索引排查](/blog/google-search-console-blog-guide/)确认 Google 实际看到的结果。

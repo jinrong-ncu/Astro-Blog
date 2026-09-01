@@ -39,3 +39,5 @@ ChatGPT 扩展只在 ChatGPT 应用和服务可用的地区提供。以 [OpenAI 
 设置页显示 Apple Intelligence 已启用、ChatGPT 扩展可开关，并能在 Siri 或写作工具中完成一次安全测试请求，就算恢复。若扩展仍缺失，记录机型、iOS 版本、语言和所在地区后联系 Apple 支持，比反复更换规则更有效。
 
 Mac 用户可看[Mac 上的对应排查顺序](/blog/mac-apple-intelligence-chatgpt-login-guide/)。
+
+旅行 eSIM 只解决受支持设备上的蜂窝连接，不会改变 Apple 或 OpenAI 的服务资格。出发前的锁机、双卡和漫游检查见[iPhone 旅行 eSIM 使用前检查](/blog/iphone-travel-esim-preflight/)。

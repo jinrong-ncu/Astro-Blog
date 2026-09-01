@@ -2,7 +2,7 @@
 
 ## Product
 
-This repository is a search-driven practical tutorial site for students and independent developers. It covers student benefits, AI tools, Mac and iPhone, development tasks, websites and SEO, file safety, and selected eSIM or overseas-service problems.
+This repository is a search-driven practical tutorial site for students and independent creators. It covers student benefits, AI tools, Mac and iPhone, websites and SEO, file safety, and selected eSIM or overseas-service problems. It does not publish a separate development-tutorial category.
 
 It is not a wiki, a dump for isolated notes, a place for fake credentials, or a catalogue of unverified promotions.
 

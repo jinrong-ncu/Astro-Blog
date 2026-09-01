@@ -46,3 +46,5 @@ author: "荣十一"
 - 网站能从首页链接到每个重要页面。
 
 平台选择可继续看[Vercel 与 Cloudflare Pages 对比](/blog/vercel-cloudflare-pages-student-site/)，代码展示则看[GitHub 项目作品集整理方法](/blog/github-portfolio-for-students/)。
+
+网站上线后，再用[Google Search Console 接入与索引状态排查](/blog/google-search-console-blog-guide/)确认 Google 是否抓取、选择了哪个 canonical，以及未收录的具体原因。

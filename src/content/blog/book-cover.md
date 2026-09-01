@@ -1,26 +1,30 @@
 ---
-title: "书籍封面抓取：从未公开接口迁移到 Open Library"
-description: "不再依赖微信读书未公开接口，改用有文档的 Open Library Covers API，并处理 ISBN、尺寸、缺图和版权边界。"
+title: "从微信读书 API 抓取高清书籍封面：失效后改用 Open Library"
+description: "微信读书未公开搜索接口和图片参数不适合作为稳定 API。本文保留原查询入口，改用有文档的 Open Library Covers API 下载 ISBN 书籍封面。"
 pubDate: 2026-01-26
 updatedDate: 2026-09-01
-category: "dev-tools"
+category: "software-files"
 tags: ["Open Library", "ISBN", "Node.js", "Python"]
 author: "荣十一"
 ---
 
-原文使用微信读书未公开接口抓取封面，接口稳定性、授权和批量使用边界都不清楚。本次改为有公开文档的 [Open Library Covers API](https://openlibrary.org/dev/docs/api/covers)，并保留缺图处理。
+原文章通过微信读书未公开搜索接口取得封面，再修改图片 URL 参数获得大图。这个接口没有面向第三方开发者的稳定契约，字段、频率限制和图片授权都无法从公开文档确认，因此不应继续作为批量抓取方案。
+
+如果目标是按 ISBN 获取书籍封面，可以改用有公开文档的 [Open Library Covers API](https://openlibrary.org/dev/docs/api/covers)。它支持按 ISBN 请求不同尺寸，并能在缺图时返回明确的 404。原 URL 保留，是为了让已经从“微信读书 API 抓取封面”搜索进入的读者能看到安全替代方案。
 
 ## 用 ISBN 生成封面地址
 
-Open Library 支持按 ISBN 请求 S、M、L 三种尺寸：
+Open Library 支持 `S`、`M`、`L` 三种尺寸。把 ISBN 中的连字符删除后组成地址：
 
 ~~~text
 https://covers.openlibrary.org/b/isbn/9780140328721-L.jpg?default=false
 ~~~
 
-加上 default=false 时，找不到封面会返回 404，程序就能区分真实图片和默认占位图。
+加入 `default=false` 后，找不到封面时会返回 404，而不是返回一张难以区分的默认占位图。
 
 ## Node.js 下载示例
+
+以下命令和脚本在自己的项目目录中运行，不需要额外安装请求库：
 
 ~~~js
 import { writeFile } from "node:fs/promises";
@@ -41,6 +45,8 @@ async function downloadCover(isbn) {
 await downloadCover("978-0-14-032872-1");
 ~~~
 
+预期结果是当前目录出现以 ISBN 命名的 JPG。返回 `false` 表示 Open Library 没有对应封面；HTTP 错误则应记录状态并有限重试，不要持续高频请求。
+
 ## Python 下载示例
 
 ~~~python
@@ -58,12 +64,17 @@ except HTTPError as error:
         raise
 ~~~
 
-## 批量使用时的边界
+脚本没有找到封面时会跳过 404；网络故障和其他 HTTP 状态仍会抛出，便于调用方决定是否稍后重试。
 
-- 先去除 ISBN 中的连字符，并校验长度或校验位；
-- 设置超时、有限并发和失败重试，不要高频扫库；
-- 记录来源与获取日期，便于以后替换；
-- 缺图时保留占位状态，不要把其他版本封面强行当成同一本书；
-- 封面仍可能受版权保护，公开展示和再分发前需要确认用途与授权。
+## 批量获取前的边界
 
-如果必须使用商业数据或稳定 SLA，应选择明确授权的图书数据服务，而不是继续猜测第三方 App 的内部接口。
+- 先去除 ISBN 中的连字符，并校验 ISBN-10 或 ISBN-13；
+- 以 ISBN 而不是书名选择版本，避免同名书和不同版次混淆；
+- 设置超时、低并发、缓存和有限重试，不要扫描未知 ISBN 段；
+- 保留缺图状态，不要自动把其他版本封面冒充成目标版本；
+- 记录图片来源和获取日期，方便以后替换或移除；
+- 封面本身仍可能受版权保护，公开展示、再分发和商业使用前要确认授权。
+
+如果必须获得完整元数据、稳定 SLA 或明确商业授权，应选择符合用途的图书数据服务，而不是继续猜测微信读书或其他 App 的内部接口。
+
+下载后的封面和书目数据也需要纳入备份；目录与恢复方法可继续看[大学生学习资料备份指南](/blog/student-file-backup-guide/)。

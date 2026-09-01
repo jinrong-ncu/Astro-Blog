@@ -9,6 +9,8 @@ Entry pages:
 
 Product guides cover GitHub, JetBrains, Figma, Notion, Microsoft 365, Autodesk and Canva. Product pages link to an entry page only when it is the reader's next decision.
 
+- github-student-developer-pack-guide — GitHub Education application, activation, renewal and partner-offer boundaries.
+
 ## Apple Intelligence and ChatGPT
 
 - mac-apple-intelligence-chatgpt-login-guide
@@ -22,11 +24,13 @@ Keep the device variants separate because hardware and settings paths differ. Bo
 - github-portfolio-for-students — repository presentation.
 - vercel-cloudflare-pages-student-site — hosting choice.
 - astro-blog-seo-checklist — technical preflight.
-- google-search-console-blog-guide — Google verification and indexing.
+- pagefind-chinese-search-astro — article-only Chinese search and category filtering.
+- google-search-console-blog-guide — Google verification, Page Indexing states, canonical conflicts and soft 404 diagnosis.
 
 ## Files and Education Accounts
 
 - student-file-backup-guide is the canonical backup, directory and graduation-migration page.
+- book-cover — preserved search entry for WeRead cover API queries, with documented Open Library fallback and copyright boundary.
 - Microsoft 365 and Notion guides link here for account-expiry preparation.
 
 ## Mac and iPhone Safety
@@ -34,14 +38,9 @@ Keep the device variants separate because hardware and settings paths differ. Bo
 - wechat-open-pro is the canonical Mac WeChat multi-instance safety page.
 - iphone-wloc-shadowrocket-location-guide owns HTTPS-decryption risk and recovery.
 
-## Development Problem Solving
-
-- async-upload — browser queue, cancellation and signed upload boundary.
-- book-cover — documented covers API and copyright boundary.
-- wechat-user — backend identity merge and transactional consistency.
-
 ## eSIM and Overseas Numbers
 
+- iphone-travel-esim-preflight — device support, carrier lock, Dual SIM data selection and return-home recovery.
 - saily-us-esim-number-guide — product distinction, KYC, coverage and OTP risk.
 
 Do not create additional eSIM pages without current official limits or reproducible failure evidence.

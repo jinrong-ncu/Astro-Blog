@@ -123,10 +123,16 @@ const jsonLd = {
   type="article"
   canonical={articleUrl}
   jsonLd={jsonLd}
+  pagefind={{
+    category: entry.data.category,
+    categoryLabel: categoryMeta.label,
+    tags: entry.data.tags,
+    date: modifiedDate.toISOString(),
+  }}
 >
   <div class="animate-fade-in">
     <article class="mx-auto max-w-3xl pb-20 pt-4 sm:pt-8">
-      <header class="mb-10 text-center sm:mb-12">
+      <header class="mb-10 text-center sm:mb-12" data-pagefind-body>
         <div
           class="mx-auto mb-5 flex max-w-3xl flex-wrap justify-center gap-2 sm:mb-6"
         >
@@ -142,6 +148,7 @@ const jsonLd = {
             entry.data.tags.map((tag) => (
               <a
                 href={`/tags/${encodeURIComponent(tag)}/`}
+                data-pagefind-filter="tag"
                 class="inline-flex items-center rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-600 transition-colors hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-700"
               >
                 {tag}
@@ -193,6 +200,7 @@ const jsonLd = {
       </header>
 
       <div
+        data-pagefind-body
         class="prose prose-zinc mx-auto max-w-none prose-base prose-headings:font-bold prose-a:text-blue-600 hover:prose-a:text-blue-500 dark:prose-invert dark:prose-a:text-blue-400 sm:prose-lg"
       >
         <Content />

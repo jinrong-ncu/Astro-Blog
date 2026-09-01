@@ -2,7 +2,6 @@ export const BLOG_CATEGORIES = [
   "student-benefits",
   "ai-tools",
   "mac-iphone",
-  "dev-tools",
   "websites-seo",
   "software-files",
   "esim-overseas",
@@ -25,10 +24,6 @@ export const CATEGORY_META: Record<
   "mac-iphone": {
     label: "Mac 与 iPhone",
     description: "解决 Apple 设备上的软件配置、网络定位和兼容性问题。",
-  },
-  "dev-tools": {
-    label: "开发实战",
-    description: "围绕前端、接口、自动化与账号系统，给出可验证的工程方案。",
   },
   "websites-seo": {
     label: "建站与 SEO",

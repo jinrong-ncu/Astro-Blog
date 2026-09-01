@@ -17,7 +17,7 @@ featured: true
 
 | 项目 | 当前适用范围 | 先看什么 |
 | --- | --- | --- |
-| GitHub Education | 符合条件的学生，需验证在读状态 | [申请说明](https://docs.github.com/en/education/about-github-education/github-education-for-students/apply-to-github-education-as-a-student) |
+| GitHub Education | 符合条件的学生，需验证在读状态 | [申请、激活与续期排查](/blog/github-student-developer-pack-guide/) |
 | JetBrains Student Pack | 符合教育许可条款的学生与教师 | [教育计划](https://www.jetbrains.com/community/education/#students) |
 | Figma for Education | 符合条件的学生和教育者，可能使用 SheerID | [资格说明](https://help.figma.com/hc/en-us/articles/360041061214-Figma-for-Education) |
 | Notion for Education | 受认可高校的学生或教师，个人工作区 | [教育计划](https://www.notion.com/help/notion-for-education) |

@@ -24,7 +24,6 @@ The primary readers are students and independent developers handling software se
 | student-benefits | 学生权益 | Eligibility, application, renewal and graduation migration |
 | ai-tools | AI 工具 | Official support boundaries and configuration |
 | mac-iphone | Mac 与 iPhone | Device software and network-safety workflows |
-| dev-tools | 开发实战 | Frontend, API, automation and account architecture |
 | websites-seo | 建站与 SEO | Portfolio, deployment, metadata and indexing |
 | software-files | 软件与文件 | Backup, migration and recovery |
 | esim-overseas | eSIM 与出境服务 | Device, KYC, roaming and OTP limits |

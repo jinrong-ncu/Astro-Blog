@@ -1,47 +1,6 @@
 ---
-import { getCollection } from "astro:content";
 import { Search as SearchIcon, X } from "lucide-react";
-
-const stripMarkdown = (value: string) =>
-    value
-        .replace(/```[\s\S]*?```/g, " ")
-        .replace(/`([^`]+)`/g, "$1")
-        .replace(/!\[[^\]]*\]\([^)]*\)/g, " ")
-        .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
-        .replace(/[>#*_~\-]+/g, " ")
-        .replace(/\s+/g, " ")
-        .trim();
-
-const posts = (await getCollection("blog"))
-    .filter((post) => !post.data.draft)
-    .sort(
-        (a, b) =>
-            (b.data.updatedDate ?? b.data.pubDate).valueOf() -
-                (a.data.updatedDate ?? a.data.pubDate).valueOf() ||
-            b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-    );
-
-const searchEntries = posts.map((post) => {
-    const body = stripMarkdown(post.body).slice(0, 12000);
-    const tags = post.data.tags ?? [];
-
-    return {
-        title: post.data.title,
-        description: post.data.description,
-        tags,
-        url: `/blog/${post.id}/`,
-        date: (post.data.updatedDate ?? post.data.pubDate).toLocaleDateString("zh-CN", {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-        }),
-        text: [post.data.title, post.data.description, tags.join(" "), body]
-            .join(" ")
-            .toLowerCase(),
-    };
-});
-
-const searchIndexJson = JSON.stringify(searchEntries).replace(/</g, "\\u003c");
+import { BLOG_CATEGORIES, CATEGORY_META } from "../content/categories";
 ---
 
 <button
@@ -91,26 +50,68 @@ const searchIndexJson = JSON.stringify(searchEntries).replace(/</g, "\\u003c");
                 </button>
             </label>
 
-            <div class="search-meta" id="search-meta">输入关键词开始搜索</div>
+            <div class="search-controls">
+                <label class="search-category-label" for="search-category">
+                    <span>分类</span>
+                    <select id="search-category" class="search-category-select">
+                        <option value="">全部分类</option>
+                        {
+                            BLOG_CATEGORIES.map((category) => (
+                                <option value={category} data-label={CATEGORY_META[category].label}>
+                                    {CATEGORY_META[category].label}
+                                </option>
+                            ))
+                        }
+                    </select>
+                </label>
+            </div>
+
+            <div class="search-meta" id="search-meta" aria-live="polite">输入关键词，或选择分类</div>
             <div id="search-results" class="search-results" role="list"></div>
         </div>
     </div>
 </dialog>
 
-<script type="application/json" id="search-index" set:html={searchIndexJson}></script>
-
 <script>
-    type SearchEntry = {
+    type PagefindResultData = {
+        url: string;
+        excerpt?: string;
+        plain_excerpt?: string;
+        meta?: Record<string, string>;
+    };
+
+    type PagefindSearchResult = {
+        data: () => Promise<PagefindResultData>;
+    };
+
+    type PagefindSearchResponse = {
+        results: PagefindSearchResult[];
+    };
+
+    type PagefindOptions = {
+        filters?: Record<string, string>;
+    };
+
+    type PagefindModule = {
+        init: () => Promise<void>;
+        filters: () => Promise<Record<string, Record<string, number>>>;
+        search: (
+            term: string | null,
+            options?: PagefindOptions,
+        ) => Promise<PagefindSearchResponse>;
+        preload?: (
+            term: string,
+            options?: PagefindOptions,
+        ) => Promise<void> | void;
+    };
+
+    type SearchResult = {
         title: string;
         description: string;
         tags: string[];
+        category: string;
         url: string;
         date: string;
-        text: string;
-    };
-
-    type SearchResult = SearchEntry & {
-        score: number;
     };
 
     class SearchModal {
@@ -119,9 +120,12 @@ const searchIndexJson = JSON.stringify(searchEntries).replace(/</g, "\\u003c");
         closeButton: HTMLButtonElement | null;
         clearButton: HTMLButtonElement | null;
         input: HTMLInputElement | null;
+        categorySelect: HTMLSelectElement | null;
         meta: HTMLElement | null;
         results: HTMLElement | null;
-        index: SearchEntry[] = [];
+        pagefind: PagefindModule | null = null;
+        searchTimer: number | undefined;
+        searchVersion = 0;
         abortController = new AbortController();
 
         constructor() {
@@ -140,9 +144,11 @@ const searchIndexJson = JSON.stringify(searchEntries).replace(/</g, "\\u003c");
             this.input = document.getElementById(
                 "search-input",
             ) as HTMLInputElement | null;
+            this.categorySelect = document.getElementById(
+                "search-category",
+            ) as HTMLSelectElement | null;
             this.meta = document.getElementById("search-meta");
             this.results = document.getElementById("search-results");
-            this.index = this.readIndex();
 
             this.init();
         }
@@ -163,9 +169,14 @@ const searchIndexJson = JSON.stringify(searchEntries).replace(/</g, "\\u003c");
             this.clearButton?.addEventListener("click", () => this.clear(), {
                 signal,
             });
-            this.input.addEventListener("input", () => this.search(), {
+            this.input.addEventListener("input", () => this.queueSearch(), {
                 signal,
             });
+            this.categorySelect?.addEventListener(
+                "change",
+                () => void this.search(),
+                { signal },
+            );
             this.dialog.addEventListener(
                 "click",
                 (event) => this.handleDialogClick(event),
@@ -192,21 +203,44 @@ const searchIndexJson = JSON.stringify(searchEntries).replace(/</g, "\\u003c");
         }
 
         destroy() {
+            window.clearTimeout(this.searchTimer);
+            this.searchVersion += 1;
             this.close(false);
             document.documentElement.classList.remove("search-open");
             this.abortController.abort();
         }
 
-        readIndex() {
-            const element = document.getElementById("search-index");
-            if (!element?.textContent) return [];
+        async prepare() {
+            if (this.pagefind) return this.pagefind;
 
             try {
-                return JSON.parse(element.textContent) as SearchEntry[];
+                this.setMeta("正在加载搜索索引…");
+                this.pagefind = await loadPagefind();
+                const filters = await this.pagefind.filters();
+                this.updateCategoryCounts(filters.category ?? {});
+
+                if (!this.hasCriteria()) {
+                    this.setMeta("输入关键词，或选择分类");
+                }
+
+                return this.pagefind;
             } catch (error) {
-                console.error("Failed to parse search index", error);
-                return [];
+                searchWindow.__astroBlogPagefind = undefined;
+                console.error("Failed to load Pagefind", error);
+                this.setMeta("搜索索引尚未生成，请稍后再试");
+                return null;
             }
+        }
+
+        updateCategoryCounts(counts: Record<string, number>) {
+            this.categorySelect
+                ?.querySelectorAll<HTMLOptionElement>("option[data-label]")
+                .forEach((option) => {
+                    const label = option.dataset.label ?? option.value;
+                    const count = counts[option.value] ?? 0;
+                    option.textContent = `${label} (${count})`;
+                    option.disabled = count === 0;
+                });
         }
 
         onKeydown(event: KeyboardEvent) {
@@ -216,7 +250,11 @@ const searchIndexJson = JSON.stringify(searchEntries).replace(/</g, "\\u003c");
                 return;
             }
 
-            if (event.key === "Enter" && this.dialog?.open) {
+            if (
+                event.key === "Enter" &&
+                this.dialog?.open &&
+                event.target === this.input
+            ) {
                 const firstLink =
                     this.results?.querySelector<HTMLAnchorElement>(".search-result");
                 firstLink?.click();
@@ -246,7 +284,11 @@ const searchIndexJson = JSON.stringify(searchEntries).replace(/</g, "\\u003c");
 
             document.documentElement.classList.add("search-open");
             window.setTimeout(() => this.input?.focus(), 40);
-            this.search();
+            void this.prepare();
+
+            if (this.hasCriteria()) {
+                void this.search();
+            }
         }
 
         close(restoreFocus = true) {
@@ -271,71 +313,126 @@ const searchIndexJson = JSON.stringify(searchEntries).replace(/</g, "\\u003c");
             if (!this.input) return;
 
             this.input.value = "";
+            if (this.categorySelect) {
+                this.categorySelect.value = "";
+            }
             this.input.focus();
-            this.search();
+            this.searchVersion += 1;
+            this.updateClearButton();
+            this.setMeta("输入关键词，或选择分类");
+            this.render([]);
         }
 
-        search() {
-            const query = this.input?.value.trim().toLowerCase() ?? "";
+        hasCriteria() {
+            return Boolean(
+                this.input?.value.trim() || this.categorySelect?.value,
+            );
+        }
+
+        updateClearButton() {
             if (this.clearButton) {
-                this.clearButton.hidden = query.length === 0;
+                this.clearButton.hidden = !this.hasCriteria();
+            }
+        }
+
+        queueSearch() {
+            window.clearTimeout(this.searchTimer);
+            this.updateClearButton();
+
+            const query = this.input?.value.trim() ?? "";
+            if (query && this.pagefind?.preload) {
+                void Promise.resolve(
+                    this.pagefind.preload(query, this.getSearchOptions()),
+                ).catch(() => undefined);
             }
 
-            if (!query) {
-                this.setMeta("输入关键词开始搜索");
+            this.searchTimer = window.setTimeout(() => void this.search(), 160);
+        }
+
+        getSearchOptions(): PagefindOptions | undefined {
+            const category = this.categorySelect?.value ?? "";
+            return category
+                ? { filters: { category } }
+                : undefined;
+        }
+
+        async search() {
+            const query = this.input?.value.trim() ?? "";
+            const category = this.categorySelect?.value ?? "";
+            this.updateClearButton();
+
+            if (!query && !category) {
+                this.searchVersion += 1;
+                this.setMeta("输入关键词，或选择分类");
                 this.render([]);
                 return;
             }
 
-            const terms = query.split(/\s+/).filter(Boolean);
-            const results = this.index
-                .map((entry) => ({
-                    ...entry,
-                    score: this.score(entry, terms, query),
-                }))
-                .filter((entry) => entry.score > 0)
-                .sort((a, b) => b.score - a.score)
-                .slice(0, 8);
+            const requestVersion = ++this.searchVersion;
+            const pagefind = await this.prepare();
+            if (!pagefind || requestVersion !== this.searchVersion) return;
 
-            this.setMeta(
-                results.length > 0
-                    ? `找到 ${results.length} 条结果`
-                    : `没有找到 "${query}"`,
-            );
-            this.render(results, query);
+            this.setMeta("正在搜索…");
+
+            try {
+                const response = await pagefind.search(
+                    query || null,
+                    this.getSearchOptions(),
+                );
+                const resultData = await Promise.all(
+                    response.results.slice(0, 8).map((result) => result.data()),
+                );
+
+                if (requestVersion !== this.searchVersion) return;
+
+                const results = resultData.map((result) =>
+                    this.toSearchResult(result),
+                );
+                const total = response.results.length;
+                const categoryLabel = this.categorySelect?.selectedOptions[0]?.dataset.label;
+                const scope = categoryLabel ? ` · ${categoryLabel}` : "";
+
+                this.setMeta(
+                    total > 0
+                        ? `找到 ${total} 条结果${scope}`
+                        : `没有找到匹配文章${scope}`,
+                );
+                this.render(results);
+            } catch (error) {
+                if (requestVersion !== this.searchVersion) return;
+                console.error("Pagefind search failed", error);
+                this.setMeta("搜索失败，请稍后再试");
+                this.render([]);
+            }
         }
 
-        score(entry: SearchEntry, terms: string[], query: string) {
-            const title = entry.title.toLowerCase();
-            const description = entry.description.toLowerCase();
-            const tags = entry.tags.join(" ").toLowerCase();
-            let score = 0;
+        toSearchResult(result: PagefindResultData): SearchResult {
+            const meta = result.meta ?? {};
 
-            if (title.includes(query)) score += 12;
-            if (description.includes(query)) score += 6;
-            if (tags.includes(query)) score += 8;
-            if (entry.text.includes(query)) score += 3;
-
-            for (const term of terms) {
-                if (title.includes(term)) score += 6;
-                if (description.includes(term)) score += 3;
-                if (tags.includes(term)) score += 4;
-                if (entry.text.includes(term)) score += 1;
-            }
-
-            return score;
+            return {
+                title: meta.title || "未命名文章",
+                description:
+                    meta.description || result.plain_excerpt || "",
+                tags: (meta.tags ?? "")
+                    .split(" · ")
+                    .map((tag) => tag.trim())
+                    .filter(Boolean),
+                category: meta.category ?? "",
+                url: result.url,
+                date: meta.date ?? "",
+            };
         }
 
         setMeta(message: string) {
             if (this.meta) this.meta.textContent = message;
         }
 
-        render(results: SearchResult[], query = "") {
+        render(results: SearchResult[]) {
             if (!this.results) return;
 
             if (results.length === 0) {
-                this.results.innerHTML = query
-                    ? '<div class="search-empty">换个关键词试试。</div>'
+                this.results.innerHTML = this.hasCriteria()
+                    ? '<div class="search-empty">换个关键词或分类试试。</div>'
                     : "";
                 return;
             }
@@ -343,18 +440,19 @@ const searchIndexJson = JSON.stringify(searchEntries).replace(/</g, "\\u003c");
             this.results.innerHTML = results
                 .map(
                     (result) => `
-                        <a class="search-result" href="${result.url}" role="listitem">
+                        <a class="search-result" href="${this.escapeText(result.url)}" role="listitem">
                             <div class="search-result-head">
-                                <span class="search-result-title">${this.highlight(result.title, query)}</span>
-                                <span class="search-result-date">${result.date}</span>
+                                <span class="search-result-title">${this.escapeText(result.title)}</span>
+                                <span class="search-result-date">${this.formatDate(result.date)}</span>
                             </div>
-                            <p class="search-result-desc">${this.highlight(result.description, query)}</p>
+                            <p class="search-result-desc">${this.escapeText(result.description)}</p>
                             <div class="search-result-tags">
-                                ${result.tags
+                                ${[result.category, ...result.tags]
+                                    .filter(Boolean)
                                     .slice(0, 4)
                                     .map(
                                         (tag) =>
-                                            `<span>${this.highlight(tag, query)}</span>`,
+                                            `<span>${this.escapeText(tag)}</span>`,
                                     )
                                     .join("")}
                             </div>
@@ -364,19 +462,16 @@ const searchIndexJson = JSON.stringify(searchEntries).replace(/</g, "\\u003c");
                 .join("");
         }
 
-        highlight(value: string, query: string) {
-            const escapedValue = this.escapeText(value);
-            const terms = query
-                .split(/\s+/)
-                .filter((term) => term.length > 1)
-                .map((term) => this.escapeRegExp(term));
+        formatDate(value: string) {
+            if (!value) return "";
+            const date = new Date(value);
+            if (Number.isNaN(date.valueOf())) return "";
 
-            if (terms.length === 0) return escapedValue;
-
-            return escapedValue.replace(
-                new RegExp(`(${terms.join("|")})`, "gi"),
-                "<mark>$1</mark>",
-            );
+            return date.toLocaleDateString("zh-CN", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+            });
         }
 
         escapeText(value: string) {
@@ -393,14 +488,26 @@ const searchIndexJson = JSON.stringify(searchEntries).replace(/</g, "\\u003c");
             );
         }
 
-        escapeRegExp(value: string) {
-            return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-        }
     }
 
     const searchWindow = window as Window & {
         __astroBlogSearchModal?: SearchModal;
         __astroBlogMountSearch?: () => void;
+        __astroBlogPagefind?: Promise<PagefindModule>;
+    };
+
+    const loadPagefind = () => {
+        if (!searchWindow.__astroBlogPagefind) {
+            const bundlePath = "/pagefind/pagefind.js";
+            searchWindow.__astroBlogPagefind = import(
+                /* @vite-ignore */ bundlePath
+            ).then(async (pagefind: PagefindModule) => {
+                await pagefind.init();
+                return pagefind;
+            });
+        }
+
+        return searchWindow.__astroBlogPagefind;
     };
 
     const mountSearch = () => {
@@ -573,6 +680,48 @@ const searchIndexJson = JSON.stringify(searchEntries).replace(/</g, "\\u003c");
         color: #f4f4f5;
     }
 
+    .search-controls {
+        display: flex;
+        padding: 0.75rem 0.35rem 0;
+    }
+
+    .search-category-label {
+        display: flex;
+        align-items: center;
+        gap: 0.55rem;
+        color: #71717a;
+        font-size: 0.78rem;
+        font-weight: 700;
+    }
+
+    .dark .search-category-label {
+        color: #a1a1aa;
+    }
+
+    .search-category-select {
+        min-height: 2.15rem;
+        border: 1px solid rgba(212, 212, 216, 0.9);
+        border-radius: 0.7rem;
+        background: rgba(250, 250, 250, 0.86);
+        color: #3f3f46;
+        cursor: pointer;
+        font: inherit;
+        font-weight: 650;
+        padding: 0.35rem 2rem 0.35rem 0.65rem;
+        outline: none;
+    }
+
+    .search-category-select:focus-visible {
+        border-color: rgba(113, 113, 122, 0.72);
+        box-shadow: 0 0 0 3px rgba(161, 161, 170, 0.2);
+    }
+
+    .dark .search-category-select {
+        border-color: rgba(63, 63, 70, 0.9);
+        background: rgba(24, 24, 27, 0.86);
+        color: #e4e4e7;
+    }
+
     .search-meta {
         min-height: 2.6rem;
         padding: 0.85rem 0.6rem 0.35rem;
@@ -708,6 +857,10 @@ const searchIndexJson = JSON.stringify(searchEntries).replace(/</g, "\\u003c");
             min-height: 3.25rem;
             padding-left: 0.9rem;
             padding-right: 2.8rem;
+        }
+
+        .search-controls {
+            padding-inline: 0.2rem;
         }
 
         .search-result-head {

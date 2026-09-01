@@ -12,6 +12,12 @@ interface Props {
   canonical?: string;
   noindex?: boolean;
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  pagefind?: {
+    category: string;
+    categoryLabel: string;
+    tags: string[];
+    date: string;
+  };
 }
 
 const {
@@ -21,6 +27,7 @@ const {
   canonical,
   noindex = false,
   jsonLd,
+  pagefind,
 } = Astro.props;
 
 const canonicalUrl = canonical ?? Astro.url.href;
@@ -34,7 +41,30 @@ const jsonLdValue = jsonLd
   <head>
     <meta name="baidu-site-verification" content="codeva-Bq9PHADdgr" />
     <meta charset="UTF-8" />
-    <meta name="description" content={description} />
+    <meta
+      name="description"
+      content={description}
+      data-pagefind-meta={pagefind ? "description[content]" : undefined}
+    />
+    {
+      pagefind && (
+        <>
+          <meta
+            data-pagefind-filter="category[content]"
+            content={pagefind.category}
+          />
+          <meta
+            data-pagefind-meta="category[content]"
+            content={pagefind.categoryLabel}
+          />
+          <meta
+            data-pagefind-meta="tags[content]"
+            content={pagefind.tags.join(" · ")}
+          />
+          <meta data-pagefind-meta="date[content]" content={pagefind.date} />
+        </>
+      )
+    }
     <meta name="robots" content={noindex ? "noindex, nofollow" : "index, follow"} />
     <meta name="viewport" content="width=device-width" />
     <link rel="canonical" href={canonicalUrl} />

@@ -50,3 +50,5 @@ npm run dev
 - 检查演示链接在未登录状态能否打开。
 
 GitHub 页面适合作为技术证据，个人网站则适合组织叙事。需要发布入口时，继续看[学生个人网站的最小上线方案](/blog/personal-website-for-students/)。
+
+如果 GitHub Education 已通过但 Student Developer Pack 或 Copilot Student 没有生效，先按[GitHub 学生权益激活与续期排查](/blog/github-student-developer-pack-guide/)确认账号和状态。
