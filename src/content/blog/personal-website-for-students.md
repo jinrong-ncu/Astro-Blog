@@ -2,10 +2,10 @@
 title: "学生个人网站怎么做：先上线一个最小作品集"
 description: "从域名、三类页面、GitHub 仓库和静态部署开始，用一个周末上线可维护的学生作品集，而不是先做复杂后台。"
 pubDate: 2025-10-21
-updatedDate: 2026-09-01
+updatedDate: 2026-08-22
 category: "websites-seo"
 tags: ["Astro", "GitHub", "Personal Website"]
-author: "荣十一"
+author: "Ronin.XI"
 ---
 
 学生个人网站最小版本只需要三类内容：一句清楚的自我定位、三到五个可验证项目、一个稳定联系方式。先把它部署到公开 URL，再决定要不要加博客、评论或后台。

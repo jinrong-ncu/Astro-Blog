@@ -5,7 +5,7 @@ pubDate: 2026-01-26
 updatedDate: 2026-09-01
 category: "software-files"
 tags: ["Open Library", "ISBN", "Node.js", "Python"]
-author: "荣十一"
+author: "Ronin.XI"
 ---
 
 原文章通过微信读书未公开搜索接口取得封面，再修改图片 URL 参数获得大图。这个接口没有面向第三方开发者的稳定契约，字段、频率限制和图片授权都无法从公开文档确认，因此不应继续作为批量抓取方案。

@@ -5,7 +5,7 @@ pubDate: 2026-04-27
 updatedDate: 2026-09-01
 category: "student-benefits"
 tags: ["GitHub Education", "JetBrains", "Figma", "Notion", "Autodesk"]
-author: "荣十一"
+author: "Ronin.XI"
 featured: true
 ---
 

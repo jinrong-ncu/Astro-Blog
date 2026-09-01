@@ -2,10 +2,10 @@
 title: "Notion Education 学生版申请与学校域名排查"
 description: "说明 Notion 教育计划的高校资格、个人工作区限制、学校邮箱验证、年度复核和毕业前迁移。"
 pubDate: 2025-03-12
-updatedDate: 2026-09-01
+updatedDate: 2026-08-26
 category: "student-benefits"
 tags: ["Notion", "Notion for Education", "WHED"]
-author: "荣十一"
+author: "Ronin.XI"
 ---
 
 Notion 的个人教育计划面向受认可高校中的在读学生和教师，通常要求使用学校邮箱，并把符合条件的**单人成员工作区**升级到 Plus。它不是给所有教育域名或多人团队自动免费升级的方案。

@@ -2,10 +2,10 @@
 title: "Figma for Education 学生申请与失败排查"
 description: "按官方流程准备学校邮箱与在读信息，申请 Figma 教育计划；同时处理学校域名不识别、SheerID 审核和到期复核。"
 pubDate: 2026-05-25
-updatedDate: 2026-09-01
+updatedDate: 2026-08-28
 category: "student-benefits"
 tags: ["Figma", "Figma for Education", "SheerID"]
-author: "荣十一"
+author: "Ronin.XI"
 ---
 
 Figma for Education 面向符合条件的在读学生和教育者。学校邮箱有助于验证，但部分高校需要通过 SheerID 补充身份信息；是否通过以 Figma 当前页面为准。

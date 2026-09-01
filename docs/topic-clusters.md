@@ -42,5 +42,6 @@ Keep the device variants separate because hardware and settings paths differ. Bo
 
 - iphone-travel-esim-preflight — device support, carrier lock, Dual SIM data selection and return-home recovery.
 - saily-us-esim-number-guide — product distinction, KYC, coverage and OTP risk.
+- panda-mobile-esim-referral-guide — U.S. number plan, eSIM or physical SIM choice, referral disclosure, activation and OnePool limits.
 
 Do not create additional eSIM pages without current official limits or reproducible failure evidence.

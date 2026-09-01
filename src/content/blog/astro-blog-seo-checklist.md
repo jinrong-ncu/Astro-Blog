@@ -2,10 +2,10 @@
 title: "Astro 博客上线前的 SEO 检查清单"
 description: "从可抓取、canonical、标题描述到 sitemap、RSS、结构化数据和 404，按构建产物逐项检查 Astro 博客。"
 pubDate: 2025-12-06
-updatedDate: 2026-09-01
+updatedDate: 2026-08-23
 category: "websites-seo"
 tags: ["Astro", "Google Search Console", "Schema.org"]
-author: "荣十一"
+author: "Ronin.XI"
 ---
 
 Astro 博客“构建成功”只说明页面生成了，不代表搜索引擎能正确发现、理解和归并 URL。上线前至少检查：公开页面可访问、草稿不输出、canonical 正确、sitemap 可抓取、元数据唯一，以及旧 URL 有明确跳转。

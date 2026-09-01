@@ -24,7 +24,7 @@ pubDate: 2026-08-01
 updatedDate: 2026-09-01
 category: "student-benefits"
 tags: ["GitHub Education", "GitHub Copilot"]
-author: "荣十一"
+author: "Ronin.XI"
 ---
 ~~~
 

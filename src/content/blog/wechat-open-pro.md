@@ -2,10 +2,10 @@
 title: "Mac 微信多开前先看：非官方方式、数据风险与安全退出"
 description: "Mac 微信多实例并非稳定的官方工作流。本文只保留非破坏性尝试、适用边界、失败判断和恢复方法。"
 pubDate: 2026-01-27
-updatedDate: 2026-09-01
+updatedDate: 2026-08-30
 category: "mac-iphone"
 tags: ["macOS", "WeChat", "Terminal"]
-author: "荣十一"
+author: "Ronin.XI"
 ---
 
 Mac 微信多开没有可长期依赖的官方兼容保证。复制应用、重签名、删除沙盒或修改系统安全策略，可能导致更新失败、登录风控和本地聊天数据损坏。本文已合并旧“双开”页面，并删除其中会改动应用包和签名的脚本。

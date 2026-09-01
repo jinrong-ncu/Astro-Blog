@@ -5,7 +5,7 @@ pubDate: 2026-07-27
 updatedDate: 2026-09-01
 category: "esim-overseas"
 tags: ["Saily", "eSIM", "美国手机号", "OTP", "KYC"]
-author: "荣十一"
+author: "Ronin.XI"
 ---
 
 Saily 目前提供每月 **US$0.99** 的美国 `+1` 号码订阅，号码可以按月续费保留；但数据 eSIM、号码订阅、通话和短信包是不同项目。购买号码后还要完成 KYC，验证码也只在部分平台经过官方验证，不能把它当成所有银行和账号的万能收码卡。
@@ -125,3 +125,5 @@ TEVOTE8189
 - 没有备用验证方式，却准备把资金账号全部迁移到新号码。
 
 遇到激活、扣费或号码消失时，保留订单号、设备型号、系统版本和已脱敏的错误截图，通过 Saily App 内官方支持处理。不要在公开页面发布完整电话号码、证件、EID、ICCID 或付款信息。
+
+如果需要的是包含美国本地数据、通话、短信，并可选择实体 SIM 的完整移动套餐，可继续比较[Panda Mobile 美国 eSIM 与邀请码申请](/blog/panda-mobile-esim-referral-guide/)。

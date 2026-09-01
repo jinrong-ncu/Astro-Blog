@@ -2,10 +2,10 @@
 title: "大学生学习资料怎么备份：目录、3-2-1 与毕业迁移"
 description: "把旧知识库内容合并为可执行的文件方案：统一目录、三份副本、学校账号迁移、恢复抽查和每月维护。"
 pubDate: 2026-03-08
-updatedDate: 2026-09-01
+updatedDate: 2026-08-24
 category: "software-files"
 tags: ["OneDrive", "iCloud Drive", "3-2-1 Backup", "Obsidian"]
-author: "荣十一"
+author: "Ronin.XI"
 ---
 
 学习资料安全不取决于你用了 Notion、Obsidian 还是网盘，而取决于是否能在电脑损坏、误删或学校账号停用后恢复。先建立统一目录，再做至少三份副本，并定期抽查。

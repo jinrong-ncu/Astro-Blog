@@ -2,10 +2,10 @@
 title: "GitHub Student Developer Pack 申请、激活与续期排查"
 description: "从学生资格和在读材料开始申请 GitHub Education，并排查认证被拒、权益未出现、Copilot 仍为 Free、资格到期与第三方优惠无法续领。"
 pubDate: 2026-05-04
-updatedDate: 2026-09-01
+updatedDate: 2026-08-31
 category: "student-benefits"
 tags: ["GitHub Education", "GitHub Student Developer Pack", "GitHub Copilot"]
-author: "荣十一"
+author: "Ronin.XI"
 ---
 
 先打开 [GitHub Education benefits 设置](https://github.com/settings/education/benefits)确认状态。申请获批、Student Developer Pack 中的第三方权益、Copilot Student 激活是三个不同环节：Education 已通过但 Copilot 仍显示 Free 时，不要误买付费计划，先从 benefits 页面单独完成激活。

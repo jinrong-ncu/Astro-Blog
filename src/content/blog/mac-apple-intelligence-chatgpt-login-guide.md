@@ -5,7 +5,7 @@ pubDate: 2026-08-07
 updatedDate: 2026-09-01
 category: "ai-tools"
 tags: ["macOS", "Apple Intelligence", "ChatGPT"]
-author: "荣十一"
+author: "Ronin.XI"
 ---
 
 Mac 上看不到或无法启用 ChatGPT 扩展时，先不要修改代理规则。Apple Intelligence 与 ChatGPT 扩展同时受硬件、系统、语言和服务地区限制；网络出口并不能替代官方支持资格。

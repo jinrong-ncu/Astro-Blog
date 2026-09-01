@@ -1,10 +1,10 @@
 ---
 title: "Astro 博客的 Pagefind 中文搜索：只索引正文并按分类筛选"
 description: "让 Pagefind 只收录 Astro 文章标题与正文，排除导航、页脚和演示页；再用分类 filter、按需加载和中文查询完成可验证的站内搜索。"
-pubDate: 2026-09-01
+pubDate: 2026-08-29
 category: "websites-seo"
 tags: ["Pagefind", "Astro", "Static Site Search"]
-author: "荣十一"
+author: "Ronin.XI"
 ---
 
 Astro 项目安装并运行 Pagefind，不代表站内搜索已经在使用它。先确认前端是否真的加载 `/pagefind/pagefind.js`，再用 `data-pagefind-body` 限定文章内容，并通过 `data-pagefind-filter` 建立分类筛选。

@@ -2,10 +2,10 @@
 title: "Google Search Console 接入与索引状态排查"
 description: "完成站点验证和 sitemap 提交，再按 URL Inspection 状态排查已抓取未编入索引、重复网页、canonical 不一致与 soft 404。"
 pubDate: 2026-01-15
-updatedDate: 2026-09-01
+updatedDate: 2026-08-28
 category: "websites-seo"
 tags: ["Google Search Console", "Sitemap", "URL Inspection"]
-author: "荣十一"
+author: "Ronin.XI"
 ---
 
 Search Console 不会替你“上传网站”，也不能保证收录。先确认这个 URL 本来就应该进入 Google：如果它是旧地址、重复页、筛选参数页或已经删除的内容，显示“未编入索引”可能完全正确；如果它是独立、公开且仍有效的文章，再根据具体状态修复。

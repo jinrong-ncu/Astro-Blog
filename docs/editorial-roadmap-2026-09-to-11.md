@@ -6,7 +6,7 @@
 
 仓库中没有 Search Console 查询、展示、点击、点击率和外链数据，因此不能仅凭文章主题断言“高点击”。后续新选题应先查看真实查询数据，再判断 UPDATE、MERGE、NEW 或 DELETE；不使用主观热度制造大量近义页面。
 
-当前基线为 23 篇公开文章。2026-09-01 根据后台点击数据保留并重写 `book-cover` 原 URL，将微信读书未公开接口替换为有文档的 Open Library 方案；Astro 跨版本迁移、React 多文件上传和小程序账号合并仍删除，因为目前没有等价目标页或流量证据。
+当前基线为 24 篇公开文章。2026-09-01 根据后台点击数据保留并重写 `book-cover` 原 URL，将微信读书未公开接口替换为有文档的 Open Library 方案；Astro 跨版本迁移、React 多文件上传和小程序账号合并仍删除，因为目前没有等价目标页或流量证据。
 
 ## 内容优先级
 
@@ -25,6 +25,7 @@
 | NEW | iPhone 旅行 eSIM 使用前检查 | Done |
 | UPDATE | Search Console 索引状态排查 | Done |
 | RESTORE | Saily US$0.99 保号攻略与 book-cover 搜索入口 | Done |
+| NEW | Panda Mobile eSIM、美国号码与邀请码申请 | Done |
 | DELETE | 3 篇无流量证据的开发实战文章及空分类 | Done |
 
 ## 下一轮动作

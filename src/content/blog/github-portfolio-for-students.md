@@ -2,10 +2,10 @@
 title: "学生如何把 GitHub 整理成可读的项目作品集"
 description: "用个人简介、置顶仓库、项目 README、演示链接和可复现步骤，让招聘者在几分钟内看懂你解决了什么问题。"
 pubDate: 2026-04-17
-updatedDate: 2026-09-01
+updatedDate: 2026-08-25
 category: "websites-seo"
 tags: ["GitHub", "README", "GitHub Pages"]
-author: "荣十一"
+author: "Ronin.XI"
 ---
 
 GitHub 作品集的目标不是展示提交数量，而是让陌生人在几分钟内回答三个问题：你做了什么、为什么这样做、现在能不能运行。

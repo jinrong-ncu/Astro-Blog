@@ -5,7 +5,7 @@ pubDate: 2026-08-15
 updatedDate: 2026-09-01
 category: "mac-iphone"
 tags: ["iPhone", "WLOC", "Shadowrocket", "HTTPS"]
-author: "荣十一"
+author: "Ronin.XI"
 ---
 
 WLOC 类方案不是修改 GPS，而是通过代理模块、HTTPS 解密和请求改写影响部分服务看到的网络位置。它不能保证改变所有定位结果，也不应用于绕过地区限制、风控、支付或账号资格。

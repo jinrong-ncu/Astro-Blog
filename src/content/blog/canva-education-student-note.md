@@ -2,10 +2,10 @@
 title: "Canva Education 大学生能申请吗"
 description: "Canva Education 当前主要面向符合条件的中小学教师与机构，不是普通高校学生权益。本文说明资格边界和大学生替代方案。"
 pubDate: 2025-08-09
-updatedDate: 2026-09-01
+updatedDate: 2026-08-27
 category: "student-benefits"
 tags: ["Canva", "Canva Education", "Canva for Campus"]
-author: "荣十一"
+author: "Ronin.XI"
 ---
 
 普通高校学生目前不能因为拥有学校邮箱，就直接申请 Canva Education。根据 [Canva 官方资格说明](https://www.canva.com/education/eligibility-guidelines/)，该计划主要服务符合条件的 K–12 教师、学校图书管理员、教学支持人员和中小学机构；高校师生不在这项个人资格内。

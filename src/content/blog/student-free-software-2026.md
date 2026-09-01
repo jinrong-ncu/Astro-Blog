@@ -2,10 +2,10 @@
 title: "大学生免费软件怎么选：按任务搭一套可迁移工具栈"
 description: "从文档、笔记、编程、设计、备份和建站六类任务出发，优先选择免费版、开源工具或有明确教育资格的产品。"
 pubDate: 2026-04-20
-updatedDate: 2026-09-01
+updatedDate: 2026-08-29
 category: "student-benefits"
 tags: ["LibreOffice", "Visual Studio Code", "Zotero", "GitHub"]
-author: "荣十一"
+author: "Ronin.XI"
 ---
 
 选学生软件时，先问“我要完成什么任务”，再看免费版是否够用。不要把工作流建立在来源不明的教育账号、破解软件或毕业后立即失效的校园存储上。

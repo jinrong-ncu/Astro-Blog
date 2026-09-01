@@ -2,10 +2,10 @@
 title: "静态个人网站选 Vercel 还是 Cloudflare Pages"
 description: "按框架适配、构建限制、域名、预览部署和迁移成本比较 Vercel 与 Cloudflare Pages，给出静态学生网站的选择规则。"
 pubDate: 2026-05-11
-updatedDate: 2026-09-01
+updatedDate: 2026-08-24
 category: "websites-seo"
 tags: ["Vercel", "Cloudflare Pages", "Astro"]
-author: "荣十一"
+author: "Ronin.XI"
 ---
 
 纯静态 Astro 个人网站，两者都能胜任。已经在 Cloudflare 管理 DNS、重视静态文件分发时，优先 Cloudflare Pages；使用 Vercel 生态框架或重视开箱即用的预览体验时，优先 Vercel。真正影响选择的是项目限制与迁移成本，不是首页宣传语。

@@ -1,10 +1,10 @@
 ---
 title: "iPhone 旅行 eSIM 使用前检查：锁机、双卡与返程恢复"
 description: "购买旅行 eSIM 前确认 iPhone 机型、销售地区和运营商锁；安装后正确选择数据线路，避免主卡漫游，并在返程后恢复原线路。"
-pubDate: 2026-09-01
+pubDate: 2026-08-30
 category: "esim-overseas"
 tags: ["iPhone", "eSIM", "Dual SIM", "Data Roaming"]
-author: "荣十一"
+author: "Ronin.XI"
 ---
 
 付款前先确认四件事：这台 iPhone 的具体型号和销售地区支持 eSIM、运营商锁显示“无 SIM 限制”、旅行套餐覆盖目的地、你知道主卡在旅途中要保持开启还是暂时关闭。任何一项不确定，都应先问原运营商或旅行 eSIM 服务商，不要先付款再试。
@@ -152,3 +152,5 @@ Apple 明确提醒：[删除 eSIM](https://support.apple.com/zh-cn/102421)不应
 - 返程恢复步骤已经保存。
 
 旅行网络可用也不会改变 Apple Intelligence 或 ChatGPT 的设备、语言和服务地区要求。需要使用这些功能时，继续按[iPhone 官方支持范围排查](/blog/iphone-shadowrocket-apple-intelligence-chatgpt-guide/)，不要把 eSIM 当作地区资格工具。
+
+准备赴美长期使用美国号码、通话和数据时，可继续查看[Panda Mobile eSIM、实体 SIM 与邀请码申请](/blog/panda-mobile-esim-referral-guide/)；它属于美国移动套餐，不应和短期纯数据旅行 eSIM 混为一类。

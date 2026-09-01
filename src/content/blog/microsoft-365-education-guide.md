@@ -2,10 +2,10 @@
 title: "Microsoft 365 Education 学生账号没有桌面 Office 怎么办"
 description: "学校邮箱能登录不代表一定有桌面 Office。本文解释学校租户、A1 网页版、许可证检查、离校失效与文件迁移。"
 pubDate: 2026-06-01
-updatedDate: 2026-09-01
+updatedDate: 2026-08-27
 category: "student-benefits"
 tags: ["Microsoft 365 Education", "Office 365 A1", "OneDrive"]
-author: "荣十一"
+author: "Ronin.XI"
 ---
 
 学校邮箱可以登录 Microsoft 365，但能否安装桌面版 Word、Excel 和 PowerPoint，取决于学校为你的账号分配了什么许可证。微软当前说明中，符合条件的学校可获得 Office 365 A1 网页应用；**不要把 Education 账号等同于桌面 Office 永久版**。

@@ -2,10 +2,10 @@
 title: "JetBrains 学生许可证申请、续期与使用边界"
 description: "说明 JetBrains 教育许可证的学生资格、学校邮箱与 GitHub Education 验证路径、年度续期和非商业教育用途。"
 pubDate: 2026-05-18
-updatedDate: 2026-09-01
+updatedDate: 2026-08-26
 category: "student-benefits"
 tags: ["JetBrains", "JetBrains Student Pack", "GitHub Education"]
-author: "荣十一"
+author: "Ronin.XI"
 ---
 
 符合条件的学生可以申请 JetBrains 教育许可证，用于学习和教育活动。它不是通用商业许可证，也不是取得一次后永久有效；仍在读时需要按要求续期。

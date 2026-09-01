@@ -2,10 +2,10 @@
 title: "iPhone 的 Apple Intelligence ChatGPT 扩展不可用怎么检查"
 description: "从机型、系统、存储、语言与官方服务地区排查 iPhone 的 ChatGPT 扩展，不把 Shadowrocket 当作资格修复工具。"
 pubDate: 2026-08-08
-updatedDate: 2026-09-01
+updatedDate: 2026-08-31
 category: "ai-tools"
 tags: ["iPhone", "Apple Intelligence", "ChatGPT"]
-author: "荣十一"
+author: "Ronin.XI"
 ---
 
 iPhone 上的 ChatGPT 扩展不可用，最常见原因是机型、系统、语言或地区不满足要求，而不是少了一条 Shadowrocket 规则。代理只能改变部分网络路径，不能让不受支持的设备或地区获得官方资格。

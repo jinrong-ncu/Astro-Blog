@@ -2,10 +2,10 @@
 title: "Autodesk Education 学生资格怎么确认"
 description: "Autodesk 教育计划不是只看学校邮箱。本文按官方规则说明资格、验证材料、一年期许可、续期和教育用途限制。"
 pubDate: 2025-05-18
-updatedDate: 2026-09-01
+updatedDate: 2026-08-25
 category: "student-benefits"
 tags: ["Autodesk", "SheerID", "AutoCAD"]
-author: "荣十一"
+author: "Ronin.XI"
 ---
 
 先说结论：在受认可教育机构就读、达到最低年龄要求的学生，才可以申请 Autodesk Education。学校邮箱可以用于联系与识别，但**邮箱本身并不等于资格证明**。
